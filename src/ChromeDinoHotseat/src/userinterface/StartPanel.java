@@ -27,17 +27,24 @@ public class StartPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        mainCharacter1 = new gameobject.MainCharacter();
+        characterChooser1 = new userinterface.CharacterChooser();
+        characterChooser2 = new userinterface.CharacterChooser();
+        characterChooser3 = new userinterface.CharacterChooser();
+        characterChooser4 = new userinterface.CharacterChooser();
 
         setBackground(new java.awt.Color(247, 247, 247));
-        setLayout(new java.awt.GridLayout(16, 9));
-
-        mainCharacter1.setLayout(new java.awt.BorderLayout());
-        add(mainCharacter1);
+        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
+        add(characterChooser1);
+        add(characterChooser2);
+        add(characterChooser3);
+        add(characterChooser4);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private gameobject.MainCharacter mainCharacter1;
+    private userinterface.CharacterChooser characterChooser1;
+    private userinterface.CharacterChooser characterChooser2;
+    private userinterface.CharacterChooser characterChooser3;
+    private userinterface.CharacterChooser characterChooser4;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,8 @@ package gameobject;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import java.awt.image.BufferedImage;
 import javafx.scene.input.KeyCode;
 import javax.swing.JComponent;
@@ -18,7 +20,9 @@ import util.Resource;
  * @author michele.tomyslak
  */
 public class MainCharacter extends JComponent {
-    
+    /**
+     * Costante che definisce il nome di default di un MainCharacter
+     */
     public static final String DEFAULT_NAME = "Giocatore";
     
     
@@ -47,11 +51,20 @@ public class MainCharacter extends JComponent {
         setControls(27,28);
     }
     
+    public void draw(Graphics2D g2d){
+        
+    }
+    
+    
     public void paint(Graphics g){
+        super.repaint();
         /*g.setColor(Color.RED);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
         */
-        g.drawImage(sprite, 0, 0,null);
+        Graphics2D g2d = (Graphics2D)g;
+        //g.drawImage(sprite, 0, 0,null);
+        //g2d;
+        g2d.drawImage(sprite, 0, 0, 0, 0, this.getWidth(), this.getHeight(), this.getWidth(), this.getHeight(), this);
     }
     
     
