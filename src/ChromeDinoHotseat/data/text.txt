@@ -1,0 +1,5 @@
+1.AA         98765 pt
+2.ABC      45032 pt
+3. CCD     22201 pt
+4.BANG     8000 pt
+5.Tony     7234 pt
