@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
  *
  * @author tmich
  */
-public class Resource {
+public class Resource  {
     public static BufferedImage getResourceImage(String path){
         BufferedImage img = null;
         try {
