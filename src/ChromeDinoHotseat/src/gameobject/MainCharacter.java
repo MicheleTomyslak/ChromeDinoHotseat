@@ -48,6 +48,10 @@ public class MainCharacter extends JComponent{
     private float y = 0f;
     
     /**
+     * booleano che definisce se le hitbox del dino sono visibili o meno.
+     */
+    private boolean areHitboxVisible=false;
+    /**
      * La velocità di caduta del dinosauro.
      */
     private float speedY = 0f;
@@ -74,7 +78,7 @@ public class MainCharacter extends JComponent{
     /**
      * La velocità verticale del salto del MainCharacter
      */
-    public static final float JUMP_SPEED=15;
+    public static final float JUMP_SPEED=17;
     /**
      * Animazione rappresentante la corsa abbassata del MainCharacter.
      */
@@ -173,18 +177,29 @@ public class MainCharacter extends JComponent{
         switch(state){
             case NORMAL_RUN:
                 g.drawImage(characterRun.getFrame(), (int)x, (int)y, null);
-                g.drawRect((int)x,(int)y,characterRun.getFrame().getWidth(),characterRun.getFrame().getHeight());
+                if(areHitboxVisible){
+                    g.drawRect((int)x,(int)y,characterRun.getFrame().getWidth(),characterRun.getFrame().getHeight());
+                }
                 break;
             case DUCK_RUN:
                 g.drawImage(duckRun.getFrame(),(int)x,(int)y+20,null);
-                //g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
+                //
+                if(areHitboxVisible){
+                g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
+                }
                 break;
             case JUMPING:
                 g.drawImage(jumpImage ,(int)x, (int)y, null);
+                if(areHitboxVisible){
+                g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
+                }
                 
                 break;
             case DEAD:
                 g.drawImage(deadImage, (int)x, (int)y, null);
+                if(areHitboxVisible){
+                g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
+                }
                 break;
         }
     }
@@ -195,6 +210,17 @@ public class MainCharacter extends JComponent{
         speedY=-JUMP_SPEED;
         y+=speedY;
         
+    }
+    /**
+     * Ritorna lo stato della visibilità delle hitbox del dinosauro.
+     * @return lo stato della visibilità dekke hitbox del dinosauro.
+     */
+    public boolean getHitboxState(){
+        return areHitboxVisible;
+    }
+    
+    public void setHitboxState(boolean areHitBoxVisible){
+        this.areHitboxVisible=areHitBoxVisible;
     }
     
     public void down(){

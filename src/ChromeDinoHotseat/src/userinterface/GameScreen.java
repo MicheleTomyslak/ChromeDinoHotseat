@@ -58,6 +58,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     
     private MainCharacter dino;
     
+    
+    
     /**
      * Rappresenta il terreno di gioco (cactus , e dove si tocca terra).
      * */
@@ -119,6 +121,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     private long fps;
     //private JButton jButton;
     
+    private Thread fpsThread;
+    
     /**
      * Setter dello stato del gioco (FIRST_GAME_STAGE,GAME_PLAY_STATE,GAME_OVER_STATE) rappresentati da un indice numerico
      * @param state Lo stato che si vuole assegnare.
@@ -146,6 +150,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         //overScreen = new OverScreen(this);
         //overScreen = new OverScreen(this);
         imageGameOverText = Resource.getResourceImage("data/gameover_text.png");
+        
+        
+        
         try {
             scoreSound = Applet.newAudioClip(new URL("file","","data/scoreup.wav"));
         } catch (MalformedURLException ex) {
@@ -193,22 +200,22 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         thread.start();
     }
 
+    
     @Override
     public void run() {
         while(!this.thread.isInterrupted()){
             //System.out.println(i++);
             try {
                 
-                //if(isGameOver){
-                    
-                    //overScreen.repaint();
-                    //overScreen.setVisible(isGameOver);
-                //}else*/{
-                    update();
-                    repaint();    
-                //}
                 
-                Thread.sleep(20);
+                update();
+                repaint();    
+                fps++;
+                if(System.currentTimeMillis()%1000==0){
+                    fps=0;
+                }
+                
+                Thread.sleep(12);
                 
             } catch (InterruptedException ex) {
                 ex.getStackTrace();
@@ -220,6 +227,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     
     public void clearScore(){
         score = 0;
+        this.screenSpeed=4.0f;
     }
     
     public void update(){
@@ -236,9 +244,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 if(!dino.getAlive()){
                     gameState = GAME_OVER_STATE;
                     dino.setState(dino.DEAD);
-                    
-                    System.out.println("Oh you are dead");
-                    
+                                        
                     
                     clearScore();
                     
@@ -314,28 +320,34 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 break;
                 
         }
+        for(Enemy x:this.enemyManager.getEnemies()){
+                x.setHitBoxState(additionalInfo);
+                
+        }
         if(additionalInfo){
             
         
-        g.drawString("nome:"+dino.getName(), 30, 50);
-        //ArrayList<Enemy> enemies = enemyManager.getEnemies();
-        /*for(int q =0;q<enemies.size();q++){
-            g.drawString(enemies.get(q).toString(), 70, q+q*150);
-        }*/
-        
-        
-        g.drawString("is alive:"+dino.getAlive(), 30, 75);
-        g.drawString(""+dino.getBound(), 30, 100);
-        g.drawString("Game speed:"+this.screenSpeed,30,150);
-        g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
-        g.drawString("Dino State:"+dino.getState(),30,200);
-        Long nanos = System.nanoTime()-currentMillis;
-        double fps = nanos/100000;
-        String fpss = ""+fps;
-        g.drawString("FPS:"+this.fps, 30, 125);
+            g.drawString("nome:"+dino.getName(), 30, 50);
+            //ArrayList<Enemy> enemies = enemyManager.getEnemies();
+            /*for(int q =0;q<enemies.size();q++){
+                g.drawString(enemies.get(q).toString(), 70, q+q*150);
+            }*/
+            
+            
+            dino.setHitboxState(true);
+            g.drawString("is alive:"+dino.getAlive(), 30, 75);
+            g.drawString(""+dino.getBound(), 30, 100);
+            g.drawString("Game speed:"+this.screenSpeed,30,150);
+            g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
+            g.drawString("Dino State:"+dino.getState(),30,200);
+            
+            g.drawString("FPS:"+this.fps, 30, 125);
         
         
        
+        }else{
+            dino.setHitboxState(false);
+            
         }
         /*
         
@@ -426,6 +438,11 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     public int getGroundY(){
         return this.getHeight()/2;
     }
+    
+    public int getState(){
+        return this.gameState;
+    }
+    
     
     
     

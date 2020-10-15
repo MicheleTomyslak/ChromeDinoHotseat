@@ -24,6 +24,7 @@ public class Cactus extends Enemy{
     private boolean isScoreGot = false;
     private float speedX = 4f;
     private GameScreen gameScreen;
+    private boolean areHitboxVisible;
     
     public Cactus(MainCharacter dino,GameScreen gameScreen){
         this.gameScreen = gameScreen;
@@ -51,7 +52,9 @@ public class Cactus extends Enemy{
     @Override
     public void draw(Graphics2D g){
         g.drawImage(image, posX, gameScreen.getGroundY()-rect.height, null);
-        g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        if(areHitboxVisible){
+            g.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
     }
     
     public void setX(int x){
@@ -95,4 +98,21 @@ public class Cactus extends Enemy{
     public float getSpeed(){
         return speedX;
     }
+    
+    /**
+     * Ritorna lo stato della visibilità delle hitbox del dinosauro.
+     * @return lo stato della visibilità dekke hitbox del dinosauro.
+     */
+    public boolean getHitboxState(){
+        return areHitboxVisible;
+    }
+
+    
+
+    @Override
+    public void setHitBoxState(boolean areHitBoxVisible) {
+        this.areHitboxVisible=areHitBoxVisible;
+    }
+
+    
 }

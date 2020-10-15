@@ -18,4 +18,6 @@ public abstract class Enemy {
     public abstract boolean isScoreGot();
     public abstract void setSpeed(float speed);
     public abstract float getSpeed();
+    public abstract boolean getHitboxState();
+    public abstract void setHitBoxState(boolean areHitBoxVisible);
 }
