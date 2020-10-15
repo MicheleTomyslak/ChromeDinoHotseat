@@ -113,6 +113,8 @@ public class MainCharacter extends JComponent{
     
     private JLabel dinoLabel;
     
+    private boolean isDead;
+    
     
     /**
      * Costruttore del personaggio principale del gioco.
@@ -122,7 +124,7 @@ public class MainCharacter extends JComponent{
         
         
         
-        
+        isDead=false;
         
         this.keyManager = keyManager;
         this.dinoLabel= new JLabel(this.name);
@@ -256,7 +258,9 @@ public class MainCharacter extends JComponent{
     }
     
     public void kill(){
-        this.x-=gameScreen.getScreenSpeed();
+        this.x-=gameScreen.getScreenSpeed()/2;
+        isDead=true;
+        
     }
     /**
      * Ritorna lo stato della visibilità delle hitbox del dinosauro.
