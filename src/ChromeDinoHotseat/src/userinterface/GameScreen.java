@@ -22,6 +22,7 @@ import gameobject.MainCharacter;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import util.KeyManager;
 import util.Resource;
 
 /**
@@ -52,15 +53,16 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     //public static final float GROUNDY = 310;
     private int i =0;
     
-    /**
-     * Rappresenta il dinosauro contenuto nel gioco.
-     * 
-     * */
-    
-    private MainCharacter dino;
+
     //private MainCharacter dino2;
-    
+    /**
+     * Rappresenta la lista dei dinosauri che ci sono in gioco.
+     */
     private List<MainCharacter> mainCharacters;
+    /**
+     * Rappresenta la lista dei gestori di nemici che ci sono in gioco.
+     */
+    private List<EnemyManager> enemyManagers;
     
     
     /**
@@ -125,7 +127,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     private long fps;
     //private JButton jButton;
     
-    private Thread fpsThread;
+    
+    private int counter =0;
+    
     
     /**
      * Setter dello stato del gioco (FIRST_GAME_STAGE,GAME_PLAY_STATE,GAME_OVER_STATE) rappresentati da un indice numerico
@@ -145,27 +149,34 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
         
         
-        dino = new MainCharacter(this);
+        
         //dino2 = new MainCharacter(this);
         mainCharacters = new ArrayList<MainCharacter>();
-        mainCharacters.add(new MainCharacter(this));
         
-        mainCharacters.get(0).setX(100);
-        mainCharacters.get(0).setY(265);
-        
+        mainCharacters.add(new MainCharacter(this,new KeyManager()));
+        counter = 0;
+        for (MainCharacter dino:mainCharacters) {
+            dino.setName("Giocatore "+mainCharacters.size());
+            dino.setX(50+(50*counter));
+            dino.setY(265);
+            counter+=50;
+        }
+        counter=0;
         //dino2.setX(150);
         //dino2.setY(265);
         
-        dino.setX(50);
         
-        dino.setY(265);
-        dino.setName("DEFAULT_NAME");
+        
         land = new Land(this);
         clouds = new Clouds();
         //jButton = new JButton();
         this.addKeyListener(this);
-        enemyManager = new EnemyManager(dino,this);
-        enemyManager2 = new EnemyManager(mainCharacters.get(0),this);
+        
+        
+        enemyManagers = new ArrayList<>();
+        enemyManagers.add(new EnemyManager(mainCharacters,this));
+        enemyManager = new EnemyManager(mainCharacters,this);
+        
         //overScreen = new OverScreen(this);
         //overScreen = new OverScreen(this);
         imageGameOverText = Resource.getResourceImage("data/gameover_text.png");
@@ -200,18 +211,38 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     }
     
     public void resetGame(){
-        dino.setAlive(true);
-        dino.setX(50);
-        dino.setY(265);
-        enemyManager.reset();
+        counter = 0;
+        
+        mainCharacters = new ArrayList<>();
+        
+        mainCharacters.add(new MainCharacter(this,new KeyManager()));
+        mainCharacters.add(new MainCharacter(this,new KeyManager(KeyEvent.VK_1,KeyEvent.VK_0)));
+        
+        mainCharacters.add(new MainCharacter(this,new KeyManager(KeyEvent.VK_4,KeyEvent.VK_3)));
+        mainCharacters.add(new MainCharacter(this,new KeyManager(KeyEvent.VK_6,KeyEvent.VK_5)));
+        
+        for(MainCharacter dino: mainCharacters){
+            counter+=1;
+            dino.setName("Giocatore "+mainCharacters.size());
+            dino.setAlive(true);
+            dino.setX((50*counter));
+            dino.setY(265);
+            System.out.println(counter);
+            
+        }
+        enemyManager = new EnemyManager(mainCharacters,this);
         
         
-        mainCharacters.remove(0);
-        mainCharacters.add(new MainCharacter(this));
-        mainCharacters.get(0).setAlive(true);
-        mainCharacters.get(0).setX(100);
-        mainCharacters.get(0).setY(265);
-        enemyManager2.reset();
+        
+        
+        //enemyManager.reset();
+        
+        
+        
+        
+        //mainCharacters.add(new MainCharacter(this,new KeyManager()));
+        
+        
         gameState = GAME_PLAY_STATE;
     }
     
@@ -234,9 +265,21 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             //System.out.println(i++);
             try {
                 
+                if(this.gameState  == GameScreen.GAME_FIRST_STATE){
+                    
+                }else if(this.gameState == GameScreen.GAME_PLAY_STATE ){
+                    
+                }
+                
+                
+                
+                
+                
                 
                 update();
-                repaint();    
+                repaint();
+                
+                // conta dei frame in un secondo.
                 fps++;
                 if(System.currentTimeMillis()%1000==0){
                     fps=0;
@@ -260,39 +303,41 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     public void update(){
         long startTime = System.nanoTime();
         this.setVisible(true);
+        
+        
         switch(gameState){
             case GAME_PLAY_STATE:
                 
                 land.update();
                 clouds.update();
-                dino.update();
                 
-                mainCharacters.get(0).update();
-                //dino2.update();
-                enemyManager.update();
-                enemyManager2.update();
-                plusScore(1);
-                if(!dino.getAlive()){
+                for(MainCharacter dino:mainCharacters){
+                    dino.update();
+                    if(!dino.getAlive()){
                     gameState = GAME_OVER_STATE;
-                    dino.setState(dino.DEAD);
+                    dino.setState(MainCharacter.DEAD);
                     
                     
                     clearScore();
                     
-                }else if(!mainCharacters.get(0).getAlive()){
-                    mainCharacters.get(0).setState(dino.DEAD);
-                    
+                    }
                 }
+                
+                
+                //dino2.update();
+                enemyManager.update();
+                
+                
+                plusScore(1);
+                
                 break;
             case GAME_OVER_STATE:
                          
 
-                if(isGameOver == true){
-                    
-                }
+                
                 isGameOver = true;                
                 break;
-                }
+            }
                 
                 
            long l = (System.nanoTime()-startTime)/1000;
@@ -334,15 +379,19 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
         switch(gameState){
             case GAME_FIRST_STATE:
-                dino.draw(g2d);
-                mainCharacters.get(0).draw(g2d);
+                for(MainCharacter dino :mainCharacters){
+                    dino.draw(g2d);
+                }
+                
                 break;
             case GAME_PLAY_STATE:
                 
                 clouds.draw(g2d);
                 land.draw(g2d);
-                dino.draw(g2d);
-                mainCharacters.get(0).draw(g2d);
+                for(MainCharacter dino :mainCharacters){
+                    dino.draw(g2d);
+                }
+                
                 enemyManager.draw(g2d);
                 //enemyManager2.draw(g2d);
                 g.setColor(Color.BLACK);
@@ -351,8 +400,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             case GAME_OVER_STATE:
                 clouds.draw(g2d);
                 land.draw(g2d);
-                dino.draw(g2d);
-                mainCharacters.get(0).draw(g2d);
+                
+                for(MainCharacter dino :mainCharacters){
+                    dino.draw(g2d);
+                }
                 
                 enemyManager.draw(g2d);  
                 //enemyManager2.draw(g2d);
@@ -366,28 +417,34 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         }
         if(additionalInfo){
             
-        
-            g.drawString("nome:"+dino.getName(), 30, 50);
+            
+            g.drawString("nome:"+mainCharacters.get(0).getName(), 30, 50);
             //ArrayList<Enemy> enemies = enemyManager.getEnemies();
             /*for(int q =0;q<enemies.size();q++){
                 g.drawString(enemies.get(q).toString(), 70, q+q*150);
             }*/
             
             
-            dino.setHitboxState(true);
-            mainCharacters.get(0).setHitboxState(additionalInfo);
-            g.drawString("is alive:"+dino.getAlive(), 30, 75);
-            g.drawString(""+dino.getBound(), 30, 100);
+            
+            
+            
+            
+            mainCharacters.get(0).setHitboxState(true);
+            g.drawString("is alive:"+mainCharacters.get(0).getAlive(), 30, 75);
+            g.drawString(""+mainCharacters.get(0).getBound(), 30, 100);
             g.drawString("Game speed:"+this.screenSpeed,30,150);
             g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
-            g.drawString("Dino State:"+dino.getState(),30,200);
+            g.drawString("mainCharacters.get(0) State:"+mainCharacters.get(0).getState(),30,200);
             
             g.drawString("FPS:"+this.fps, 30, 125);
         
         
        
         }else{
-            dino.setHitboxState(false);
+            for (MainCharacter dino:mainCharacters) {
+                dino.setHitboxState(false);
+            }
+            
             
         }
         /*
@@ -422,14 +479,23 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         String state = this.getStateAsString(gameState);
         
         System.out.println(state);
-        if(e.getKeyCode() == KeyEvent.VK_DOWN && gameState == GAME_PLAY_STATE){
-            dino.setState(dino.DUCK_RUN);    
+        for (MainCharacter dino:mainCharacters) {
+            
+            
+            
+            if(e.getKeyCode() == dino.getKeyManager().getDuckKey() && gameState == GAME_PLAY_STATE){
+            dino.setState(MainCharacter.DUCK_RUN);
             dino.down();
-        }else if(e.getKeyCode() == KeyEvent.VK_ENTER && gameState ==GAME_OVER_STATE){
+            }
+        }
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && gameState ==GAME_OVER_STATE){
             
             this.setVisible(true);
             this.startGame();
         }
+        
+        
+        
         
         
     }
@@ -437,41 +503,43 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
         
-        
-        switch(e.getKeyCode()){
-            case KeyEvent.VK_SPACE:
-                if(gameState == GAME_FIRST_STATE){
-                    gameState = GAME_PLAY_STATE;
-                }else if(gameState == GAME_PLAY_STATE){
-                    if(dino.getYM()+dino.getHeight()>=getGroundY()){
-                        dino.jump();
+        for (MainCharacter dino:mainCharacters) {
+            switch(e.getKeyCode()){
+                case KeyEvent.VK_SPACE:
+                    if(gameState == GAME_FIRST_STATE){
+                        gameState = GAME_PLAY_STATE;
+                    }else if(gameState == GAME_PLAY_STATE){
+                        if(dino.getYM()+dino.getHeight()>=getGroundY()){
+                            dino.jump();
+                            System.out.println(dino.getYM()+dino.getHeight());
+
+                        }
                         System.out.println(dino.getYM()+dino.getHeight());
-                                            
+                        System.out.println(getGroundY());
+
+                    }else if(gameState == GAME_OVER_STATE){
+                        //overScreen = new OverScreen(this);
+                        super.repaint();
+
+                        dino.setState(dino.NORMAL_RUN);
+                        gameState = GAME_FIRST_STATE;
+                        resetGame();
                     }
-                    System.out.println(dino.getYM()+dino.getHeight());
-                    System.out.println(getGroundY());
-                    
-                }else if(gameState == GAME_OVER_STATE){
-                    //overScreen = new OverScreen(this);
-                    super.repaint();
-                    dino.setState(dino.NORMAL_RUN);
-                    gameState = GAME_FIRST_STATE;
-                    resetGame();
-                }
-                break;
-                
-            case KeyEvent.VK_DOWN:
-                
-                dino.setState(dino.NORMAL_RUN);
-                break;
-            case KeyEvent.VK_L:
-                additionalInfo=!additionalInfo;
-                break;
-                
-            case KeyEvent.VK_R:
-                //resetGame();
-                
-                break;
+                    break;
+
+                case KeyEvent.VK_DOWN:
+
+                    dino.setState(MainCharacter.NORMAL_RUN);
+                    break;
+                case KeyEvent.VK_L:
+                    additionalInfo=!additionalInfo;
+                    break;
+
+                case KeyEvent.VK_R:
+                    //resetGame();
+
+                    break;
+            }
         }
     }
     /**

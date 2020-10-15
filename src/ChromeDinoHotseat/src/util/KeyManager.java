@@ -13,12 +13,16 @@ import java.awt.event.KeyEvent;
  * @author michele.tomyslak
  */
 public class KeyManager {
-   private int jumpKey;
-   private int duckKey;
+   private int jumpKey = KeyEvent.VK_SPACE;
+   private int duckKey = KeyEvent.VK_DOWN;
    
    public KeyManager(int jumpKey,int duckKey){
        this.duckKey = duckKey;
        this.jumpKey = jumpKey;
+       
+   }
+   
+   public KeyManager(){
        
    }
    

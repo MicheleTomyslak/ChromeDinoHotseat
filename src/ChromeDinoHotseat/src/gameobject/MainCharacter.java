@@ -9,7 +9,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import userinterface.GameScreen;
 import static userinterface.GameScreen.GRAVITY;
 
@@ -23,22 +25,30 @@ import util.Resource;
  * @author Michele Tomyslak
  */
 public class MainCharacter extends JComponent{
+    
+    /**
+     * Il nome del dinosauro.
+     */
+    private String name = "brub";
+    
+    
+    
     /**
      * Identtificativo che significa che il dinosauro sta correndo normalmente-
      */
-    public final int NORMAL_RUN=0;
+    public static final int NORMAL_RUN=0;
     /**
      * Identificativo che significa che il dinosauro sta correndo abbassato.
      */
-    public final int DUCK_RUN=1;
+    public static final int DUCK_RUN=1;
     /**
      * Identificativo che significa che il dinosauro sta saltando.
      */
-    public final int JUMPING=2;
+    public static final int JUMPING=2;
     /**
      * Identificativo che significa che il dinosauro è morto.
      */
-    public final int DEAD=3;
+    public static final int DEAD=3;
     /**
      * la x su cui disegnare il MainCharacter.
      */
@@ -101,11 +111,21 @@ public class MainCharacter extends JComponent{
     
     private GameScreen gameScreen;
     
+    private JLabel dinoLabel;
+    
+    
     /**
      * Costruttore del personaggio principale del gioco.
      */
-    public MainCharacter(GameScreen gameScreen){
+    public MainCharacter(GameScreen gameScreen,KeyManager keyManager){
         
+        
+        
+        
+        
+        
+        this.keyManager = keyManager;
+        this.dinoLabel= new JLabel(this.name);
         this.gameScreen = gameScreen;
         characterRun = new Animation(200);
         characterRun.addFrame(Resource.getResourceImage("data/main-character1.png"));
@@ -116,6 +136,7 @@ public class MainCharacter extends JComponent{
         duckRun.addFrame(Resource.getResourceImage("data/main-character6.png"));
         deadImage = Resource.getResourceImage("data/main-character4.png");
         rect = new Rectangle();
+        this.setLabelVisible(true);
         try {
             //jumpSound = Applet.newAudioClip(new URL("file","","data/jump.wav"));
             jumpSound = Applet.newAudioClip(new URL("file","","data/jump.wav"));
@@ -209,6 +230,21 @@ public class MainCharacter extends JComponent{
                 }
                 break;
         }
+        
+        //this.dinoLabel.setEnabled(true);
+        
+        //dinoLabel.setSize(100, 60);
+        
+        if(this.state == DUCK_RUN){
+            g.drawString(this.getName(), this.getXM(), this.getYM()+10);
+        }else if(this.state == NORMAL_RUN){
+            g.drawString(this.getName(), this.getXM(), this.getYM()-10);
+        }
+        
+        
+        
+        
+        
     }
     
     public void jump(){
@@ -283,4 +319,18 @@ public class MainCharacter extends JComponent{
     public void getImage(){
         
     }
+    
+    public void setLabelVisible(boolean choice){
+        this.dinoLabel.setVisible(choice);
+    }
+
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
+
+    public void setKeyManager(KeyManager keyManager) {
+        this.keyManager = keyManager;
+    }
+    
+    
 }

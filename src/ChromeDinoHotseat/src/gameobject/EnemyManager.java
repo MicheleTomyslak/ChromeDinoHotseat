@@ -17,21 +17,11 @@ public class EnemyManager {
     private List<Enemy> enemies;
     private Random random;
     private BufferedImage imageCactus1,imageCactus2;
-    private MainCharacter mainCharacter;
+    
     private List<MainCharacter> mainCharacters;
     private GameScreen gameScreen;
     
-    public EnemyManager(MainCharacter mainCharacter,GameScreen gameScreen){
-        this.gameScreen = gameScreen;
-        this.mainCharacter = mainCharacter;
-        enemies = new ArrayList<>();
-        imageCactus1 = Resource.getResourceImage("data/cactus1.png");
-        imageCactus2 = Resource.getResourceImage("data/cactus2.png");
-        random = new Random();
-        enemies.add(getRandom());
-        
-        
-    }
+    
     
     public EnemyManager(List<MainCharacter> mainCharacters,GameScreen gameScreen){
         this.gameScreen = gameScreen;
@@ -50,6 +40,7 @@ public class EnemyManager {
     }
     
     public void update(){
+        
         float cactusSpeed = gameScreen.getScreenSpeed();
         for(Enemy e:enemies){
             e.update();
@@ -61,11 +52,18 @@ public class EnemyManager {
                 //System.out.println("SPEED:"+cactusSpeed);
                 e.setIsScoreGot(true);
             }
-            
-            if(e.getBound().intersects(mainCharacter.getBound())){
-                mainCharacter.setAlive(false);
+            for (MainCharacter dino: mainCharacters) {
+                if(e.getBound().intersects(dino.getBound())){
+                    dino.setAlive(false);
                 
+                }
+                
+                
+            
             }
+            
+            
+            
         }
         Enemy firstEnemy ;
         if(enemies.size()>0){
@@ -94,7 +92,7 @@ public class EnemyManager {
     
     private Cactus getRandom(){
         Cactus cactus;
-        cactus = new Cactus(mainCharacter,gameScreen);
+        cactus = new Cactus(mainCharacters,gameScreen);
         cactus.setX(600);
         cactus.setY(265);
         if(random.nextBoolean()){

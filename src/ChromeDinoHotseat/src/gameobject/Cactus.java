@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import userinterface.GameScreen;
 
 
@@ -20,15 +21,15 @@ public class Cactus extends Enemy{
     private int posX;
     private int posY;
     private Rectangle rect;
-    private MainCharacter dino;
+    private List<MainCharacter> dinos;
     private boolean isScoreGot = false;
     private float speedX = 4f;
     private GameScreen gameScreen;
     private boolean areHitboxVisible;
     
-    public Cactus(MainCharacter dino,GameScreen gameScreen){
+    public Cactus(List<MainCharacter> dinos,GameScreen gameScreen){
         this.gameScreen = gameScreen;
-        this.dino = dino;
+        this.dinos = dinos;
         image = Resource.getResourceImage("data/cactus1.png");
         posX = 200;
         posY = 265;
@@ -76,8 +77,11 @@ public class Cactus extends Enemy{
 
     @Override
     public boolean isOver() {
-        
-        return (dino.getX() > posX);
+        boolean flag=false;
+        for(MainCharacter dino:dinos){
+            flag = dino.getX() > posX;
+        }
+        return flag;
         
     }
 

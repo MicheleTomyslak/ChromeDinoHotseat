@@ -28,7 +28,7 @@ public class Land extends JComponent {
         imageLand3 = Resource.getResourceImage("data/land3.png");
         listImage = new ArrayList<>();
         this.gameScreen = gameScreen;
-        int numberOfLandTitle = 600/imageLand1.getWidth()+2;
+        int numberOfLandTitle = 1000/imageLand1.getWidth()+2;
         for (int i = 0; i < numberOfLandTitle; i++) {
             ImageLand imageLand = new ImageLand();
             imageLand.posx = (int) i* imageLand1.getWidth();
