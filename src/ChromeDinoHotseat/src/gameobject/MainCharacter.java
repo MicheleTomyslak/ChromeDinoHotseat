@@ -15,6 +15,7 @@ import static userinterface.GameScreen.GRAVITY;
 
 
 import util.Animation;
+import util.KeyManager;
 import util.Resource;
 
 /**
@@ -96,6 +97,7 @@ public class MainCharacter extends JComponent{
      */
     private boolean isAlive = true;
     
+    private KeyManager keyManager;
     
     private GameScreen gameScreen;
     
@@ -126,28 +128,33 @@ public class MainCharacter extends JComponent{
      *
      */
     public void update(){
-        
-        if(y>=-characterRun.getFrame().getHeight()+gameScreen.getGroundY()){
-            
-            speedY=0;
-            y=-characterRun.getFrame().getHeight()+gameScreen.getGroundY();
-        }else{
-            speedY+=GRAVITY;
-            y+=speedY;
-        }
-        rect.x=(int)x;
-        rect.y = (int)y;
-        if(state == NORMAL_RUN){
-            characterRun.update();
-            rect.width = characterRun.getFrame().getWidth();
-            rect.height = characterRun.getFrame().getHeight();
-        }else{
-            duckRun.update();
+        if(state!=this.DEAD){
+
+
+            if(y>=-characterRun.getFrame().getHeight()+gameScreen.getGroundY()){
+
+                speedY=0;
+                y=-characterRun.getFrame().getHeight()+gameScreen.getGroundY();
+            }else{
+                speedY+=GRAVITY;
+                y+=speedY;
+            }
             rect.x=(int)x;
-            rect.y = (int)y+20;
-            rect.width = duckRun.getFrame().getWidth();
-            rect.height = duckRun.getFrame().getHeight();
-            
+            rect.y = (int)y;
+            if(state == NORMAL_RUN){
+                characterRun.update();
+                rect.width = characterRun.getFrame().getWidth();
+                rect.height = characterRun.getFrame().getHeight();
+            }else{
+                duckRun.update();
+                rect.x=(int)x;
+                rect.y = (int)y+20;
+                rect.width = duckRun.getFrame().getWidth();
+                rect.height = duckRun.getFrame().getHeight();
+
+            }
+        }else{
+            kill();
         }
         
     }
@@ -210,6 +217,10 @@ public class MainCharacter extends JComponent{
         speedY=-JUMP_SPEED;
         y+=speedY;
         
+    }
+    
+    public void kill(){
+        this.x-=gameScreen.getScreenSpeed();
     }
     /**
      * Ritorna lo stato della visibilità delle hitbox del dinosauro.

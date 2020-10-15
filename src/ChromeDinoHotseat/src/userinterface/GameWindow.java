@@ -63,7 +63,7 @@ public class GameWindow extends JFrame {
     }
     
     public static void main(String[] args) {
-        GameWindow gw = new GameWindow();
+         GameWindow gw = new GameWindow();
         
         
         gw.setVisible(true);

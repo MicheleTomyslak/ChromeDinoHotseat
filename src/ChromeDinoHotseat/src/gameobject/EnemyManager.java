@@ -18,6 +18,7 @@ public class EnemyManager {
     private Random random;
     private BufferedImage imageCactus1,imageCactus2;
     private MainCharacter mainCharacter;
+    private List<MainCharacter> mainCharacters;
     private GameScreen gameScreen;
     
     public EnemyManager(MainCharacter mainCharacter,GameScreen gameScreen){
@@ -29,6 +30,17 @@ public class EnemyManager {
         random = new Random();
         enemies.add(getRandom());
         
+        
+    }
+    
+    public EnemyManager(List<MainCharacter> mainCharacters,GameScreen gameScreen){
+        this.gameScreen = gameScreen;
+        this.mainCharacters = mainCharacters;
+        enemies = new ArrayList<>();
+        imageCactus1 = Resource.getResourceImage("data/cactus1.png");
+        imageCactus2 = Resource.getResourceImage("data/cactus2.png");
+        random = new Random();
+        enemies.add(getRandom());
         
     }
     
