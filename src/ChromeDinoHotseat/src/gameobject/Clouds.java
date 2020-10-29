@@ -5,18 +5,20 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComponent;
 import util.Resource;
 
 /**
  *
  * @author tmich
  */
-public class Clouds {
+public class Clouds extends JComponent {
     
     private BufferedImage cloudImage;
     
     private List<Cloud> clouds;
     public Clouds(){
+        this.setDoubleBuffered(true);
         cloudImage = Resource.getResourceImage("data/cloud.png");
         clouds = new ArrayList<>();
         
@@ -43,6 +45,11 @@ public class Clouds {
         cloud1 = new Cloud();
         cloud1.posX=800;
         cloud1.posY = 40;
+        clouds.add(cloud1);
+        
+        cloud1 = new Cloud();
+        cloud1.posX=100;
+        cloud1.posY = 200;
         
         clouds.add(cloud1);
     }
@@ -53,7 +60,7 @@ public class Clouds {
         }
         Cloud firstCloud = clouds.get(0);
         if(firstCloud.posX +cloudImage.getWidth()<0){
-            firstCloud.posX = 600;
+            firstCloud.posX = 1000;
             clouds.remove(0);
             clouds.add(firstCloud);
             

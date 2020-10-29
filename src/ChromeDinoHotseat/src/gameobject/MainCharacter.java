@@ -6,9 +6,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -19,13 +22,14 @@ import static userinterface.GameScreen.GRAVITY;
 import util.Animation;
 import util.KeyManager;
 import util.Resource;
+import util.Score;
 
 /**
  *
  * @author Michele Tomyslak
  */
 public class MainCharacter extends JComponent{
-    
+
     /**
      * Il nome del dinosauro.
      */
@@ -115,14 +119,19 @@ public class MainCharacter extends JComponent{
     
     private boolean isDead;
     
+    private AffineTransform at;
+    
+    private int score;
     
     /**
      * Costruttore del personaggio principale del gioco.
+     * @param gameScreen 
+     * @param keyManager
      */
     public MainCharacter(GameScreen gameScreen,KeyManager keyManager){
         
         
-        
+        this.setDoubleBuffered(true);
         
         isDead=false;
         
@@ -138,6 +147,7 @@ public class MainCharacter extends JComponent{
         duckRun.addFrame(Resource.getResourceImage("data/main-character6.png"));
         deadImage = Resource.getResourceImage("data/main-character4.png");
         rect = new Rectangle();
+        at = new AffineTransform();
         this.setLabelVisible(true);
         try {
             //jumpSound = Applet.newAudioClip(new URL("file","","data/jump.wav"));
@@ -151,12 +161,13 @@ public class MainCharacter extends JComponent{
      *
      */
     public void update(){
-        if(state!=this.DEAD){
+        if(state!=DEAD){
 
 
             if(y>=-characterRun.getFrame().getHeight()+gameScreen.getGroundY()){
 
                 speedY=0;
+                
                 y=-characterRun.getFrame().getHeight()+gameScreen.getGroundY();
             }else{
                 speedY+=GRAVITY;
@@ -204,9 +215,64 @@ public class MainCharacter extends JComponent{
     
     public void draw(Graphics2D g){
         g.setColor(Color.RED);
+        
+        //g.drawImage(characterRun.getFrame(), new AffineTransform(), this);
+        //AffineTransform aTran = new AffineTransform();
+        
+        double width = this.characterRun.getFrame().getWidth();
+        double height = this.characterRun.getFrame().getHeight();
+        width= gameScreen.getWidth()/width*4;
+        height = gameScreen.getHeight()/height*2;
+        //aTran.translate(200.0f, 0.0f);
+        //g.transform(aTran);
+        
+        //int width = (int) (super.getWidth()/16);
+        
+        //double rapporto = (double) gameScreen.getWidth()/(double)x;
+        
+        if(gameScreen.getWidth()/width>16){
+            
+        }else{
+            //System.out.println(width);
+            //System.out.println(height);
+        }
+        
+        
+        
+        
+        /*
+           Codice per repaintare il dino in modo sempre centrato e scalato
+        
+        
+        
+        */
+         
+        at.translate(width, gameScreen.getHeight()/2);
+        double ingrandimentox = (double)this.characterRun.getFrame().getWidth()/(double)gameScreen.getWidth();
+        double ingrandimentoy = (double)this.characterRun.getFrame().getHeight()/(double)gameScreen.getHeight();
+        //System.out.println("ingrandimento x:"+ingrandimentox);
+        //System.out.println("ingrandimento y:"+ingrandimentoy);
+        
+        at.scale(1+ingrandimentox, 1+ingrandimentoy);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         switch(state){
             case NORMAL_RUN:
-                g.drawImage(characterRun.getFrame(), (int)x, (int)y, null);
+                //g.scale(rapporto, rapporto);
+                
+                //imageSpaceTran.translate(x, y);
+                g.drawImage(characterRun.getFrame(),(int)x,(int)y,null);
+                //g.drawImage(characterRun.getFrame(),at, this);
+                
+                //sg.drawString(""+rapporto, 0, 0);
                 if(areHitboxVisible){
                     g.drawRect((int)x,(int)y,characterRun.getFrame().getWidth(),characterRun.getFrame().getHeight());
                 }
@@ -215,11 +281,13 @@ public class MainCharacter extends JComponent{
                 g.drawImage(duckRun.getFrame(),(int)x,(int)y+20,null);
                 //
                 if(areHitboxVisible){
-                g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
+                    g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
                 }
                 break;
             case JUMPING:
+                //.println(at.getTranslateY());
                 g.drawImage(jumpImage ,(int)x, (int)y, null);
+                //g.drawImage(jumpImage, at, null);
                 if(areHitboxVisible){
                 g.drawRect((int)rect.x,(int)rect.y,rect.width,rect.height);
                 }
@@ -248,9 +316,12 @@ public class MainCharacter extends JComponent{
         
         
     }
-    
+    /**
+     * Metodo che permette al dino di saltare.
+     */
     public void jump(){
-        
+        //state = MainCharacter.JUMPING;
+        at.translate(0, speedY);
         jumpSound.play();
         speedY=-JUMP_SPEED;
         y+=speedY;
@@ -259,6 +330,11 @@ public class MainCharacter extends JComponent{
     
     public void kill(){
         this.x-=gameScreen.getScreenSpeed()/2;
+        if(!isDead){
+            this.score = gameScreen.getScore();
+            Date date = new Date(System.currentTimeMillis());
+        }
+        
         isDead=true;
         
     }
@@ -320,8 +396,8 @@ public class MainCharacter extends JComponent{
         return this.deadImage.getHeight();
     }
     
-    public void getImage(){
-        
+    public BufferedImage getImage(){
+        return characterRun.getFrame();
     }
     
     public void setLabelVisible(boolean choice){
@@ -335,6 +411,11 @@ public class MainCharacter extends JComponent{
     public void setKeyManager(KeyManager keyManager) {
         this.keyManager = keyManager;
     }
+
+    public int getScore() {
+        return score;
+    }
+
     
     
 }

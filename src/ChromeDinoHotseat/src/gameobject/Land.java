@@ -22,6 +22,7 @@ public class Land extends JComponent {
     private GameScreen gameScreen;
     
     public Land(GameScreen gameScreen){
+        this.setDoubleBuffered(true);
         rnd = new Random();
         imageLand1 = Resource.getResourceImage("data/land1.png");
         imageLand2 = Resource.getResourceImage("data/land2.png");

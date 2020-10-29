@@ -4,26 +4,31 @@ import java.applet.AudioClip;
 import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.TextField;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
-import javax.swing.*;
 import gameobject.Clouds;
 import gameobject.Enemy;
 import gameobject.EnemyManager;
 import gameobject.Land;
 import gameobject.MainCharacter;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JTextField;
 import util.KeyManager;
 import util.Resource;
+import static util.Resource.DEFAULT_PATH;
+import util.Score;
+import util.ScoreManager;
 
 /**
  *
@@ -31,6 +36,12 @@ import util.Resource;
  */
 public class GameScreen extends JPanel implements Runnable,KeyListener
 {    
+    
+    /**
+     * Costante che definisce lo stato in cui lo scenario è in pausa,
+     * e si attende la pressione del tasto di pausa nuovamente per ripartire
+     */
+    public static final int GAME_PAUSE_STATE = 3;
     /**
      * Costante che definisce lo stato in cui lo scenario è fermo , e ci si aspetta un enter dall'utente.
      */
@@ -53,7 +64,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     //public static final float GROUNDY = 310;
     private int i =0;
     
-
+    public static final String DEFAULT_PATH = "data/scores.csv";
+    
+    
     //private MainCharacter dino2;
     /**
      * Rappresenta la lista dei dinosauri che ci sono in gioco.
@@ -84,6 +97,11 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
      * Rappresenta il punteggio corrente della partita.
      * */
     private int score;
+    
+    /**
+     * Il gestore dei punteggi del gioco , e si occupa anche del salvataggio e della lettura dei punteggi.
+     */
+    private ScoreManager scoreManager;
     /**
      * Lo stato attuale del gioco. DEFAULT => GAME_FIRST_STATE.
      * */
@@ -103,7 +121,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
      * Rappresenta la velocità del gioco, che aumenta ad ogni ostacolo superato, finché non si muore, poi si resetta.
      * */
     private float screenSpeed=4.0f;
-    //private TextField textField;
+    private JTextField textField;
     
     /**
      * Un flag per sapere se il gioco è in stato di game over.
@@ -126,10 +144,17 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     
     private long fps;
     //private JButton jButton;
-    
+    private int currentFPS;
     private int distanceBeetweenCharacters = 50;
     
     private int counter =0;
+    
+    
+    private int lastGameState =0;
+    
+    private HighScoresPanel hspanel;
+    
+    private Thread hsPanelThread;
     
     
     /**
@@ -141,19 +166,30 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     }
     
     /**
-     *
+     * Costruttore vuoto di gameScreen , che istanzia una nuova rappresentazione della schermata di gioco di chrome dino.
      */
     public GameScreen(){
-        this.setSize(500,500);
+        this.hspanel = new HighScoresPanel();
+        //hsPanelThread = new Thread(hspanel);
+        //hsPanelThread.start();
+        this.add(hspanel);
+        this.setDoubleBuffered(true);
+        
+        //this.setSize(500,500);
+        
+        
+        ScoreManager sm = new ScoreManager(DEFAULT_PATH);
+        //Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, sm.toString());
+        
+        //Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, sm.getScore(0).getName());
+        //Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, ""+sm.getScore(0).getScoredPoints());
+        
+        //creo la thread che gestira la loop di gioco.
         thread = new Thread(this);
         
-        
-        
-        
-        
-        //dino2 = new MainCharacter(this);
+        //creo una nuova lista di MainCharacters(i dinosauri).
         mainCharacters = new ArrayList<MainCharacter>();
-        
+        //aggiungo un dinosauro con parametro il gameScreen e il KeyManager(che sarebbe il gestore dei tasti).
         mainCharacters.add(new MainCharacter(this,new KeyManager()));
         counter = 0;
         for (MainCharacter dino:mainCharacters) {
@@ -163,14 +199,13 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             counter+=distanceBeetweenCharacters;
         }
         counter=0;
-        //dino2.setX(150);
-        //dino2.setY(265);
+        
         
         
         
         land = new Land(this);
         clouds = new Clouds();
-        //jButton = new JButton();
+        
         this.addKeyListener(this);
         
         
@@ -178,8 +213,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         enemyManagers.add(new EnemyManager(mainCharacters,this));
         enemyManager = new EnemyManager(mainCharacters,this);
         
-        //overScreen = new OverScreen(this);
-        //overScreen = new OverScreen(this);
+        
         imageGameOverText = Resource.getResourceImage("data/gameover_text.png");
         
         
@@ -199,7 +233,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
      * @param state
      */
     public void setGameState(int state){
-        //this.getComponentCount();
+        
         gameState = state;
     }
     
@@ -228,23 +262,12 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             dino.setAlive(true);
             dino.setX((50*counter));
             dino.setY(265);
-            System.out.println(counter);
+            //System.out.println(counter);
             
         }
         enemyManager = new EnemyManager(mainCharacters,this);
         
-        
-        
-        
-        //enemyManager.reset();
-        
-        
-        
-        
-        //mainCharacters.add(new MainCharacter(this,new KeyManager()));
-        
-        
-        gameState = GAME_PLAY_STATE;
+        //gameState = GAME_PLAY_STATE;
     }
     
     public void setScreenSpeed(float speed){
@@ -262,32 +285,22 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     
     @Override
     public void run() {
+        int currentFPS;
         while(!this.thread.isInterrupted()){
             //System.out.println(i++);
             try {
-                
-                if(this.gameState  == GameScreen.GAME_FIRST_STATE){
-                    
-                }else if(this.gameState == GameScreen.GAME_PLAY_STATE ){
-                    
-                }
-                
-                
-                
-                
-                
-                
                 update();
+                lastGameState = this.gameState;
                 repaint();
-                
                 // conta dei frame in un secondo.
-                fps++;
-                if(System.currentTimeMillis()%1000==0){
+                //fps++;
+                if(System.currentTimeMillis()%1000<=10){
+                    currentFPS = getFPS();
+                    System.out.println(currentFPS);
                     fps=0;
+                    
                 }
-                
                 Thread.sleep(12);
-                
             } catch (InterruptedException ex) {
                 ex.getStackTrace();
             }
@@ -297,18 +310,35 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     }
     
     public void clearScore(){
+        for(MainCharacter dino:mainCharacters){
+            Resource.writeScore("data/Scores.csv",dino );
+        }
         score = 0;
         this.screenSpeed=4.0f;
     }
     
+    
+    
     public void update(){
         long startTime = System.nanoTime();
-        this.setVisible(true);
+        //this.setVisible(true);
         
         
         switch(gameState){
-            case GAME_PLAY_STATE:
+            
+            
+            case GAME_FIRST_STATE:
                 
+                hspanel.setVisible(true);
+                
+            
+            
+            
+            
+            
+                break;
+            case GAME_PLAY_STATE:
+                hspanel.setVisible(false);
                 land.update();
                 clouds.update();
                 counter=0;
@@ -324,6 +354,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                     
                     }
                 }
+                
+                
                 if(counter==mainCharacters.size()){
                     gameState = GAME_OVER_STATE;
                     clearScore();
@@ -338,8 +370,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 
                 break;
             case GAME_OVER_STATE:
-                         
-
+                    
+                
                 
                 isGameOver = true;                
                 break;
@@ -357,6 +389,15 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     public void showSaveGameOption(){
         
     }
+    public int getFPS(){
+        this.fps +=1;
+        
+        
+        
+        
+        return (int)fps;
+        
+    }
     
     
     public void plusScore(int score){
@@ -367,13 +408,30 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
     }
     
+    /**
+     * Mette la partita in pausa.
+     */
+    public void pause(){
+        this.gameState = GameScreen.GAME_PAUSE_STATE;
+    }
+    
+    /**
+     * Riprende la partita dopo una evento di pausa.
+     */
+    public void resume(){
+        this.gameState = GAME_PLAY_STATE;
+    }
+    
+    
+    
     @Override
     public void paintComponent(Graphics g){
         long currentMillis= System.nanoTime();
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.decode("#f7f7f7"));
         g.fillRect(0, 0, getWidth(), getHeight());
-        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         /**Codice per disegnare la linea del terreno (prima delle immagini del deserto)
         //g.setColor(Color.RED);
         //g.drawLine(0,(int)GROUNDY,getWidth(),(int)GROUNDY);
@@ -386,8 +444,14 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         switch(gameState){
             case GAME_FIRST_STATE:
                 for(MainCharacter dino :mainCharacters){
+                    //land.draw(g2d);
                     dino.draw(g2d);
+                    
                 }
+                hspanel.repaint();
+                
+                
+               
                 
                 break;
             case GAME_PLAY_STATE:
@@ -415,34 +479,43 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 //enemyManager2.draw(g2d);
                 g.drawImage(imageGameOverText,100,50,null);
                 break;
+            case GAME_PAUSE_STATE:
+                clouds.draw(g2d);
+                land.draw(g2d);
+                
+                for (MainCharacter dino:mainCharacters) {
+                    dino.draw(g2d);
+                }
+                enemyManager.draw(g2d);
+                g.drawString("PAUSA", 100, 100);
+                break;
                 
         }
         for(Enemy x:this.enemyManager.getEnemies()){
                 x.setHitBoxState(additionalInfo);
                 
         }
+        
+        
+        
         if(additionalInfo){
             
-            
+            drawAdditionalInfo(g2d);
+            /*
             g.drawString("nome:"+mainCharacters.get(0).getName(), 30, 50);
-            //ArrayList<Enemy> enemies = enemyManager.getEnemies();
-            /*for(int q =0;q<enemies.size();q++){
-                g.drawString(enemies.get(q).toString(), 70, q+q*150);
-            }*/
-            
-            
-            
-            
-            
             
             mainCharacters.get(0).setHitboxState(true);
             g.drawString("is alive:"+mainCharacters.get(0).getAlive(), 30, 75);
             g.drawString(""+mainCharacters.get(0).getBound(), 30, 100);
             g.drawString("Game speed:"+this.screenSpeed,30,150);
             g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
-            g.drawString("mainCharacters.get(0) State:"+mainCharacters.get(0).getState(),30,200);
-            
-            g.drawString("FPS:"+this.fps, 30, 125);
+            g.drawString(mainCharacters.get(0).getName()+" State:"+mainCharacters.get(0).getState(),30,200);
+            g.drawString("Duck Key:"+mainCharacters.get(0).getKeyManager().getDuckKey() , 130, 50);
+            g.drawString("Jump Key:"+mainCharacters.get(0).getKeyManager().getJumpKey() , 130, 75);
+            g.drawString("FPS:"+this.getFPS(), 30, 125);
+            g.drawString(new Date(System.currentTimeMillis()).toString(), 130, 125);
+            g.drawString("double Buffered:"+mainCharacters.get(0).isDoubleBuffered(), 230, 175);
+            g.drawString("", i, i);*/
         
         
        
@@ -459,12 +532,31 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
     }
     
+    public void drawAdditionalInfo(Graphics2D g){
+        g.drawString("nome:"+mainCharacters.get(0).getName(), 30, 50);
+            
+            mainCharacters.get(0).setHitboxState(true);
+            g.drawString("is alive:"+mainCharacters.get(0).getAlive(), 30, 75);
+            g.drawString(""+mainCharacters.get(0).getBound(), 30, 100);
+            g.drawString("Game speed:"+this.screenSpeed,30,150);
+            g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
+            g.drawString(mainCharacters.get(0).getName()+" State:"+mainCharacters.get(0).getState(),30,200);
+            g.drawString("Duck Key:"+mainCharacters.get(0).getKeyManager().getDuckKey() , 130, 50);
+            g.drawString("Jump Key:"+mainCharacters.get(0).getKeyManager().getJumpKey() , 130, 75);
+            g.drawString("FPS:"+this.getFPS(), 30, 125);
+            g.drawString(new Date(System.currentTimeMillis()).toString(), 130, 125);
+            g.drawString("double Buffered:"+mainCharacters.get(0).isDoubleBuffered(), 230, 175);
+            g.drawString("", i, i);
+    }
+    
     
 
     @Override
     public void keyTyped(KeyEvent e) {
         super.repaint();
     }
+    
+    
     
     public String getStateAsString(int state){
         if(GameScreen.GAME_FIRST_STATE==state){
@@ -484,7 +576,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     public void keyPressed(KeyEvent e) {
         String state = this.getStateAsString(gameState);
         
-        System.out.println(state);
+        //System.out.println(state);
         for (MainCharacter dino:mainCharacters) {
             
             
@@ -510,7 +602,18 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode()== KeyEvent.VK_L){
             additionalInfo=!additionalInfo;
+        }else if(e.getKeyCode()== KeyEvent.VK_P){
+            if(gameState == GAME_PAUSE_STATE){
+                resume();
+            }else{
+                pause();
+            }
         }
+                    //resetGame();
+                    
+                    
+                    
+                    
         for (MainCharacter dino:mainCharacters) {
             
             if(e.getKeyCode() == dino.getKeyManager().getJumpKey()){
@@ -519,11 +622,11 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                     }else if(gameState == GAME_PLAY_STATE){
                         if(dino.getYM()+dino.getHeight()>=getGroundY()){
                             dino.jump();
-                            System.out.println(dino.getYM()+dino.getHeight());
+                            //System.out.println(dino.getYM()+dino.getHeight());
 
                         }
-                        System.out.println(dino.getYM()+dino.getHeight());
-                        System.out.println(getGroundY());
+                        //System.out.println(dino.getYM()+dino.getHeight());
+                        //System.out.println(getGroundY());
 
                     }
             }else if(dino.getKeyManager().getDuckKey()== e.getKeyCode()){
@@ -548,10 +651,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 
                 
 
-                case KeyEvent.VK_R:
-                    //resetGame();
-
-                    break;
+                
             }
         }
     }

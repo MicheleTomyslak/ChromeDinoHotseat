@@ -1,4 +1,5 @@
 package userinterface;
+import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 import java.awt.TextField;
@@ -15,34 +16,56 @@ import javax.swing.*;
 /**
  *
  * @author tmich
+ * GameWindow rappresenta il JFrame dove è contenuto il gioco
+ * Al suo interno contiene un oggetto GameScreen (che sarebbe il gioco in se).
+ * che a sua volta contiene altri oggetti di gioco.
  */
-public class GameWindow extends JFrame {
-    private GameScreen gameScreen;
+public class GameWindow extends JFrame implements Runnable{
     
+    /**
+     * Il pannello di gioco.
+     */
+    private GameScreen gameScreen;
+    /**
+     * Campo di testo di default.
+     */
     private JTextField textField;
+    
+    private NamePanel namePanel;
+    
+    private Thread pgNamesThread ;
     public GameWindow(){
         
         super("T Rex game");
-        setSize(600,600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //textField = new JTextField();
-        //textField.setSize(100,50);
         
+        
+        /*pgNamesThread = new Thread(this);
+        namePanel = new NamePanel();
+        this.setLayout(new BorderLayout());
+        this.add(namePanel);
+        Thread t = new Thread(namePanel);
+        t.start();*/
+        this.pack();
+        setSize(1000,600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        //textField = new JTextField("ciao"); 
+        //textField.setLayout(new BorderLayout());
         //add(textField);
         
-        gameScreen = new GameScreen();
-        //verScreen = new OverScreen(gameScreen);
-    //overScreen = new OverScreen(this.gameScreen);
-        //overScreen.setVisible(true);
         
-        //add(overScreen);
+        
+        
+        gameScreen = new GameScreen();
+        
         add(gameScreen);
-        //add(gameScreen);
-        //add(overScreen);
+        
         addKeyListener(gameScreen);
-        //addKeyListener(overScreen);
+        
         
     }
+    
+    
     
     public void getContent(){
         boolean flag=false;
@@ -63,13 +86,8 @@ public class GameWindow extends JFrame {
     }
     
     public static void main(String[] args) {
-         GameWindow gw = new GameWindow();
-        
-        
+        GameWindow gw = new GameWindow();
         gw.setVisible(true);
-        
-        //StartScreen startScreen = new StartScreen();
-        //startScreen.repaint();
         gw.startGame();
         
         
@@ -84,6 +102,13 @@ public class GameWindow extends JFrame {
     public void startChoiceMenu(){
         //overScreen.setVisible(true);
         //overScreen.setSize(400,300);
+    }
+
+    @Override
+    public void run() {
+        while(this.textField.isVisible()){
+            
+        }
     }
 
     

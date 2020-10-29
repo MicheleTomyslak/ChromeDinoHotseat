@@ -24,6 +24,8 @@ public class EnemyManager {
     
     
     public EnemyManager(List<MainCharacter> mainCharacters,GameScreen gameScreen){
+        
+        
         this.gameScreen = gameScreen;
         this.mainCharacters = mainCharacters;
         enemies = new ArrayList<>();
@@ -93,7 +95,7 @@ public class EnemyManager {
     private Cactus getRandom(){
         Cactus cactus;
         cactus = new Cactus(mainCharacters,gameScreen);
-        cactus.setX(600);
+        cactus.setX(1100);
         cactus.setY(265);
         if(random.nextBoolean()){
             cactus.setImage(imageCactus1);
