@@ -14,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -25,6 +27,7 @@ import util.Animation;
 import util.KeyManager;
 import util.Resource;
 import util.Score;
+import javax.swing.*;
 
 /**
  *
@@ -129,6 +132,9 @@ public class MainCharacter extends JComponent{
     
     
     
+    
+    
+    
     /**
      * Costruttore del personaggio principale del gioco.
      * @param gameScreen 
@@ -141,6 +147,8 @@ public class MainCharacter extends JComponent{
         
         isDead=false;
         textFieldNome = new JTextField();
+        
+        
         
         //this.add(textFieldNome);
         this.keyManager = keyManager;
@@ -163,12 +171,26 @@ public class MainCharacter extends JComponent{
         } catch (MalformedURLException ex) {
 
         }
+        
+        
+        
+        
+        
+        
+        
     }
     
     /**
      *
      */
     public void update(){
+        if(this.gameScreen.getState()== GameScreen.GAME_FIRST_STATE){
+            
+            
+        
+        }
+        
+        
         
         if(state!=DEAD){
             
@@ -223,6 +245,8 @@ public class MainCharacter extends JComponent{
     }
     
     public void draw(Graphics2D g){
+        
+        
         g.setColor(Color.RED);
         
         //g.drawImage(characterRun.getFrame(), new AffineTransform(), this);
@@ -320,9 +344,13 @@ public class MainCharacter extends JComponent{
             g.drawString(this.getName(), this.getXM(), this.getYM()-10);
         }
         
+        Rectangle leftButton = new Rectangle((int)this.x-25,(int)this.y+7,15,15);
+        Rectangle rightButton = new Rectangle((int)this.x+characterRun.getFrame().getWidth()+5,(int)this.y+7,15,15);
         
-        
-        
+        if(gameScreen.getState() == GameScreen.GAME_FIRST_STATE){
+           g.draw(leftButton);
+           g.draw(rightButton);
+        }  
         
     }
     /**

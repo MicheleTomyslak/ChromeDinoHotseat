@@ -4,7 +4,9 @@ import gameobject.MainCharacter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.json.*;
+
 
 
 /**
@@ -109,8 +113,38 @@ public class Resource  {
         
     }
     
+    public static  void testLibJson(String path){
+        JSONObject jo = new JSONObject();
+        try {
+            
+            ArrayList<String> l = (ArrayList)Files.readAllLines(Paths.get("data/scores.json"));
+            StringBuilder sb = new StringBuilder();
+            for(String c:l){
+                sb.append(c);
+            }
+            JSONArray jarray = new JSONArray();
+            
+            Object o = JSONObject.stringToValue(sb.toString());
+            String content = o.toString();
+            char[] c = content.toCharArray();
+            byte[] b=new byte[c.length];
+            int counter = 0;
+            for(char cc:c){
+            
+                b[counter] = (byte)cc;
+                counter++;    
+            }
+            Files.write(Paths.get(path), b, StandardOpenOption.APPEND);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //System.out.println(jo.toString());
+    }
+    
     
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());
     
-    
+    public static void main(String[] args) {
+        testLibJson("data/scores.json");
+    }
 }

@@ -152,7 +152,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
     
     private int lastGameState =0;
     
-    private HighScoresPanel hspanel;
+    
     
     private Thread hsPanelThread;
     
@@ -169,10 +169,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
      * Costruttore vuoto di gameScreen , che istanzia una nuova rappresentazione della schermata di gioco di chrome dino.
      */
     public GameScreen(){
-        this.hspanel = new HighScoresPanel();
+       
         //hsPanelThread = new Thread(hspanel);
         //hsPanelThread.start();
-        this.add(hspanel);
+        
         this.setDoubleBuffered(true);
         
         //this.setSize(500,500);
@@ -260,7 +260,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             counter+=1;
             dino.setName("Giocatore "+(counter));
             dino.setAlive(true);
-            dino.setX((50*counter));
+            dino.setX((90*counter));
             dino.setY(265);
             //System.out.println(counter);
             
@@ -296,7 +296,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
                 //fps++;
                 if(System.currentTimeMillis()%1000<=10){
                     currentFPS = getFPS();
-                    System.out.println(currentFPS);
+                    //System.out.println(currentFPS);
                     fps=0;
                     
                 }
@@ -328,8 +328,15 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             
             
             case GAME_FIRST_STATE:
+                for(MainCharacter dino:mainCharacters){
+                    dino.update();
+                    
+                    
+                }
+                land.update();
+                clouds.update();
                 
-                hspanel.setVisible(true);
+                
                 
             
             
@@ -338,7 +345,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             
                 break;
             case GAME_PLAY_STATE:
-                hspanel.setVisible(false);
+             
                 land.update();
                 clouds.update();
                 counter=0;
@@ -443,12 +450,17 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
         switch(gameState){
             case GAME_FIRST_STATE:
+                clouds.draw(g2d);
+                land.draw(g2d);
                 for(MainCharacter dino :mainCharacters){
                     //land.draw(g2d);
                     dino.draw(g2d);
                     
+                    
                 }
-                hspanel.repaint();
+                g.drawString("CHROME DINO HOTSEAT", this.getWidth()/16*3, this.getHeight()/9);
+                g.drawString("Seleziona i giocatori:", this.getWidth()/16*3, this.getHeight()/9*2);
+                
                 
                 
                
