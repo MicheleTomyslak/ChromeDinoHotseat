@@ -1,5 +1,5 @@
 package userinterface;
-
+import java.util.Arrays;
 import java.applet.AudioClip;
 import java.applet.Applet;
 import java.awt.Color;

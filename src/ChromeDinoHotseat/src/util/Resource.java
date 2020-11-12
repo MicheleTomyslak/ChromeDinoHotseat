@@ -1,5 +1,5 @@
 package util;
-
+import java.util.Arrays;
 import gameobject.MainCharacter;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+
 
 /**
  *
@@ -104,6 +105,9 @@ public class Resource  {
         }
     }
     
+    public static void getOrdered(){
+        
+    }
     
     
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());

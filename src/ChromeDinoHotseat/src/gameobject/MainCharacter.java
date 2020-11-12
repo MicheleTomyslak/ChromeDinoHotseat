@@ -3,6 +3,7 @@ package gameobject;
 import java.applet.AudioClip;
 import java.applet.Applet;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import userinterface.GameScreen;
 import static userinterface.GameScreen.GRAVITY;
 
@@ -117,11 +119,15 @@ public class MainCharacter extends JComponent{
     
     private JLabel dinoLabel;
     
+    private JTextField textFieldNome;
+    
     private boolean isDead;
     
     private AffineTransform at;
     
     private int score;
+    
+    
     
     /**
      * Costruttore del personaggio principale del gioco.
@@ -134,7 +140,9 @@ public class MainCharacter extends JComponent{
         this.setDoubleBuffered(true);
         
         isDead=false;
+        textFieldNome = new JTextField();
         
+        //this.add(textFieldNome);
         this.keyManager = keyManager;
         this.dinoLabel= new JLabel(this.name);
         this.gameScreen = gameScreen;
@@ -161,8 +169,9 @@ public class MainCharacter extends JComponent{
      *
      */
     public void update(){
+        
         if(state!=DEAD){
-
+            
 
             if(y>=-characterRun.getFrame().getHeight()+gameScreen.getGroundY()){
 
@@ -402,6 +411,10 @@ public class MainCharacter extends JComponent{
     
     public void setLabelVisible(boolean choice){
         this.dinoLabel.setVisible(choice);
+    }
+    
+    public void setJTextFieldVisible(boolean choice){
+        this.textFieldNome.setVisible(choice);
     }
 
     public KeyManager getKeyManager() {

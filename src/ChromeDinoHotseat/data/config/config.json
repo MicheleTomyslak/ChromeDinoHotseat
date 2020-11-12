@@ -1,0 +1,12 @@
+{
+    "level": {
+        "defaultDinoFrame1": "data/main-character1.png",
+        "defaultDinoFrame2": "data/main-character2.png"
+
+
+    },
+    "appareance": {
+        "defaultLandDir": "data/defaultLand",
+    }
+
+}
