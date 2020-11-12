@@ -15,7 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.json.*;
-
+import flexjson.*;
+import userinterface.GameScreen;
 
 
 /**
@@ -43,15 +44,26 @@ public class Resource  {
         return img;
     }
     
+    public static List<String> getResourceFileContent(String path){
+        List<String> ls = new ArrayList<>();
+        
+        try {
+            ls = Files.readAllLines(Paths.get(path));
+        
+        } catch (IOException ex) {
+            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return ls;
+    }
+    
+    
+    
+    
     
     public static List<String> getResourceOptions(String path){
-        List<String> content = null;
-        try{
-            content =Files.readAllLines(Paths.get(path));
-        }catch(IOException ex){
-            ex.printStackTrace();
-        }
-        return content;
+        JSONObject jo = new JSONObject() ;
+        return null;
     }
     
     public static List<Score> getScores(String path){
@@ -86,7 +98,24 @@ public class Resource  {
     }
     
     
-    
+    public static void writeJsonScore(String path,MainCharacter dino){
+        Path p  =Paths.get(path);
+        JSONSerializer jsons = new JSONSerializer();
+        String s = jsons.serialize(new Score(dino.getName(),dino.getScore(),System.currentTimeMillis()));
+        char[] c = s.toCharArray();
+        byte[] b = new byte[c.length];
+        int counter = 0;
+        for (char cc:c) {
+            b[counter] = (byte) cc;
+            counter++;
+        }
+        try {
+            Files.write(p,b , StandardOpenOption.WRITE);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        }
     public static void writeScore(String path,MainCharacter mainCharacter){
         String content = ""+mainCharacter.getName()+","+mainCharacter.getScore()+","+System.currentTimeMillis()+",\n";
         char[] c = content.toCharArray();
@@ -113,38 +142,39 @@ public class Resource  {
         
     }
     
-    public static  void testLibJson(String path){
-        JSONObject jo = new JSONObject();
-        try {
-            
-            ArrayList<String> l = (ArrayList)Files.readAllLines(Paths.get("data/scores.json"));
-            StringBuilder sb = new StringBuilder();
-            for(String c:l){
-                sb.append(c);
-            }
-            JSONArray jarray = new JSONArray();
-            
-            Object o = JSONObject.stringToValue(sb.toString());
-            String content = o.toString();
-            char[] c = content.toCharArray();
-            byte[] b=new byte[c.length];
-            int counter = 0;
-            for(char cc:c){
-            
-                b[counter] = (byte)cc;
-                counter++;    
-            }
-            Files.write(Paths.get(path), b, StandardOpenOption.APPEND);
-        } catch (IOException ex) {
-            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //System.out.println(jo.toString());
+    public static  String serializeJson(Object object){
+        JSONSerializer jsons = new JSONSerializer();
+        String s =jsons.include("dinos").serialize(object);  
+        return s;
+    }
+    
+    
+    public static List<Score> deserializeJSONtoScore(String s){
+        JSONDeserializer jsond = new JSONDeserializer();
+        ArrayList<Score> o = (ArrayList<Score>) jsond.use("data/scores.json", Score.class).deserialize(s);
+        
+        return o;
+    }
+    
+    public static List<Score> deserializeAllJSONToList(String s){
+        List<Score> scores = new ArrayList<>();
+        JSONDeserializer jsond = new JSONDeserializer();
+        Score score = (Score)jsond.use(null, Score.class).deserialize(s);
+        
+        return scores;
     }
     
     
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());
     
     public static void main(String[] args) {
-        testLibJson("data/scores.json");
+        MainCharacter m = new MainCharacter(new GameScreen(),new KeyManager(20,21));
+        writeJsonScore("data/scores.json",m);
+        List<String> s =Resource.getResourceFileContent("data/scores.json");
+        JSONDeserializer jsond = new JSONDeserializer();
+        jsond.use("data/scores.json", Score.class);
+        
+        System.out.println(deserializeJSONtoScore(s.toString()));
+        
     }
 }

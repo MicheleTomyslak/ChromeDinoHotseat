@@ -175,6 +175,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
         
         this.setDoubleBuffered(true);
         
+        
         //this.setSize(500,500);
         
         
@@ -196,6 +197,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener
             dino.setName("Giocatore "+mainCharacters.size());
             dino.setX(50+(50*counter));
             dino.setY(265);
+            this.addMouseListener(dino);
             counter+=distanceBeetweenCharacters;
         }
         counter=0;

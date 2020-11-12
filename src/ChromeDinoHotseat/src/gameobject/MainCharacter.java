@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
@@ -33,7 +35,7 @@ import javax.swing.*;
  *
  * @author Michele Tomyslak
  */
-public class MainCharacter extends JComponent{
+public class MainCharacter extends JComponent implements MouseListener{
 
     /**
      * Il nome del dinosauro.
@@ -116,8 +118,13 @@ public class MainCharacter extends JComponent{
      */
     private boolean isAlive = true;
     
+    /**
+     * Rappresenta il gestore dei tasti utilizzati dal dinosauro.
+     */
     private KeyManager keyManager;
-    
+    /**
+     * L'oggetto GameScreen in cui è contenuto il MainCharacter.
+     */
     private GameScreen gameScreen;
     
     private JLabel dinoLabel;
@@ -130,7 +137,9 @@ public class MainCharacter extends JComponent{
     
     private int score;
     
+    private Rectangle leftButton;
     
+    private Rectangle rightButton;
     
     
     
@@ -141,7 +150,7 @@ public class MainCharacter extends JComponent{
      * @param keyManager
      */
     public MainCharacter(GameScreen gameScreen,KeyManager keyManager){
-        
+        //this.addMouseListener(this);
         
         this.setDoubleBuffered(true);
         
@@ -344,8 +353,8 @@ public class MainCharacter extends JComponent{
             g.drawString(this.getName(), this.getXM(), this.getYM()-10);
         }
         
-        Rectangle leftButton = new Rectangle((int)this.x-25,(int)this.y+7,15,15);
-        Rectangle rightButton = new Rectangle((int)this.x+characterRun.getFrame().getWidth()+5,(int)this.y+7,15,15);
+        leftButton = new Rectangle((int)this.x-25,(int)this.y+7,15,15);
+        rightButton = new Rectangle((int)this.x+characterRun.getFrame().getWidth()+5,(int)this.y+7,15,15);
         
         if(gameScreen.getState() == GameScreen.GAME_FIRST_STATE){
            g.draw(leftButton);
@@ -455,6 +464,44 @@ public class MainCharacter extends JComponent{
 
     public int getScore() {
         return score;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+        if(leftButton.contains(e.getPoint())){
+            System.out.println("Left "+this.getName());
+        }else if(rightButton.contains(e.getPoint())){
+            System.out.println("Right "+this.getName());
+        }else{
+            System.out.println(e.getPoint());
+            /*System.out.println(e.getPoint().toString());
+            System.out.println(leftButton.toString());
+            System.out.println(rightButton.toString());
+        */}
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //System.out.println(e.getPoint());
+        
+    }
+    
+    public void drawSomethingCool(int x,int y){
+        
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 
     

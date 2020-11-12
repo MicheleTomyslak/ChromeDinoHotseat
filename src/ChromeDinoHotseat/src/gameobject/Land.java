@@ -17,10 +17,24 @@ import util.Resource;
  */
 public class Land extends JComponent {
     private BufferedImage imageLand1,imageLand2,imageLand3;
+    /**
+     * Lista delle immagini che compongono il terreno.
+     */
     private List<ImageLand> listImage;
+    /**
+     * Generatore di numeri random per decidere casualmente che tile di terreno usare.
+     */
     private Random rnd;
+    /**
+     * Il gameScreen a cui appartiene il corrente oggetto Land
+     */
     private GameScreen gameScreen;
     
+    
+    /**
+     * Instanzia un oggetto Land che genererà le immagini da usare come terreno casualmente.
+     * @param gameScreen Il contesto di gioco.
+     */
     public Land(GameScreen gameScreen){
         this.setDoubleBuffered(true);
         rnd = new Random();
@@ -38,7 +52,9 @@ public class Land extends JComponent {
             
         }
     }
-    
+    /**
+     * Metodo che viene richiamato ad ogni aggiornamento della loop di gioco.
+     */
     public void update(){
         for (ImageLand imageLand:listImage) {
             imageLand.posx-=gameScreen.getScreenSpeed();
@@ -50,7 +66,10 @@ public class Land extends JComponent {
             listImage.remove(0);
         }
     }
-    
+    /**
+     * Getter di un immagine casuale tra quelle disponibili in listImage.
+     * @return Un immagine del terreno scelta casualmente.
+     */
     private BufferedImage getImageLand(){
         int i = rnd.nextInt(9); //random da 0 a 3
         switch(i){
@@ -62,7 +81,10 @@ public class Land extends JComponent {
                 return imageLand2;
         }
     }
-    
+    /**
+     * Metodo di painting che si occupa di disegnare ogni tile di terreno al posto corretto.
+     * @param g 
+     */
     public void draw(Graphics2D g){
         for (ImageLand imageLand : listImage) {
             g.drawImage(imageLand.img,imageLand.posx, (int)gameScreen.getGroundY()-20, null);
@@ -70,6 +92,9 @@ public class Land extends JComponent {
         }
         
     }
+    /**
+     * Classe privata che permette di gestire una immagine del terreno all'interno delle tiles del terrneo.
+     */
     private class ImageLand{
         int posx;
         BufferedImage img;

@@ -28,12 +28,20 @@ public class ScoreManager {
         return scores;
     }
     
+    /**
+     * Getter di uno Score nella lista degli scores contenuti nella classe ScoreManager.
+     * @param index L'indice da cui prendere il punteggio.
+     * @return L'oggetto Score all'indice index.
+     */
     public Score getScore(int index){
         return scores.get(index);
     }
     
     
     @Override
+    /**
+     * Override di ToString che stampa in maniera presentabile tutti i punteggi contenuti nello ScoreManager.
+     */
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for(Score s :scores){
@@ -43,7 +51,11 @@ public class ScoreManager {
         return sb.toString();
     }
     
-    
+    /**
+     * Metodo che ritorna in modo ordinato la lista dei punteggi, per preparare la classifica.
+     * #NON FUNZIONANTE
+     * @return La lista ordinata
+     */
     public List<Score> getOrderedScore(){
         List<Score> orderedScores = new ArrayList<>();
         List<Integer> ordScores = new ArrayList<>();
@@ -92,7 +104,9 @@ public class ScoreManager {
         }
         return intlist;
     }
-    
+    /**
+     * Metodo che viene invocato ad ogni ciclo della loop di gioco.
+     */
     public void update()
     {
         this.scores = Resource.getScores("data/scores.csv");
