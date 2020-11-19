@@ -5,6 +5,7 @@
  */
 package util;
 
+import flexjson.JSONSerializer;
 import java.util.Date;
 
 /**
@@ -70,6 +71,11 @@ public class Score {
         this.name="DEFAULT";
         this.scoredPoints= 0;
         this.date= 0;
+    }
+    
+    public String exportAsJSON(){
+        JSONSerializer jsons = new JSONSerializer();
+        return jsons.serialize(this);  
     }
     
 }

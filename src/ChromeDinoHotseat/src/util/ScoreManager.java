@@ -5,6 +5,7 @@
  */
 package util;
 
+import flexjson.JSONSerializer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -110,5 +111,13 @@ public class ScoreManager {
     public void update()
     {
         this.scores = Resource.getScores("data/scores.csv");
+    }
+    
+    public String exportAsJSON(){
+        StringBuilder sb = new StringBuilder();
+        for (Score s : scores) {
+            sb.append(new JSONSerializer().serialize(s));
+        }
+        return sb.toString();
     }
 }

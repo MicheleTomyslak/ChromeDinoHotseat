@@ -14,14 +14,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import org.json.*;
+
 import flexjson.*;
+import flexjson.JSONSerializer;
+import java.io.Reader;
+
 import userinterface.GameScreen;
 
 
 /**
  *
- * @author tmich
+ * @author Michele Tomyslak
  */
 public class Resource  {
     
@@ -62,7 +65,7 @@ public class Resource  {
     
     
     public static List<String> getResourceOptions(String path){
-        JSONObject jo = new JSONObject() ;
+        
         return null;
     }
     
@@ -168,13 +171,13 @@ public class Resource  {
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());
     
     public static void main(String[] args) {
-        MainCharacter m = new MainCharacter(new GameScreen(),new KeyManager(20,21));
-        writeJsonScore("data/scores.json",m);
-        List<String> s =Resource.getResourceFileContent("data/scores.json");
-        JSONDeserializer jsond = new JSONDeserializer();
-        jsond.use("data/scores.json", Score.class);
+        ScoreManager sm = new ScoreManager("data/scores.json");
+        Score s = new Score();
         
-        System.out.println(deserializeJSONtoScore(s.toString()));
+        
+        System.out.println(s.exportAsJSON());
+        System.out.println(sm.exportAsJSON());
+        
         
     }
 }
