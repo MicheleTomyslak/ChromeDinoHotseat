@@ -3,12 +3,13 @@ package gameobject;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import javax.swing.JComponent;
 
 /**
  *
  * @author tmich
  */
-public abstract class Enemy {
+public abstract class Enemy extends JComponent {
     public abstract Rectangle getBound();
     public abstract void draw(Graphics2D g);
     public abstract void update();

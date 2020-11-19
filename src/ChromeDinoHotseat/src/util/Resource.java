@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 import flexjson.*;
 import flexjson.JSONSerializer;
 import java.io.Reader;
+import java.nio.file.DirectoryStream;
+import java.util.function.Consumer;
 
 import userinterface.GameScreen;
 
@@ -30,11 +32,6 @@ public class Resource  {
     
     
     public static final String DEFAULT_PATH = "data/";
-    
-    
-    
-    
-    
     
     public static BufferedImage getResourceImage(String path){
         BufferedImage img = null;
@@ -144,14 +141,22 @@ public class Resource  {
     public static void getOrdered(){
         
     }
-    
+    /**
+     * Serializza l'oggetto object in una stringa in formato JSON.
+     * @param object l'oggetto da serializzare.
+     * @return la stringa in formato JSON.
+     */
     public static  String serializeJson(Object object){
         JSONSerializer jsons = new JSONSerializer();
         String s =jsons.include("dinos").serialize(object);  
         return s;
     }
     
-    
+    /**
+     * Deserializza la stringa s in una lista di Score.
+     * @param s La string da deserializzare nella lista di score
+     * @return La lista degli score deserializzati dalla stringa s.
+     */
     public static List<Score> deserializeJSONtoScore(String s){
         JSONDeserializer jsond = new JSONDeserializer();
         ArrayList<Score> o = (ArrayList<Score>) jsond.use("data/scores.json", Score.class).deserialize(s);
@@ -171,13 +176,93 @@ public class Resource  {
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());
     
     public static void main(String[] args) {
-        ScoreManager sm = new ScoreManager("data/scores.json");
-        Score s = new Score();
+        String[] s =getDinosSkinDirectory("data/");
+        for(String str:s){
+            Logger.getLogger(Resource.class.getName()).log(Level.INFO, str);
+        }
+        
+    }
+    
+    /**
+     * Ritorna un array contenente 2 oggetti Animation, cioè le animazioni per la corsa del dinosauro, e le animazioni per la corsa da accovacciato
+     * Controlla se il parametro path è una cartella o meno.
+     * Se è una cartella lista tutti i file contenuti in essa,
+     * cercando specificamente solo immagini che contengano l'identiifcatore del file di animazione.
+     * di default {
+     *     1 -> immagine animazione corsa normale 1
+     *     2 -> immagine animazione corsa normale 2
+     *     3 -> immagine salto 
+     *     4 -> immagine del  dinosauro quando è morto
+     *     5 -> immagine animazione corsa abbassata 1
+     *     6 -> immagine animazione corsa abbassata 2
+     * 
+     * }
+     * 
+     * @param path Il percorso in cui cercare le Animation.
+     * @return Un array di 2 elementi contenti la characterRun animation e la duckRun animation.
+     */
+    public static Animation[] getDataFolder(String path){
+        Animation[] animationsArray= new Animation[2];
+        Path p = Paths.get(path);
+        if(Files.isDirectory(p)){
+            File f = new File(path);
+            Animation characterRun = new Animation(200);
+            Animation duckRun = new Animation(200);
+            BufferedImage deadImage;
+            for(File s :f.listFiles()){
+                if(s.getName().contains("1")){
+                    characterRun.addFrame(getResourceImage(s.getAbsolutePath()));
+                }else if(s.getName().contains("2")){
+                    characterRun.addFrame(getResourceImage(s.getAbsolutePath()));
+                }else if(s.getName().contains("3")){
+                    deadImage =getResourceImage(s.getAbsolutePath());
+                }else if(s.getName().contains("4")){
+                    deadImage = getResourceImage(s.getAbsolutePath());
+                }
+                else if(s.getName().contains("5")){
+                    duckRun.addFrame(getResourceImage(s.getAbsolutePath()));
+                    
+                }else if(s.getName().contains("6")){
+                    duckRun.addFrame(getResourceImage(s.getAbsolutePath()));
+                    
+                }else{
+                    Logger.getLogger(Resource.class.getName()).log(Level.INFO, s.toString());;
+                }
+                
+            }
+            ArrayList<Animation> animations = new ArrayList();
+            animations.add(characterRun);
+            animations.add(duckRun);
+            animations.toArray(animationsArray);
+        
+        }
+        
+        return animationsArray;
         
         
-        System.out.println(s.exportAsJSON());
-        System.out.println(sm.exportAsJSON());
+    }
+    
+    /**
+     * Ritorna tutte le directory compatibili con le definizioni interne per definire una cartella che contiene le skin del dino
+     * La cartella deve contenere i caratteri "dino" per poter essere riconosciuta come cartella compatibile.
+     * Questo viene fatto tramite il controllo della parola "dino" (di default) nel nome del file
+     * 
+     * @param path Il percorso in cui cercare le cartelle per le skin dei dinosauri.
+     * @return L'array contenente il nome di tutti le directory compatibili.
+     */
+    public static  String[] getDinosSkinDirectory(String path){
+        File f = new File(path);
+        String[] checkedDirs= new String[2];
+        List<String> strings = new ArrayList<>();
         
+        String[] fileCompatibili = f.list();
+        for(String s  :fileCompatibili){
+            if(s.contains("dino")){
+                strings.add(s);
+            }
+        }
+        
+        return strings.toArray(checkedDirs);
         
     }
 }

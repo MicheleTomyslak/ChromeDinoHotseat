@@ -30,6 +30,7 @@ import util.KeyManager;
 import util.Resource;
 import util.Score;
 import javax.swing.*;
+import static util.Resource.getDataFolder;
 
 /**
  *
@@ -138,11 +139,17 @@ public class MainCharacter extends JComponent implements MouseListener{
     private int score;
     
     private Rectangle leftButton;
+
     
     private Rectangle rightButton;
     
+    private String skin_dir = "/data/default_dino";
     
+    public static String DEFAULT_SKIN_DIR = "/data/default_dino";
     
+    private int skin_selector_counter=0;
+    
+    private int lastState;
     
     /**
      * Costruttore del personaggio principale del gioco.
@@ -164,13 +171,13 @@ public class MainCharacter extends JComponent implements MouseListener{
         this.dinoLabel= new JLabel(this.name);
         this.gameScreen = gameScreen;
         characterRun = new Animation(200);
-        characterRun.addFrame(Resource.getResourceImage("data/main-character1.png"));
-        characterRun.addFrame(Resource.getResourceImage("data/main-character2.png"));
-        jumpImage = Resource.getResourceImage("data/main-character1.png");
+        characterRun.addFrame(Resource.getResourceImage("data/default_dino/main-character1.png"));
+        characterRun.addFrame(Resource.getResourceImage("data/default_dino/main-character2.png"));
+        jumpImage = Resource.getResourceImage("data/default_dino/main-character1.png");
         duckRun = new Animation(200);
-        duckRun.addFrame(Resource.getResourceImage("data/main-character5.png"));
-        duckRun.addFrame(Resource.getResourceImage("data/main-character6.png"));
-        deadImage = Resource.getResourceImage("data/main-character4.png");
+        duckRun.addFrame(Resource.getResourceImage("data/default_dino/main-character5.png"));
+        duckRun.addFrame(Resource.getResourceImage("data/default_dino/main-character6.png"));
+        deadImage = Resource.getResourceImage("data/default_dino/main-character4.png");
         rect = new Rectangle();
         at = new AffineTransform();
         this.setLabelVisible(true);
@@ -193,12 +200,18 @@ public class MainCharacter extends JComponent implements MouseListener{
      *
      */
     public void update(){
-        if(this.gameScreen.getState()== GameScreen.GAME_FIRST_STATE){
-            
+        boolean startingGameFlag;
+        if(this.gameScreen.getState()== GameScreen.GAME_PLAY_STATE && this.lastState == GameScreen.GAME_FIRST_STATE ){
+            startingGameFlag = true;
             
         
+        }else{
+            startingGameFlag = false;
         }
         
+        if(startingGameFlag){
+            this.x -= 2;
+        }
         
         
         if(state!=DEAD){
@@ -230,7 +243,7 @@ public class MainCharacter extends JComponent implements MouseListener{
         }else{
             kill();
         }
-        
+        this.lastState = this.gameScreen.getState();
     }
     
     /**
@@ -470,19 +483,80 @@ public class MainCharacter extends JComponent implements MouseListener{
     public void mouseClicked(MouseEvent e) {
         
         if(leftButton.contains(e.getPoint())){
-            System.out.println("Left "+this.getName());
+            
+            previousSkin();
         }else if(rightButton.contains(e.getPoint())){
-            System.out.println("Right "+this.getName());
+            nextSkin();
         }else{
             System.out.println(e.getPoint());
-            /*System.out.println(e.getPoint().toString());
-            System.out.println(leftButton.toString());
-            System.out.println(rightButton.toString());
-        */}
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+    }
+    
+    /**
+     * Imposta la prossima skin tra quelle disponibili nella cartella data e che soddisfano i requisiti per essere delle skin.
+     * Utilizza il selettor skin_selector_counter, che sarebbe un semplice contatore che è settato di default a 0.
+     * Usando questo metodo skin_selector_counter diventa 1, e ti ritorna la skin nell array alla posizione 1.
+     */
+    public void nextSkin(){
+        this.skin_selector_counter++;
+        String[] s = Resource.getDinosSkinDirectory("data/");
+        
+        for(String str:s){
+            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, str);
+        }
+        if(skin_selector_counter==s.length-1){
+            skin_selector_counter=0;
+        }
+        
+        String currentDirSkin = s[skin_selector_counter];
+        Animation[] nextAnimationSkin = getDataFolder("data/"+currentDirSkin);
+        if(nextAnimationSkin.length>=2){
+            
+            
+            
+            this.characterRun = nextAnimationSkin[0];
+            this.duckRun = nextAnimationSkin[1];
+            
+            
+        }else{
+            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+characterRun.getFrame().getWidth());
+        }
+        
+        
+    }
+    
+    /**
+     * Imposta la  skin precedente tra quelle disponibili nella cartella data e che soddisfano i requisiti per essere delle skin.
+     * Utilizza il selettor skin_selector_counter, che sarebbe un semplice contatore che è settato di default a 0.
+     * Usando questo metodo skin_selector_counter diventa -1,che viene trasformato nell'ultimo elemento dell'array.
+     */
+    public void previousSkin(){
+        this.skin_selector_counter--;
+        String[] s = Resource.getDinosSkinDirectory("data/");
+        
+        for(String str:s){
+            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, str);
+            
+        }
+        if(skin_selector_counter==-1){
+            skin_selector_counter=s.length-1;
+        }
+        
+        String currentDirSkin = s[skin_selector_counter];
+        Animation[] previous = getDataFolder("data/"+currentDirSkin);
+        if(previous.length>=2){
+            
+            this.characterRun = previous[0];
+            this.duckRun = previous[1];
+            
+            
+        }else{
+            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+characterRun.getFrame().getWidth());
+        }
     }
 
     @Override
@@ -503,6 +577,15 @@ public class MainCharacter extends JComponent implements MouseListener{
     @Override
     public void mouseExited(MouseEvent e) {
     }
+    public Rectangle getLeftButton() {
+        return leftButton;
+    }
+
+    public Rectangle getRightButton() {
+        return rightButton;
+    }
+    
+    
 
     
     

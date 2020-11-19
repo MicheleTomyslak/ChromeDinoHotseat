@@ -16,6 +16,11 @@ import util.Resource;
  * @author tmich
  */
 public class Land extends JComponent {
+    
+    public static String DEFAULT_LAND_IMAGES_PATH = "data/default_land/";
+    
+    private String imagesPath=DEFAULT_LAND_IMAGES_PATH;
+    
     private BufferedImage imageLand1,imageLand2,imageLand3;
     /**
      * Lista delle immagini che compongono il terreno.
@@ -38,9 +43,9 @@ public class Land extends JComponent {
     public Land(GameScreen gameScreen){
         this.setDoubleBuffered(true);
         rnd = new Random();
-        imageLand1 = Resource.getResourceImage("data/land1.png");
-        imageLand2 = Resource.getResourceImage("data/land2.png");
-        imageLand3 = Resource.getResourceImage("data/land3.png");
+        imageLand1 = Resource.getResourceImage(imagesPath+"land1.png");
+        imageLand2 = Resource.getResourceImage(imagesPath+"land2.png");
+        imageLand3 = Resource.getResourceImage(imagesPath+"land3.png");
         listImage = new ArrayList<>();
         this.gameScreen = gameScreen;
         int numberOfLandTitle = 1000/imageLand1.getWidth()+2;
@@ -52,6 +57,9 @@ public class Land extends JComponent {
             
         }
     }
+    
+    
+    
     /**
      * Metodo che viene richiamato ad ogni aggiornamento della loop di gioco.
      */

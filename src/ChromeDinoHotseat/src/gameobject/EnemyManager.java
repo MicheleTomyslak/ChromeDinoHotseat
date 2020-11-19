@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import userinterface.GameScreen;
+import util.Animation;
 import util.Resource;
 
 /**
@@ -17,6 +18,8 @@ public class EnemyManager {
     private List<Enemy> enemies;
     private Random random;
     private BufferedImage imageCactus1,imageCactus2;
+    private Animation pteraFly;
+    public static String DEFAULT_ENEMIES_IMAGE_PATH = "data/enemies/";
     
     private List<MainCharacter> mainCharacters;
     private GameScreen gameScreen;
@@ -29,8 +32,11 @@ public class EnemyManager {
         this.gameScreen = gameScreen;
         this.mainCharacters = mainCharacters;
         enemies = new ArrayList<>();
-        imageCactus1 = Resource.getResourceImage("data/cactus1.png");
-        imageCactus2 = Resource.getResourceImage("data/cactus2.png");
+        imageCactus1 = Resource.getResourceImage(DEFAULT_ENEMIES_IMAGE_PATH+"cactus1.png");
+        imageCactus2 = Resource.getResourceImage(DEFAULT_ENEMIES_IMAGE_PATH+"cactus2.png");
+        pteraFly = new Animation(200);
+        pteraFly.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGE_PATH+"ptera1.png"));
+        pteraFly.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGE_PATH+"ptera2.png"));
         random = new Random();
         enemies.add(getRandom());
         
@@ -92,17 +98,27 @@ public class EnemyManager {
         }
     }
     
-    private Cactus getRandom(){
+    private Enemy getRandom(){
         Cactus cactus;
+        Ptera ptera;
+        ptera = new Ptera(mainCharacters,gameScreen);
+        
         cactus = new Cactus(mainCharacters,gameScreen);
+        ptera.setX(1100);
         cactus.setX(1100);
         cactus.setY(265);
         if(random.nextBoolean()){
             cactus.setImage(imageCactus1);
             
         }else{
-            cactus.setImage(imageCactus2);
-            cactus.setY(275);
+            if(random.nextBoolean()){
+                ptera.setY(225);
+                return ptera;
+            }else{
+                cactus.setImage(imageCactus2);
+                cactus.setY(275);
+            }
+            
         }
         
         return cactus;

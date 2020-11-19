@@ -15,11 +15,11 @@ import util.Resource;
 public class Clouds extends JComponent {
     
     private BufferedImage cloudImage;
-    
+    public static String DEFAULT_CLOUD_PATH = "data/clouds/cloud.png";
     private List<Cloud> clouds;
     public Clouds(){
         this.setDoubleBuffered(true);
-        cloudImage = Resource.getResourceImage("data/cloud.png");
+        cloudImage = Resource.getResourceImage(DEFAULT_CLOUD_PATH);
         clouds = new ArrayList<>();
         
         Cloud cloud1 = new Cloud();

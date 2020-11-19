@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import userinterface.GameScreen;
+import util.Animation;
 
 
 import util.Resource;
@@ -14,10 +15,10 @@ import util.Resource;
  *
  * @author tmich
  */
-public class Cactus extends Enemy{
+public class Ptera extends Enemy{
     
     
-    private BufferedImage image;
+    private Animation animation;
     private int posX;
     private int posY;
     private Rectangle rect;
@@ -27,12 +28,14 @@ public class Cactus extends Enemy{
     private GameScreen gameScreen;
     private boolean areHitboxVisible;
     
-    public static String DEFAULT_CACTUS_IMAGES_PATH="data/enemies/";
+    public static String DEFAULT_ENEMIES_IMAGES_PATH="data/enemies/";
     
-    public Cactus(List<MainCharacter> dinos,GameScreen gameScreen){
+    public Ptera(List<MainCharacter> dinos,GameScreen gameScreen){
         this.gameScreen = gameScreen;
         this.dinos = dinos;
-        image = Resource.getResourceImage(DEFAULT_CACTUS_IMAGES_PATH+"cactus1.png");
+        animation = new Animation(200);
+        animation.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGES_PATH+"ptera1.png"));
+        animation.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGES_PATH+"ptera2.png"));
         posX = 200;
         posY = 265;
         rect = new Rectangle();
@@ -40,12 +43,13 @@ public class Cactus extends Enemy{
     
     @Override
     public void update(){
+        animation.update();
         posY = gameScreen.getGroundY();
         posX-=speedX;
         rect.x = posX;
         rect.y = posY-rect.height;
-        rect.width = image.getWidth();
-        rect.height = image.getHeight();
+        rect.width = animation.getFrame().getWidth();
+        rect.height = animation.getFrame().getHeight();
     }
     
     @Override
@@ -54,11 +58,13 @@ public class Cactus extends Enemy{
     }
     @Override
     public void draw(Graphics2D g){
-        g.drawImage(image, posX, gameScreen.getGroundY()-rect.height, null);
+        g.drawImage(animation.getFrame(), posX, gameScreen.getGroundY()-rect.height, null);
         if(areHitboxVisible){
             g.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
     }
+    
+    
     
     public void setX(int x){
         posX = x;
@@ -68,13 +74,13 @@ public class Cactus extends Enemy{
         posY = y;
     }
     
-    public void setImage(BufferedImage image){
-        this.image = image;
+    public void addImage(BufferedImage image){
+        animation.addFrame(image);
     }
 
     @Override
     public boolean isOutOfScreen() {
-        return (posX + image.getWidth() <0);
+        return (posX + animation.getFrame().getWidth() <0);
     }
 
     @Override
