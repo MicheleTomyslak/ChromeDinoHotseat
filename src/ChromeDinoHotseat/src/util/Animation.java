@@ -71,4 +71,8 @@ public class Animation {
         }
         return null;
     }
+    
+    public int getNumberOfFrame(){
+        return this.frames.size();
+    }
 }

@@ -159,6 +159,7 @@ public class MainCharacter extends JComponent implements MouseListener{
     public MainCharacter(GameScreen gameScreen,KeyManager keyManager){
         //this.addMouseListener(this);
         
+        
         this.setDoubleBuffered(true);
         
         isDead=false;
@@ -181,6 +182,9 @@ public class MainCharacter extends JComponent implements MouseListener{
         rect = new Rectangle();
         at = new AffineTransform();
         this.setLabelVisible(true);
+        
+        
+//Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+getComponents()[getComponents().length-1]);
         try {
             //jumpSound = Applet.newAudioClip(new URL("file","","data/jump.wav"));
             jumpSound = Applet.newAudioClip(new URL("file","","data/jump.wav"));
@@ -200,6 +204,7 @@ public class MainCharacter extends JComponent implements MouseListener{
      *
      */
     public void update(){
+        
         boolean startingGameFlag;
         if(this.gameScreen.getState()== GameScreen.GAME_PLAY_STATE && this.lastState == GameScreen.GAME_FIRST_STATE ){
             startingGameFlag = true;
@@ -287,45 +292,12 @@ public class MainCharacter extends JComponent implements MouseListener{
         
         if(gameScreen.getWidth()/width>16){
             
-        }else{
-            //System.out.println(width);
-            //System.out.println(height);
         }
-        
-        
-        
-        
-        /*
-           Codice per repaintare il dino in modo sempre centrato e scalato
-        
-        
-        
-        */
-         
-        at.translate(width, gameScreen.getHeight()/2);
-        double ingrandimentox = (double)this.characterRun.getFrame().getWidth()/(double)gameScreen.getWidth();
-        double ingrandimentoy = (double)this.characterRun.getFrame().getHeight()/(double)gameScreen.getHeight();
-        //System.out.println("ingrandimento x:"+ingrandimentox);
-        //System.out.println("ingrandimento y:"+ingrandimentoy);
-        
-        at.scale(1+ingrandimentox, 1+ingrandimentoy);
-        
-        
-        
-        
-        
-        
-        
-        
-        
         
         switch(state){
             case NORMAL_RUN:
-                //g.scale(rapporto, rapporto);
-                
-                //imageSpaceTran.translate(x, y);
                 g.drawImage(characterRun.getFrame(),(int)x,(int)y,null);
-                //g.drawImage(characterRun.getFrame(),at, this);
+                
                 
                 //sg.drawString(""+rapporto, 0, 0);
                 if(areHitboxVisible){
@@ -500,15 +472,18 @@ public class MainCharacter extends JComponent implements MouseListener{
      * Imposta la prossima skin tra quelle disponibili nella cartella data e che soddisfano i requisiti per essere delle skin.
      * Utilizza il selettor skin_selector_counter, che sarebbe un semplice contatore che è settato di default a 0.
      * Usando questo metodo skin_selector_counter diventa 1, e ti ritorna la skin nell array alla posizione 1.
+     * @version 19.11.2020 15:14
+     * 
+     * 
      */
     public void nextSkin(){
-        this.skin_selector_counter++;
+        
         String[] s = Resource.getDinosSkinDirectory("data/");
         
         for(String str:s){
             Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, str);
         }
-        if(skin_selector_counter==s.length-1){
+        if(skin_selector_counter==s.length){
             skin_selector_counter=0;
         }
         
@@ -525,6 +500,7 @@ public class MainCharacter extends JComponent implements MouseListener{
         }else{
             Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+characterRun.getFrame().getWidth());
         }
+        this.skin_selector_counter++;
         
         
     }
@@ -535,16 +511,14 @@ public class MainCharacter extends JComponent implements MouseListener{
      * Usando questo metodo skin_selector_counter diventa -1,che viene trasformato nell'ultimo elemento dell'array.
      */
     public void previousSkin(){
-        this.skin_selector_counter--;
+        
         String[] s = Resource.getDinosSkinDirectory("data/");
         
-        for(String str:s){
-            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, str);
-            
-        }
-        if(skin_selector_counter==-1){
+        
+        if(skin_selector_counter==0){
             skin_selector_counter=s.length-1;
         }
+        
         
         String currentDirSkin = s[skin_selector_counter];
         Animation[] previous = getDataFolder("data/"+currentDirSkin);
@@ -557,6 +531,7 @@ public class MainCharacter extends JComponent implements MouseListener{
         }else{
             Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+characterRun.getFrame().getWidth());
         }
+        this.skin_selector_counter--;
     }
 
     @Override
@@ -569,10 +544,7 @@ public class MainCharacter extends JComponent implements MouseListener{
         
     }
     
-    public void drawSomethingCool(int x,int y){
-        
-        
-    }
+    
 
     @Override
     public void mouseExited(MouseEvent e) {

@@ -15,10 +15,13 @@ import gameobject.Enemy;
 import gameobject.EnemyManager;
 import gameobject.Land;
 import gameobject.MainCharacter;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -38,7 +41,7 @@ import util.ScoreManager;
  *
  * @author tmich
  */
-public class GameScreen extends JPanel implements Runnable,KeyListener,MouseListener
+public class GameScreen extends JPanel implements Runnable,KeyListener,MouseListener,ActionListener
 {    
     
     /**
@@ -158,7 +161,14 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     
     
-    private Thread hsPanelThread;
+    /**
+     * JButton usato per aumentare il numero di giocatori in game(fino ad un massimo di 4)
+     */
+    private final JButton addButton;
+    /**
+     * JButton usato per diminuire il numero di giocatori in game(fino ad un minimo di 1)
+     */
+    private final JButton minusButton;
     
     
     /**
@@ -180,7 +190,18 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         this.setDoubleBuffered(true);
         
         this.add(new JButton("+")).setFocusable(false);
-        addButton =this.getComponents()[0];
+        this.add(new JButton("-")).setFocusable(false);
+        
+        addButton =(JButton) this.getComponents()[0];
+        addButton.addActionListener(this);
+        
+        
+        minusButton = (JButton) this.getComponents()[1];
+        minusButton.addActionListener(this);
+        
+        
+        
+        
         //this.setSize(500,500);
         
         
@@ -336,7 +357,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
             
             
             case GAME_FIRST_STATE:
-                
+                addButton.setVisible(true);
+                minusButton.setVisible(true);
                 
                 for(MainCharacter dino:mainCharacters){
                     dino.update();
@@ -355,7 +377,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
             
                 break;
             case GAME_PLAY_STATE:
-             
+                addButton.setVisible(false);
+                minusButton.setVisible(false);
                 land.update();
                 clouds.update();
                 counter=0;
@@ -713,6 +736,34 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    /**
+     * prende gli input ricevuti da un oggetto JButton nel GamePanel, o l'addButton o il minusButton, che si riferisce al numero di giocatori.
+     */
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==addButton){
+            if(mainCharacters.size()<4){
+                mainCharacters.add(new MainCharacter(this,new KeyManager()));
+                MainCharacter dino = mainCharacters.get(mainCharacters.size()-1);
+                dino.setName("Giocatore "+mainCharacters.size());
+                dino.setX(50+(100*mainCharacters.size()));
+                dino.setY(265);
+                this.addMouseListener(dino);
+            }
+            
+            
+        }else if(e.getSource()==minusButton){
+            if(mainCharacters.size()>1){
+                this.removeMouseListener(mainCharacters.get(mainCharacters.size()-1));
+                mainCharacters.remove(mainCharacters.size()-1);
+            }
+            
+            
+        }
+        
+            
     }
     
     

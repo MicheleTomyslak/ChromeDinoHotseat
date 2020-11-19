@@ -7,6 +7,7 @@ package gameobject;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -376,6 +377,146 @@ public class MainCharacterTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("Test fallito.");
+    }
+
+    /**
+     * Test of setJTextFieldVisible method, of class MainCharacter.
+     */
+    @Test
+    public void testSetJTextFieldVisible() {
+        System.out.println("setJTextFieldVisible");
+        boolean choice = false;
+        MainCharacter instance = null;
+        instance.setJTextFieldVisible(choice);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mouseClicked method, of class MainCharacter.
+     */
+    @Test
+    public void testMouseClicked() {
+        System.out.println("mouseClicked");
+        MouseEvent e = null;
+        MainCharacter instance = null;
+        instance.mouseClicked(e);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mousePressed method, of class MainCharacter.
+     */
+    @Test
+    public void testMousePressed() {
+        System.out.println("mousePressed");
+        MouseEvent e = null;
+        MainCharacter instance = null;
+        instance.mousePressed(e);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of nextSkin method, of class MainCharacter.
+     */
+    @Test
+    public void testNextSkin() {
+        System.out.println("nextSkin");
+        GameScreen gameScreen = new GameScreen();
+        MainCharacter instance = new MainCharacter(gameScreen,new KeyManager());
+        
+        
+        
+        
+        instance.nextSkin();
+        
+        
+        
+        // TODO review the generated test code and remove the default call to fail.
+        
+        
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of previousSkin method, of class MainCharacter.
+     */
+    @Test
+    public void testPreviousSkin() {
+        System.out.println("previousSkin");
+        MainCharacter instance = null;
+        instance.previousSkin();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mouseReleased method, of class MainCharacter.
+     */
+    @Test
+    public void testMouseReleased() {
+        System.out.println("mouseReleased");
+        MouseEvent e = null;
+        MainCharacter instance = null;
+        instance.mouseReleased(e);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mouseEntered method, of class MainCharacter.
+     */
+    @Test
+    public void testMouseEntered() {
+        System.out.println("mouseEntered");
+        MouseEvent e = null;
+        MainCharacter instance = null;
+        instance.mouseEntered(e);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mouseExited method, of class MainCharacter.
+     */
+    @Test
+    public void testMouseExited() {
+        System.out.println("mouseExited");
+        MouseEvent e = null;
+        MainCharacter instance = null;
+        instance.mouseExited(e);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getLeftButton method, of class MainCharacter.
+     */
+    @Test
+    public void testGetLeftButton() {
+        System.out.println("getLeftButton");
+        MainCharacter instance = null;
+        Rectangle expResult = null;
+        Rectangle result = instance.getLeftButton();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getRightButton method, of class MainCharacter.
+     */
+    @Test
+    public void testGetRightButton() {
+        System.out.println("getRightButton");
+        MainCharacter instance = null;
+        Rectangle expResult = null;
+        Rectangle result = instance.getRightButton();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
     
 }
