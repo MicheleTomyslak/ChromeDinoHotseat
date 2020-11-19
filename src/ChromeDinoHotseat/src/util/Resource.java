@@ -189,12 +189,12 @@ public class Resource  {
      * Se è una cartella lista tutti i file contenuti in essa,
      * cercando specificamente solo immagini che contengano l'identiifcatore del file di animazione.
      * di default {
-     *     1 -> immagine animazione corsa normale 1
-     *     2 -> immagine animazione corsa normale 2
-     *     3 -> immagine salto 
-     *     4 -> immagine del  dinosauro quando è morto
-     *     5 -> immagine animazione corsa abbassata 1
-     *     6 -> immagine animazione corsa abbassata 2
+     *     1 - immagine animazione corsa normale 1
+     *     2 - immagine animazione corsa normale 2
+     *     3 - immagine salto 
+     *     4 - immagine del  dinosauro quando è morto
+     *     5 - immagine animazione corsa abbassata 1
+     *     6 - immagine animazione corsa abbassata 2
      * 
      * }
      * 

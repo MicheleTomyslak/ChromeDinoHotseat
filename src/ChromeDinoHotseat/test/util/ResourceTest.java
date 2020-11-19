@@ -139,7 +139,7 @@ public class ResourceTest {
     @Test
     public void testSerializeJson() {
         System.out.println("serializeJson");
-        Object object = null;
+        Object object = new Object();
         String expResult = "";
         String result = Resource.serializeJson(object);
         assertEquals(expResult, result);
@@ -175,17 +175,7 @@ public class ResourceTest {
         fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of main method, of class Resource.
-     */
-    @Test
-    public void testMain() {
-        System.out.println("main");
-        String[] args = null;
-        Resource.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    
 
     /**
      * Test of getDataFolder method, of class Resource.

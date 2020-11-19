@@ -110,7 +110,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
      */
     private ScoreManager scoreManager;
     /**
-     * Lo stato attuale del gioco. DEFAULT => GAME_FIRST_STATE.
+     * Lo stato attuale del gioco. DEFAULT = GAME_FIRST_STATE.
      * */
     private int gameState = GAME_FIRST_STATE;
     
