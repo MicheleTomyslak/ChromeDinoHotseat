@@ -193,7 +193,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         //hsPanelThread = new Thread(hspanel);
         //hsPanelThread.start();
         
-        this.setDoubleBuffered(true);
+        
         
         this.add(new JButton("+")).setFocusable(false);
         this.add(new JButton("-")).setFocusable(false);
@@ -355,6 +355,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     }
     
     public void clearScore(){
+        
         for(MainCharacter dino:mainCharacters){
             scoreManager = new ScoreManager();
             scoreManager = Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);
@@ -501,7 +502,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     @Override
     public void paintComponent(Graphics g){
         
-        g.setFont(new Font("verdana",Font.BOLD,12));
+        g.setFont(new Font("Verdana",Font.BOLD,12));
         
         long currentMillis= System.nanoTime();
         Graphics2D g2d = (Graphics2D) g;

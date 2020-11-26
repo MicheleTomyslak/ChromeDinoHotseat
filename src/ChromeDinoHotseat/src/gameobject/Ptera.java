@@ -58,6 +58,7 @@ public class Ptera extends Enemy{
     }
     @Override
     public void draw(Graphics2D g){
+        
         g.drawImage(animation.getFrame(), posX, gameScreen.getGroundY()-rect.height, null);
         if(areHitboxVisible){
             g.drawRect(rect.x, rect.y, rect.width, rect.height);

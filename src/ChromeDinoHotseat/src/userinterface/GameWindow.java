@@ -45,7 +45,7 @@ public class GameWindow extends JFrame implements Runnable{
         Thread t = new Thread(namePanel);
         t.start();*/
         this.pack();
-        setSize(1000,600);
+        setSize(1300,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //textField = new JTextField("ciao"); 

@@ -142,19 +142,20 @@ public class EnemyManager {
         ptera = new Ptera(mainCharacters,gameScreen);
         
         cactus = new Cactus(mainCharacters,gameScreen);
-        ptera.setX(1100);
-        cactus.setX(1100);
+        ptera.setX(1600);
+        cactus.setX(1600);
         cactus.setY(265);
         if(random.nextBoolean()){
             cactus.setImage(imageCactus1);
             
         }else{
             if(random.nextBoolean()){
-                ptera.setY(225);
+                ptera.setY(195);
                 return ptera;
             }else{
-                cactus.setImage(imageCactus2);
                 cactus.setY(275);
+                cactus.setImage(imageCactus2);
+                
             }
             
         }
