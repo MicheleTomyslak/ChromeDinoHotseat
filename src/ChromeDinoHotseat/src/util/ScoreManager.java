@@ -19,11 +19,21 @@ import java.util.logging.Logger;
  * @author michele.tomyslak
  */
 public class ScoreManager {
-    List<Score> scores;
+    private List<Score> scores;
+    private String path = "data/Scores.json";
     public ScoreManager(String path){
+        this.path = path;
         scores = Resource.getScores(path);
         List<Score> orderedScores = getOrderedScore();
     }
+    
+    public ScoreManager(){
+        scores = new ArrayList<>();
+        scores = Resource.getScores(path);
+        
+    }
+    
+    
     
     public List<Score> getScores(){
         return scores;
@@ -110,7 +120,9 @@ public class ScoreManager {
      */
     public void update()
     {
+        
         this.scores = Resource.getScores("data/scores.csv");
+        
     }
     
     public String exportAsJSON(){
@@ -119,5 +131,29 @@ public class ScoreManager {
             sb.append(new JSONSerializer().serialize(s));
         }
         return sb.toString();
+    }
+    
+    public void saveData(){
+        Resource.writeJSONScoreData(this);
+    }
+    public static ScoreManager getDataFromJSON(){
+        List<String> ls = Resource.getResourceFileContent(Resource.DEFAULT_SCORES_PATH);
+        StringBuilder sb = new StringBuilder();
+        for(String s:ls){
+            sb.append(s);
+        }
+        
+        return Resource.getScoreManagerFromJSON(sb.toString());
+        
+    }
+    
+    public void addScore(Score s){
+        this.scores.add(s);
+    }
+    
+    public void addListOfScores(List<Score> scores){
+        for(Score s :scores){
+            this.scores.add(s);
+        }
     }
 }

@@ -1,10 +1,8 @@
 package util;
-import java.util.Arrays;
 import gameobject.MainCharacter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,11 +15,8 @@ import javax.imageio.ImageIO;
 
 import flexjson.*;
 import flexjson.JSONSerializer;
-import java.io.Reader;
-import java.nio.file.DirectoryStream;
-import java.util.function.Consumer;
-
-import userinterface.GameScreen;
+import java.awt.Font;
+import java.net.URL;
 
 
 /**
@@ -30,9 +25,23 @@ import userinterface.GameScreen;
  */
 public class Resource  {
     
-    
+    /**
+     * Costante che definisce il percorso di default dei dati di gioco come Scores, risorse come immagini, audio  e configurazione del gioco
+     */
     public static final String DEFAULT_PATH = "data/";
     
+    /**
+     * Costante che definisce il percorso di default dove vengono salvati gli scores, cioè "data/scores.json"
+     */
+          
+    public static final String DEFAULT_SCORES_PATH = DEFAULT_PATH+"scores.json";
+    
+    
+    /**
+     * Ritorna una risorsa di tipo Immagine dal percorso path, ritornando un oggetto BufferedImage.
+     * @param path Il percorso da cui leggere l'immagine e convertirla in una BufferedImage.
+     * @return L'immagine al percorso path in un oggetto BufferedImage.
+     */
     public static BufferedImage getResourceImage(String path){
         BufferedImage img = null;
         try {
@@ -43,7 +52,11 @@ public class Resource  {
         
         return img;
     }
-    
+    /**
+     * Metodo che il contenuto di un file in una lista di stringhe
+     * @param path Il percorso da cui leggere il file.
+     * @return Il contenuto del file in una  lista di stringhe.
+     */
     public static List<String> getResourceFileContent(String path){
         List<String> ls = new ArrayList<>();
         
@@ -59,11 +72,59 @@ public class Resource  {
     
     
     
-    
-    
-    public static List<String> getResourceOptions(String path){
+    /**
+     * Metodo che imposta la configurazione config e lo serializza sul file del percorso del parametro path.
+     * @param path Il percorso dove è locato il file di configurazione del gioco
+     * @param config La configurazione da impostare.
+     */
+    public static void setResourceOption(String path,Config config){
+        JSONSerializer jsons = new JSONSerializer();
+        String s = jsons.include("options","options.playerNumber","options.jumpKey","options.duckKey").serialize(config);
+        Resource.writeString(path, s);
         
-        return null;
+    }
+    /**
+     * Metodo che scrive una stringa content in un file path
+     * @param path Il percorso dove salvare la stringa.
+     * @param content Il contenuto da scrivere nel file.
+     */
+    public static void writeString(String path,String content){
+        char[] chars = content.toCharArray();
+        byte[] bytes = new byte[chars.length];
+        int indx=0;
+        for (byte b:bytes) {
+            bytes[indx] = (byte)chars[indx];
+            indx++;
+        }
+        
+        try {
+            Files.write(Paths.get(path), bytes, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Metodo che ritorna la configurazione del gioco in un oggetto di tipo Config, leggendo il file nel percorso path.
+     * @param path Il percorso da dove leggere il file di configurazione.
+     * @return La configurazione del gioco.
+     */
+    public static Config getResourceOptions(String path){
+        JSONDeserializer jsond = new JSONDeserializer();
+        StringBuilder sb = new StringBuilder();
+        for(String s:Resource.getResourceFileContent(path)){
+            sb.append(s);
+        }
+        jsond.use(Config.class, null);
+        jsond.use(Option.class,null);
+
+        return (Config)jsond.deserialize(sb.toString());
+        
+    }
+    public static Font getFont(String fileName) throws Exception {
+        String path = "data/fonts/originalFont/" + fileName;
+        URL url = new URL(path);
+        return Font.createFont(Font.TRUETYPE_FONT, new File(url.toURI()));
     }
     
     public static List<Score> getScores(String path){
@@ -160,28 +221,23 @@ public class Resource  {
     public static List<Score> deserializeJSONtoScore(String s){
         JSONDeserializer jsond = new JSONDeserializer();
         ArrayList<Score> o = (ArrayList<Score>) jsond.use("data/scores.json", Score.class).deserialize(s);
-        
         return o;
     }
     
-    public static List<Score> deserializeAllJSONToList(String s){
-        List<Score> scores = new ArrayList<>();
-        JSONDeserializer jsond = new JSONDeserializer();
-        Score score = (Score)jsond.use(null, Score.class).deserialize(s);
-        
-        return scores;
-    }
+    
+    
     
     
     private static final Logger LOG = Logger.getLogger(Resource.class.getName());
     
     public static void main(String[] args) {
-        String[] s =getDinosSkinDirectory("data/");
-        for(String str:s){
-            Logger.getLogger(Resource.class.getName()).log(Level.INFO, str);
-        }
+        Resource.setResourceOption("data/config/config.json", new Config());
+        
+        
         
     }
+    
+    
     
     /**
      * Ritorna un array contenente 2 oggetti Animation, cioè le animazioni per la corsa del dinosauro, e le animazioni per la corsa da accovacciato
@@ -264,5 +320,60 @@ public class Resource  {
         
         return strings.toArray(checkedDirs);
         
+    }
+    
+    
+    
+    /**
+     * Ritorna una stringa in formato json dell'oggetto ScoreManager.
+     * @param sm Lo score manager da trasformare in JSON.
+     * @return la stringa contenente l'oggetto sm serializzato in JSON.
+     */
+    public static String getJSONFromScoreManager(ScoreManager sm){
+        JSONSerializer jsons = new JSONSerializer().include("scores","scores.scoredPoints");
+        //String s = jsons.deepSerialize(sm);
+        String b = new JSONSerializer().include("scores","scores.nome","scores.punteggio","scores.date").deepSerialize(sm);
+        return b;
+    }
+    
+    
+    /**
+     * Metodo che scrive nel file contenuto nella costante Resource.DEFAULT_SCORES_PATH, la classe ScoreManager che viene passata come parametro.
+     * @param sm Lo ScoreManager da serializzare e scrivere sul file.
+     */
+    public static void writeJSONScoreData(ScoreManager sm){
+        String s = Resource.getJSONFromScoreManager(sm);
+        try {
+            char[] chars = s.toCharArray();
+            byte[] bytes = new byte[s.length()];
+            int indx=0;
+            for(char c : chars){
+                bytes[indx] = (byte)c;
+                indx++;
+            }
+            Files.write(Paths.get(Resource.DEFAULT_SCORES_PATH), bytes, StandardOpenOption.WRITE);
+        } catch (IOException ex) {
+            Logger.getLogger(Resource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    /**
+     * Metodo che ritorna un oggetto di tipo ScoreManager, a partire da una stringa json che viene deserializzata in un oggetto java utlilizzabile per creare la classifica, e salvare i dati di gicoo.
+     * @param s La stringa in formato JSON (di default viene presa da Resource.DEFAULT_SCORES_PATH), da cui viene deserializzata.
+     * @return l'oggetto ScoreManager rappresentante i dati contenuti nella stringa s.
+     */
+    public static ScoreManager getScoreManagerFromJSON(String s){
+        JSONDeserializer jsond = new JSONDeserializer();
+        List<String> ls = Resource.getResourceFileContent(Resource.DEFAULT_SCORES_PATH);
+        StringBuilder sb = new StringBuilder();
+        for(String line:ls){
+            sb.append(line);
+        }
+        ScoreManager sm =  (ScoreManager) new JSONDeserializer().use(ScoreManager.class, null).deserialize(sb.toString());
+        //Score sbunzi = sm.getScore(0);
+        //System.out.println("sbunzi:"+sbunzi);
+        return sm;
+        //String s =jsond.use(Score.class, null).deserialize(sb.toString());
     }
 }

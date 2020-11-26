@@ -69,14 +69,40 @@ public class ResourceTest {
     }
 
     /**
+     * Test of setResourceOption method, of class Resource.
+     */
+    @Test
+    public void testSetResourceOption() {
+        System.out.println("setResourceOption");
+        String path = "";
+        Config config = null;
+        Resource.setResourceOption(path, config);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of writeString method, of class Resource.
+     */
+    @Test
+    public void testWriteString() {
+        System.out.println("writeString");
+        String path = "";
+        String content = "";
+        Resource.writeString(path, content);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
      * Test of getResourceOptions method, of class Resource.
      */
     @Test
     public void testGetResourceOptions() {
         System.out.println("getResourceOptions");
         String path = "";
-        List<String> expResult = null;
-        List<String> result = Resource.getResourceOptions(path);
+        Config expResult = null;
+        Config result = Resource.getResourceOptions(path);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -139,7 +165,7 @@ public class ResourceTest {
     @Test
     public void testSerializeJson() {
         System.out.println("serializeJson");
-        Object object = new Object();
+        Object object = null;
         String expResult = "";
         String result = Resource.serializeJson(object);
         assertEquals(expResult, result);
@@ -162,20 +188,16 @@ public class ResourceTest {
     }
 
     /**
-     * Test of deserializeAllJSONToList method, of class Resource.
+     * Test of main method, of class Resource.
      */
     @Test
-    public void testDeserializeAllJSONToList() {
-        System.out.println("deserializeAllJSONToList");
-        String s = "";
-        List<Score> expResult = null;
-        List<Score> result = Resource.deserializeAllJSONToList(s);
-        assertEquals(expResult, result);
+    public void testMain() {
+        System.out.println("main");
+        String[] args = null;
+        Resource.main(args);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    
 
     /**
      * Test of getDataFolder method, of class Resource.
@@ -201,6 +223,46 @@ public class ResourceTest {
         String[] expResult = null;
         String[] result = Resource.getDinosSkinDirectory(path);
         assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getJSONFromScoreManager method, of class Resource.
+     */
+    @Test
+    public void testGetJSONFromScoreManager() {
+        System.out.println("getJSONFromScoreManager");
+        ScoreManager sm = null;
+        String expResult = "";
+        String result = Resource.getJSONFromScoreManager(sm);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of writeJSONScoreData method, of class Resource.
+     */
+    @Test
+    public void testWriteJSONScoreData() {
+        System.out.println("writeJSONScoreData");
+        ScoreManager sm = null;
+        Resource.writeJSONScoreData(sm);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getScoreManagerFromJSON method, of class Resource.
+     */
+    @Test
+    public void testGetScoreManagerFromJSON() {
+        System.out.println("getScoreManagerFromJSON");
+        String s = "";
+        ScoreManager expResult = null;
+        ScoreManager result = Resource.getScoreManagerFromJSON(s);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

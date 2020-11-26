@@ -15,17 +15,45 @@ import util.Resource;
  * @author tmich
  */
 public class EnemyManager {
+    /**
+     * Rappresenta la lista di nemici nel gioco al momento attuale. 
+     */
     private List<Enemy> enemies;
-    private Random random;
-    private BufferedImage imageCactus1,imageCactus2;
-    private Animation pteraFly;
-    public static String DEFAULT_ENEMIES_IMAGE_PATH = "data/enemies/";
     
+    /**
+     * Generatore di numeri random per poter scegliere una skin casuale per il cactus, o per far apparire un enemy di tipo Ptera.
+     */
+    private Random random;
+    
+    /**
+     * Variabili che rappresentano le immagini disponibili dei cactus.
+     */
+    private BufferedImage imageCactus1,imageCactus2;
+    /**
+     * Rappresenta l'animazione dello sbattimento di ali nello pteranodonte.
+     */
+    private Animation pteraFly;
+    
+    /**
+     * Costante che definisce il percorso di default delle immagini dei nemici
+     */
+    public static String DEFAULT_ENEMIES_IMAGE_PATH = "data/enemies/";
+    /**
+     * Rappresenta la lista dei MainCharacter attualmente in gioco.
+     */
     private List<MainCharacter> mainCharacters;
+    /**
+     * Rappresenta la loop di gioco che fa funzionare effettivamente la partita.
+     */
     private GameScreen gameScreen;
     
     
-    
+    /**
+     * Costruttore personalizzato di EnemyManager che permette il passaggio dei seguenti parametri
+     * 
+     * @param mainCharacters Rappresenta la lista degli oggetti di tipo MainCharacter con cui l'enemyManager deve interagire.
+     * @param gameScreen  Rappresenta la game loop in cui l'enemy Manager deve agire.
+     */
     public EnemyManager(List<MainCharacter> mainCharacters,GameScreen gameScreen){
         
         
@@ -41,12 +69,16 @@ public class EnemyManager {
         enemies.add(getRandom());
         
     }
-    
+    /**
+     * metodo che fa un reset di tutti i nemici.
+     */
     public void reset(){
         enemies.clear();
         enemies.add(getRandom());
     }
-    
+    /**
+     * Metodo che viene chiamato ad ogni ciclo della loop di gioco. Che controlla se gli oggetti enemy contenuti al suo interno siano entrati in contatto con uno o più MainCharacter durante questo ciclo di loop.
+     */
     public void update(){
         
         float cactusSpeed = gameScreen.getScreenSpeed();
@@ -91,13 +123,19 @@ public class EnemyManager {
         
         
     }
-    
+    /**
+     * Metodo che disegna a schermo tutti gli oggetti Enemy contenuti all'interno di EnemyManager.
+     * @param g 
+     */
     public void draw(Graphics2D g){
         for(Enemy e:enemies){
            e.draw(g);
         }
     }
-    
+    /**
+     * Getter di un nemico random da poter aggiungere alla lista di nemici.
+     * @return 
+     */
     private Enemy getRandom(){
         Cactus cactus;
         Ptera ptera;
@@ -123,7 +161,10 @@ public class EnemyManager {
         
         return cactus;
     }
-    
+    /**
+     * Ritorna la lista di nemici attualmente nell'oggetto EnemyManager.
+     * @return 
+     */
     public ArrayList<Enemy> getEnemies(){
         return (ArrayList)enemies;
     }

@@ -31,7 +31,6 @@ public class GameWindow extends JFrame implements Runnable{
      */
     private JTextField textField;
     
-    private NamePanel namePanel;
     
     private Thread pgNamesThread ;
     public GameWindow(){
@@ -67,17 +66,9 @@ public class GameWindow extends JFrame implements Runnable{
     
     
     
-    public void getContent(){
-        boolean flag=false;
-        while(!flag){
-            
-        }
-    }
     
-    public void overToPlay(){
-        //gameScreen = new GameScreen();
-        //gameScreen.setVisible(true);
-    }
+    
+    
     
     
     public void startGame(){

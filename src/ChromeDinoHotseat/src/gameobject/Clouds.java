@@ -13,10 +13,22 @@ import util.Resource;
  * @author tmich
  */
 public class Clouds extends JComponent {
-    
+    /**
+     * Rappresenta l'immagine della nuvola in un oggetto BufferedImage che è possibile stampare a schermo.
+     */
     private BufferedImage cloudImage;
+    /**
+     * Costante che definisce il percorso di default dell'immagine della nuvola "stock" del gioco.
+     */
     public static String DEFAULT_CLOUD_PATH = "data/clouds/cloud.png";
+    /**
+     * ¨Rappresenta una lista di nuvole, cioè una lista di oggetti Cloud, da poi poter rappresentare a schermo.
+     */
     private List<Cloud> clouds;
+    
+    /**
+     * Costruttore vuoto di Clouds che imposta il doubleBuffer, le immagini di default delle nuvole, e la loro posizione e movimento a schermo
+     */
     public Clouds(){
         this.setDoubleBuffered(true);
         cloudImage = Resource.getResourceImage(DEFAULT_CLOUD_PATH);
@@ -53,7 +65,9 @@ public class Clouds extends JComponent {
         
         clouds.add(cloud1);
     }
-    
+    /***
+     * Metodo che viene richiamato ad ogni ciclo della loop di gioco durante la partita, per poter far muovere le nuvole.
+     */
     public void update(){
         for(Cloud cloud:clouds){
             cloud.posX-=1;
@@ -66,7 +80,10 @@ public class Clouds extends JComponent {
             
         }
     }
-    
+    /**
+     * Metodo che effettivamente disegna le nuvole.
+     * @param g Il contesto grafico in cui deve essere disegnato.
+     */
     public void draw(Graphics2D g){
         for(Cloud cloud:clouds){
             g.drawImage(cloudImage, (int)cloud.posX, (int)cloud.posY, null);
@@ -75,7 +92,9 @@ public class Clouds extends JComponent {
         
     }
     
-    
+    /**
+     * Classe privata che rappresenta astrattamente una nuvola singola, con le sue coordinate. da poi poter utilizzare nella classe Clouds per disegnarle a schermo.
+     */
     private class Cloud{
         float posX;
         float posY;

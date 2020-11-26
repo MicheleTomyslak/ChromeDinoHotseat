@@ -1,12 +1,1 @@
-{
-    "level": {
-        "defaultDinoFrame1": "data/main-character1.png",
-        "defaultDinoFrame2": "data/main-character2.png"
-
-
-    },
-    "appareance": {
-        "defaultLandDir": "data/defaultLand",
-    }
-
-}
+{"class":"util.Config","options":[{"class":"util.Option","duckKey":85,"jumpKey":87,"playerNumber":1},{"class":"util.Option","duckKey":75,"jumpKey":73,"playerNumber":2},{"class":"util.Option","duckKey":40,"jumpKey":38,"playerNumber":3},{"class":"util.Option","duckKey":101,"jumpKey":104,"playerNumber":4}]}

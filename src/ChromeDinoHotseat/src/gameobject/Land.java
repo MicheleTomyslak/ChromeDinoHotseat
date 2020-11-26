@@ -16,11 +16,18 @@ import util.Resource;
  * @author tmich
  */
 public class Land extends JComponent {
-    
+    /**
+     * Costante che rappresenta la posizione di default in cui vi sono le immagini del terreno.
+     */
+          
     public static String DEFAULT_LAND_IMAGES_PATH = "data/default_land/";
-    
+    /**
+     * Effettiva posizione in cui vi sono le immagini del terreno.
+     */
     private String imagesPath=DEFAULT_LAND_IMAGES_PATH;
-    
+    /**
+     * Rappresenta una tile dell'immagine di terreno.
+     */
     private BufferedImage imageLand1,imageLand2,imageLand3;
     /**
      * Lista delle immagini che compongono il terreno.

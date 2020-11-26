@@ -17,6 +17,8 @@ import gameobject.Land;
 import gameobject.MainCharacter;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -24,6 +26,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import util.Config;
 import util.KeyManager;
 import util.Resource;
 import static util.Resource.DEFAULT_PATH;
@@ -71,9 +77,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     //public static final float GROUNDY = 310;
     private int i =0;
     
-    public static final String DEFAULT_PATH = "data/scores.csv";
+    public static final String DEFAULT_PATH_SCORES = "data/scores.json";
     
-    
+    public static final String DEFAULT_PATH_CONFIG = "data/config/config.json";
     //private MainCharacter dino2;
     /**
      * Rappresenta la lista dei dinosauri che ci sono in gioco.
@@ -205,7 +211,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         //this.setSize(500,500);
         
         
-        ScoreManager sm = new ScoreManager(DEFAULT_PATH);
+        ScoreManager sm = new ScoreManager(DEFAULT_PATH_SCORES);
+        
         //Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, sm.toString());
         
         //Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, sm.getScore(0).getName());
@@ -249,6 +256,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
         try {
             scoreSound = Applet.newAudioClip(new URL("file","","data/scoreup.wav"));
+            
         } catch (MalformedURLException ex) {
 
         }
@@ -256,6 +264,14 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
     
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     /**
      *
@@ -340,14 +356,20 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     public void clearScore(){
         for(MainCharacter dino:mainCharacters){
-            Resource.writeScore("data/Scores.csv",dino );
+            scoreManager = new ScoreManager();
+            scoreManager = Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);
+            //Resource.writeScore("data/Scores.csv",dino );
+            scoreManager.addScore(new Score(dino.getName(),dino.getScore(),System.currentTimeMillis()));
+        
         }
         score = 0;
         this.screenSpeed=4.0f;
     }
     
     
-    
+    /**
+     * Metodo che aggiorna la schermata di gioco e i suoi componenti in base allo stato di gioco.
+     */
     public void update(){
         long startTime = System.nanoTime();
         //this.setVisible(true);
@@ -359,10 +381,16 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
             case GAME_FIRST_STATE:
                 addButton.setVisible(true);
                 minusButton.setVisible(true);
-                
+                int index=0;
+                Config config = new Config();
                 for(MainCharacter dino:mainCharacters){
-                    dino.update();
                     
+                    
+                    int jumpkey=config.getOptions()[index].getJumpKey();
+                    int duckkey=config.getOptions()[index].getDuckKey();
+                    dino.setKeyManager(new KeyManager(jumpkey,duckkey));
+                    dino.update();
+                    index++;
                     
                 }
                 land.update();
@@ -387,7 +415,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                     if(!dino.getAlive()){
                         
                         dino.kill();
+                        
                         counter++;
+                        //scoreManager.addScore(new Score(dino.getName(),dino.getScore(),System.currentTimeMillis()));
                         //gameState = GAME_OVER_STATE;
                         dino.setState(MainCharacter.DEAD);
                         //clearScore();
@@ -399,6 +429,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 if(counter==mainCharacters.size()){
                     gameState = GAME_OVER_STATE;
                     clearScore();
+                    this.scoreManager.saveData();
+                    
                 }
                 
                 
@@ -442,7 +474,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     public void plusScore(int score){
         this.score += score;
-        if(getScore()%100==0){
+        if(getScore()%1000==0){
             scoreSound.play();
         }
         
@@ -464,8 +496,13 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     
     
+    
+    
     @Override
     public void paintComponent(Graphics g){
+        
+        g.setFont(new Font("verdana",Font.BOLD,12));
+        
         long currentMillis= System.nanoTime();
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.decode("#f7f7f7"));
@@ -482,17 +519,16 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 clouds.draw(g2d);
                 land.draw(g2d);
                 for(MainCharacter dino :mainCharacters){
-                    //land.draw(g2d);
                     dino.draw(g2d);
-                    
-                    
                 }
                 g.drawString("CHROME DINO HOTSEAT", this.getWidth()/16*3, this.getHeight()/9);
                 g.drawString("Seleziona i giocatori:", this.getWidth()/16*3, this.getHeight()/9*2);
+                
+
+
+
                 textField.setVisible(true);
                 textField.setSize(new Dimension(this.getWidth()/16,this.getHeight()/9));
-                
-                
                 if(textField.getLocation()== new Point(0,0)){
                     
                     textField.setLocation(this.getWidth()/2,this.getHeight()/2);
@@ -608,29 +644,20 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
 
     
     @Override
+    
     public void keyPressed(KeyEvent e) {
         String state = this.getStateAsString(gameState);
-        
         //System.out.println(state);
-        for (MainCharacter dino:mainCharacters) {
-            
-            
-            
+        for (MainCharacter dino:mainCharacters) {            
             if(e.getKeyCode() == dino.getKeyManager().getDuckKey() && gameState == GAME_PLAY_STATE){
-            dino.setState(MainCharacter.DUCK_RUN);
-            dino.down();
+                dino.setState(MainCharacter.DUCK_RUN);
+                dino.down();
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_ENTER && gameState ==GAME_OVER_STATE){
-            
             this.setVisible(true);
             this.startGame();
         }
-        
-        
-        
-        
-        
     }
 
     @Override
@@ -700,6 +727,14 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     public int getState(){
         return this.gameState;
+    }
+    
+    public MainCharacter getCharacter(int index){
+        return mainCharacters.get(index);
+    }
+    
+    public List<MainCharacter> getCharacters(){
+        return mainCharacters;
     }
 
     @Override

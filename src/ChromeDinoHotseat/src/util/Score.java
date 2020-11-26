@@ -56,6 +56,20 @@ public class Score {
         
     }
     /**
+     * Getter che ritorna il timestamp di quando è stato effettuato il corrente oggetto Score.
+     * @return il timestamp di quando è stato effettuato il punteggio contenuto nella classe.
+     */
+    public long getDate() {
+        return date;
+    }
+    /**
+     * Setter del timestamp della data in cui è stato effettuato il punteggio contenuto nella classe.
+     * @param date il timestamp di quando è stato effettuato il punteggio contenuto nella classe.
+     */
+    public void setDate(long date) {
+        this.date = date;
+    }
+    /**
      * Override del metodo toString(), che permette di mostrare i 3 attributi della classe Score in una Stringa, delimitatida una ",".
      * @return La stringa rappresentante lo Score.
      */
@@ -72,7 +86,10 @@ public class Score {
         this.scoredPoints= 0;
         this.date= 0;
     }
-    
+    /**
+     * Metodo che ritorna una stringa json di UN singolo Score, includendo nome,punteggio e timestamp della data.
+     * @return La string dell'oggetto Score serializzato in JSON.
+     */
     public String exportAsJSON(){
         JSONSerializer jsons = new JSONSerializer();
         return jsons.serialize(this);  

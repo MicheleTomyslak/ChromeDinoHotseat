@@ -131,22 +131,36 @@ public class MainCharacter extends JComponent implements MouseListener{
     private JLabel dinoLabel;
     
     private JTextField textFieldNome;
-    
+    /**
+     * flag che determina se l'oggetto MainCharacter è vivo o morto.
+     * true = morto
+     * false = ancora vivo
+     */
     private boolean isDead;
     
     private AffineTransform at;
     
     private int score;
-    
+    /**
+     * Rettangolo che rappresenta un bottone per scegliere la skin precedente .
+     */
     private Rectangle leftButton;
 
-    
+    /**
+     * Rettangolo che rappresenta un bottone per scegliere la skin successiva.
+     */
     private Rectangle rightButton;
-    
+    /**
+     * l'effettiva posizione in cu ivengono presi i dati per le skin per l'animazione del dino.
+     */
     private String skin_dir = "/data/default_dino";
-    
+    /**
+     * Costante che rappresenta la cartella di default in cui sono contenute le skin per l'animazione del dino.
+     */
     public static String DEFAULT_SKIN_DIR = "/data/default_dino";
-    
+    /**
+     * Variabile che rappresenta il selettore della skin del giocatore.
+     */
     private int skin_selector_counter=0;
     
     private int lastState;
@@ -191,6 +205,10 @@ public class MainCharacter extends JComponent implements MouseListener{
         } catch (MalformedURLException ex) {
 
         }
+        
+        
+        
+        
         
         
         
@@ -364,6 +382,7 @@ public class MainCharacter extends JComponent implements MouseListener{
         if(!isDead){
             this.score = gameScreen.getScore();
             Date date = new Date(System.currentTimeMillis());
+            
         }
         
         isDead=true;
