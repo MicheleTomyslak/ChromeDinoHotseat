@@ -402,20 +402,15 @@ public class Resource  {
                 //System.out.println(scores[j]+">"+scores[j+1]+"?");
                 if(scores[j] < scores[j + 1])
                 {
-                       //System.out.println("yes");
                        tempVar = scores [j + 1];
                        scores [j + 1]= scores [j];
                        scores [j] = tempVar;
-                       
                        tempString = arrNames[j+1];
                        arrNames[j+1]  = arrNames[j];
                        arrNames[j] = tempString;
-                       
                        tempDate = dates[j+1];
                        dates[j+1]  = dates[j];
                        dates[j] = tempDate;
-                       
-                       
                 }
                 
             }
