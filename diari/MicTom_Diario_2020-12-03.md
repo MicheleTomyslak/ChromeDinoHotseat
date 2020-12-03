@@ -10,8 +10,7 @@
 |Orario        |Lavoro svolto                 |
 |--------------|------------------------------|
 |10:05 - 11:35   | Studiato un sistema per introdurre un controller della Play Station 4 ai comandi disponibili per il gioco|
-|12:30 - 15:45| Tentata implementazione del controller della PS4, non riuscito al momento, a causa di una mia incapacità al momento di connettermi al UDP Server messo a disposizione dal softawre DS4 Windows, che permette a Windows di riconoscere il controller PS4 come un controller Xbox 360, il controller è funzionante sul pc, ma non riesco a  raccapezzarmi sui DatagramSocket e i DatagramPacket.
-Implementato l'algoritmo di sort per la classifica dei giocatori, ho implementato un bubble sort all'interno della classe Resource, che viene poi utilizzata direttamente da ScoreManager per poter ordinare i punteggi, per poi stamparli come semplici stringhe sullo schermo dal GameScreen, per ora. |
+|12:30 - 15:45| Tentata implementazione del controller della PS4, non riuscito al momento, a causa di una mia incapacità al momento di connettermi al UDP Server messo a disposizione dal softawre DS4 Windows, che permette a Windows di riconoscere il controller PS4 come un controller Xbox 360, il controller è funzionante sul pc, ma non riesco a  raccapezzarmi sui DatagramSocket e i DatagramPacket.Implementato l'algoritmo di sort per la classifica dei giocatori, ho implementato un bubble sort all'interno della classe Resource, che viene poi utilizzata direttamente da ScoreManager per poter ordinare i punteggi, per poi stamparli come semplici stringhe sullo schermo dal GameScreen, per ora. |
 
 
 ##  Problemi riscontrati e soluzioni adottate
