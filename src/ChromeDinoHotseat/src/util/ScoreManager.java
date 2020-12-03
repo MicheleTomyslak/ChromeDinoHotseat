@@ -113,6 +113,17 @@ public class ScoreManager {
         
     }
     
+   
+    
+    public ScoreManager orderScores(ScoreManager s){
+        List<Score> sList = s.getScores();
+        
+        ScoreManager newS = Resource.bubbleSort(s);
+        return newS;
+    }
+    
+    
+    
     public String exportAsJSON(){
         StringBuilder sb = new StringBuilder();
         for (Score s : scores) {

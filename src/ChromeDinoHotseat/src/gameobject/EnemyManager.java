@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import userinterface.GameScreen;
 import util.Animation;
 import util.Resource;
@@ -97,13 +99,9 @@ public class EnemyManager {
                     dino.setAlive(false);
                 
                 }
-                
-                
             
             }
-            
-            
-            
+
         }
         Enemy firstEnemy ;
         if(enemies.size()>0){
@@ -111,7 +109,8 @@ public class EnemyManager {
             if(firstEnemy.isOutOfScreen()){
             enemies.remove(firstEnemy);
             enemies.add(getRandom());
-            enemies.get(enemies.size()-1).setSpeed(cactusSpeed);
+            Enemy e = enemies.get(enemies.size()-1);
+            e.setSpeed(cactusSpeed);
         }
         }else{
             
@@ -145,12 +144,13 @@ public class EnemyManager {
         ptera.setX(1600);
         cactus.setX(1600);
         cactus.setY(265);
+        
         if(random.nextBoolean()){
             cactus.setImage(imageCactus1);
             
         }else{
             if(random.nextBoolean()){
-                ptera.setY(195);
+                Logger.getLogger(EnemyManager.class.getName()).log(Level.INFO, ""+ptera.getY());
                 return ptera;
             }else{
                 cactus.setY(275);

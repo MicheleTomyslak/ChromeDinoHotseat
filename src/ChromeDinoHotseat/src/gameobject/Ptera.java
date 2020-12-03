@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Random;
 import userinterface.GameScreen;
 import util.Animation;
 
@@ -25,6 +26,7 @@ public class Ptera extends Enemy{
     private Rectangle rect;
     private List<MainCharacter> dinos;
     private boolean isScoreGot = false;
+    private boolean isFlyingLow = false;
     private float speedX = 4f;
     private GameScreen gameScreen;
     private boolean areHitboxVisible;
@@ -37,8 +39,15 @@ public class Ptera extends Enemy{
         animation = new Animation(200);
         animation.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGES_PATH+"ptera1.png"));
         animation.addFrame(Resource.getResourceImage(DEFAULT_ENEMIES_IMAGES_PATH+"ptera2.png"));
+        Random r = new Random();
+        isFlyingLow= r.nextBoolean();
+        if(isFlyingLow){
+            posY = 265;
+        }else{
+            posY = 220;
+        }
         posX = 200;
-        posY = 265;
+        
         rect = new Rectangle();
     }
     

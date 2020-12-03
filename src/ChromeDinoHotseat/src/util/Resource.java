@@ -377,31 +377,57 @@ public class Resource  {
         //String s =jsond.use(Score.class, null).deserialize(sb.toString());
     }
     
-    static void bubbleSort(ScoreManager sm) {  
+    static ScoreManager bubbleSort(ScoreManager sm) {  
         
         List< Score> arrScore =  sm.getScores();
         int[] scores= new int[arrScore.size()];
         String[] arrNames = new String[arrScore.size()];
+        long[] dates = new long[arrScore.size()];
+        
         int tempVar;
         String tempString;
+        long tempDate;
+        
         for (int i = 0; i < arrScore.size(); i++) {
             scores[i] = arrScore.get(i).getScoredPoints();
             arrNames[i] = arrScore.get(i).getName();
+            dates[i] = arrScore.get(i).getDate();
+        }
+        
+        
+        for (int i = 0; i < arrScore.size(); i++) {
             
             for(int j = 0; j < scores.length-i-1; j++)
             {
-                if(scores[j] > scores[j + 1])
+                //System.out.println(scores[j]+">"+scores[j+1]+"?");
+                if(scores[j] < scores[j + 1])
                 {
-
+                       //System.out.println("yes");
                        tempVar = scores [j + 1];
                        scores [j + 1]= scores [j];
                        scores [j] = tempVar;
+                       
                        tempString = arrNames[j+1];
                        arrNames[j+1]  = arrNames[j];
                        arrNames[j] = tempString;
+                       
+                       tempDate = dates[j+1];
+                       dates[j+1]  = dates[j];
+                       dates[j] = tempDate;
+                       
+                       
                 }
+                
             }
             
         }
+        List<Score> newArrScore = new ArrayList<Score>();
+        ScoreManager scoreManager = new ScoreManager();
+        
+        for (int i = 0; i < arrScore.size(); i++) {
+            scoreManager.addScore(new Score(arrNames[i],scores[i],dates[i]));
+        }
+        //scoreManager.addListOfScores(arrScore);
+        return  scoreManager;
     }
 }

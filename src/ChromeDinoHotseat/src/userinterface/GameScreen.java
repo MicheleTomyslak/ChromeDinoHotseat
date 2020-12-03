@@ -545,10 +545,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 g.drawString("Seleziona i giocatori:", this.getWidth()/16*3, this.getHeight()/9*2);
                 
                 if(flagClassifica){
-                    scoreManager = new ScoreManager();
-                    
-                    scoreManager.getOrderedScore();
                     this.drawHighscores(g2d);
+                    Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, ""+flagClassifica);
                     
                 }
 
@@ -640,8 +638,13 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     }
     
     public void drawHighscores(Graphics2D g){
-        g.drawRect(500, 234, 200    , 100);
-        
+        ScoreManager scores =Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);
+        scores = scores.orderScores(scores);
+        int counterScores = 1;
+        for(Score s : scores.getScores()){
+            g.drawString(s.getName()+"          "+s.getScoredPoints()+"            "+new Date(s.getDate()), 600, 50*counterScores);
+            counterScores++;
+        }
         
     }
     
