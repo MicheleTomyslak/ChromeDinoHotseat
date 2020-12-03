@@ -125,7 +125,7 @@ public class EnemyManager {
     }
     /**
      * Metodo che disegna a schermo tutti gli oggetti Enemy contenuti all'interno di EnemyManager.
-     * @param g 
+     * @param g Il contesto grafico in cui disegnare gli oggetti Enemy.
      */
     public void draw(Graphics2D g){
         for(Enemy e:enemies){
@@ -164,7 +164,7 @@ public class EnemyManager {
     }
     /**
      * Ritorna la lista di nemici attualmente nell'oggetto EnemyManager.
-     * @return 
+     * @return la lista degli oggetti Enemy rappresentante tutti i nemici in gioco. 
      */
     public ArrayList<Enemy> getEnemies(){
         return (ArrayList)enemies;

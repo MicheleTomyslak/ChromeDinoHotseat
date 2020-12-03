@@ -65,7 +65,7 @@ public class ScoreManager {
     /**
      * Metodo che ritorna in modo ordinato la lista dei punteggi, per preparare la classifica.
      * #NON FUNZIONANTE
-     * @return La lista ordinata
+     * 
      */
     public void getOrderedScore(){
         Resource.bubbleSort(this);

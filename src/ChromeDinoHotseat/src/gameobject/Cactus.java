@@ -166,7 +166,7 @@ public class Cactus extends Enemy{
     }
     /**
      * Getter della velocità attuale del Cactus sullo schermo.
-     * @return 
+     * @return la velocità del cactus a schermo.
      */
     public float getSpeed(){
         return speedX;

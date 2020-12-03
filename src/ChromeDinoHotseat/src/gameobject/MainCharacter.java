@@ -167,8 +167,8 @@ public class MainCharacter extends JComponent implements MouseListener{
     
     /**
      * Costruttore del personaggio principale del gioco.
-     * @param gameScreen 
-     * @param keyManager
+     * @param gameScreen L'oggetto GameScreen in cui è contenuto questo MainCharacter.
+     * @param keyManager Il gestore dei comandi per questo MainCharacter.
      */
     public MainCharacter(GameScreen gameScreen,KeyManager keyManager){
         //this.addMouseListener(this);
@@ -205,17 +205,6 @@ public class MainCharacter extends JComponent implements MouseListener{
         } catch (MalformedURLException ex) {
 
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
     
     /**
@@ -284,7 +273,10 @@ public class MainCharacter extends JComponent implements MouseListener{
     public int getState(){
         return state;
     }
-    
+    /**
+     * Getter delle hitbox del MainCharacter, rappresentate da un oggetto Rectangle.
+     * @return il rettangolo che definisce le hitbox del MainCharacter.
+     */
     public Rectangle getBound(){
         return rect;
     }

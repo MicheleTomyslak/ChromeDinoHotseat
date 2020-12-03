@@ -12,12 +12,12 @@ import javax.swing.JComponent;
 public abstract class Enemy extends JComponent {
     /**
      * Ritorna l'area di collisione dell'oggetto Enemy, con un MainCharacter.
-     * @return 
+     * @return Le hitbox dell'oggetto Enemy.
      */
     public abstract Rectangle getBound();
     /**
      * Metodo che si occupa di disegnare a schermo l'oggetto Enemy, con eventuali proprietà o condizioni.
-     * @param g 
+     * @param g Il contesto grafico in cui disegnare questo oggetto.
      */
     public abstract void draw(Graphics2D g);
     /**
@@ -26,12 +26,12 @@ public abstract class Enemy extends JComponent {
     public abstract void update();
     /**
      * Metodo che controlla se un Enemy è ancora all'interno dello schermo o meno.
-     * @return 
+     * @return un boolan che rappresenta lo stato dell'enemy, se sia visibile o è fuori dallo schermo. 
      */
     public abstract boolean isOutOfScreen();
     /**
      * Metodo che controlla se un MainCharacter è sopra all'oggetto Enemy.
-     * @return 
+     * @return se un MainCharacter è sopra questo oggetto o meno.
      */
     public abstract boolean isOver();
     

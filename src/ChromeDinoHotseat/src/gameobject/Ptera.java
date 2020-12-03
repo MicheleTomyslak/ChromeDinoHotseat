@@ -86,6 +86,7 @@ public class Ptera extends Enemy{
     }
     /**
      * Aggiunge un immagine alla lista delle immagini che compongono i frame dell'animazione dello pteranodonte.
+     * @param image L'immagine da aggiungere alla animazione dello pteranodonte.
     */
     public void addImage(BufferedImage image){
         animation.addFrame(image);

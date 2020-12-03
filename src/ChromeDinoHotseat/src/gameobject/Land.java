@@ -98,7 +98,7 @@ public class Land extends JComponent {
     }
     /**
      * Metodo di painting che si occupa di disegnare ogni tile di terreno al posto corretto.
-     * @param g 
+     * @param g Il contesto grafico in cui disegnare il terreno.
      */
     public void draw(Graphics2D g){
         for (ImageLand imageLand : listImage) {

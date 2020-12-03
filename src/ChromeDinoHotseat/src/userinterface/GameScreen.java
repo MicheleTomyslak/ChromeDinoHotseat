@@ -45,7 +45,8 @@ import util.ScoreManager;
 
 /**
  *
- * @author tmich
+ * @author Michele Tomyslak
+ * @version 03.12.2020
  */
 public class GameScreen extends JPanel implements Runnable,KeyListener,MouseListener,ActionListener
 {    
@@ -74,7 +75,6 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
      */
     
     public static final float GRAVITY = 1f;
-    //public static final float GROUNDY = 310;
     private int i =0;
     
     public static final String DEFAULT_PATH_SCORES = "data/scores.json";
@@ -279,7 +279,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     /**
      *
-     * @param state
+     * @param state Setter dello stato di gioco. può essere GAME_FIRST_STATE,GAME_PLAY_STATE,GAME_OVER_STATE
      */
     public void setGameState(int state){
         
@@ -535,6 +535,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
 
         switch(gameState){
             case GAME_FIRST_STATE:
+                this.showHighscoreButton.setVisible(true);
                 clouds.draw(g2d);
                 land.draw(g2d);
                 for(MainCharacter dino :mainCharacters){
@@ -565,7 +566,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 textField.repaint();
                 break;
             case GAME_PLAY_STATE:
-                
+                this.showHighscoreButton.setVisible(false);
                 clouds.draw(g2d);
                 land.draw(g2d);
                 for(MainCharacter dino :mainCharacters){
@@ -578,6 +579,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 g.drawString("Score:"+String.valueOf(score), 300, 40);
                 break;
             case GAME_OVER_STATE:
+                this.showHighscoreButton.setVisible(false);
                 clouds.draw(g2d);
                 land.draw(g2d);
                 
@@ -728,7 +730,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                         
                             super.repaint();
 
-                            dino.setState(dino.NORMAL_RUN);
+                            dino.setState(MainCharacter.NORMAL_RUN);
                             gameState = GAME_FIRST_STATE;
                             resetGame();
                         }
@@ -749,7 +751,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     }
     /**
      * Ritorna lo state del gameScreen, può essere GAME_FIRST_STATE, GAME_PLAY_STATE,GAME_OVER_STATE.
-     * @return 
+     * @return Lo stato attuale del gameScreen.
      */
     public int getState(){
         return this.gameState;

@@ -54,7 +54,7 @@ public class Animation {
     }
     /**
      * Aggiunge un frame (BufferedImage) nella lista dei frames disponibili per l'animazione.
-     * @param frame 
+     * @param frame L'immagine BufferedImage da aggiungere alla lista dei frame.
      */
     public void addFrame(BufferedImage frame){
         frames.add(frame);
