@@ -165,6 +165,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     private int lastGameState =0;
     
+    private boolean flagClassifica;
     
     
     /**
@@ -175,6 +176,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
      * JButton usato per diminuire il numero di giocatori in game(fino ad un minimo di 1)
      */
     private final JButton minusButton;
+    
+    private final JButton showHighscoreButton;
     
     
     /**
@@ -197,7 +200,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
         this.add(new JButton("+")).setFocusable(false);
         this.add(new JButton("-")).setFocusable(false);
-        
+        this.add(new JButton("Highscores")).setFocusable(false);
         addButton =(JButton) this.getComponents()[0];
         addButton.addActionListener(this);
         
@@ -205,7 +208,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         minusButton = (JButton) this.getComponents()[1];
         minusButton.addActionListener(this);
         
-        
+        showHighscoreButton = (JButton) this.getComponents()[2];
+        showHighscoreButton.addActionListener(this);
         
         
         //this.setSize(500,500);
@@ -314,15 +318,24 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
         //gameState = GAME_PLAY_STATE;
     }
-    
+    /**
+     * Setter della velocità dello schermo in pixel per ciclo di loop.
+     * @param speed La velocità dello schermo da impostare nel gioco.
+     */
     public void setScreenSpeed(float speed){
         this.screenSpeed = speed;
     }
-    
+    /**
+     * Ritorna la velocità dello schermo in pixel per ciclo di loop.
+     * @return La velocità dello schermo in pixel per ciclo di loop.
+     */
     public float getScreenSpeed(){
         return screenSpeed;
     }
     
+    /**
+     * Metodo void che fa avviare la thread della gameLoop. E permette così di iniziare la partita.
+     */
     public void startGame(){
         thread.start();
     }
@@ -353,7 +366,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
         
     }
-    
+    /**
+     * Metodo che effettua  una cancellazione dei punteggi attuali, salva i risultati della partita precedente e reimposta la velocità di gioco al minimo.
+     */
     public void clearScore(){
         
         for(MainCharacter dino:mainCharacters){
@@ -472,7 +487,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
     }
     
-    
+    /**
+     * Sommatore dello score, a cui viene sempre aggiunto il valore score ad ogni ciclo di loop, e quando il punteggio è un modulo di 1000, (ogni 1000 in pratica), fa un suono.
+     * @param score Il punteggio da aggiungere allo score.
+     */
     public void plusScore(int score){
         this.score += score;
         if(getScore()%1000==0){
@@ -525,7 +543,13 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 g.drawString("CHROME DINO HOTSEAT", this.getWidth()/16*3, this.getHeight()/9);
                 g.drawString("Seleziona i giocatori:", this.getWidth()/16*3, this.getHeight()/9*2);
                 
-
+                if(flagClassifica){
+                    scoreManager = new ScoreManager();
+                    
+                    scoreManager.getOrderedScore();
+                    this.drawHighscores(g2d);
+                    
+                }
 
 
                 textField.setVisible(true);
@@ -539,14 +563,6 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 }
                 
                 textField.repaint();
-                
-                
-                
-                
-                
-                
-               
-                
                 break;
             case GAME_PLAY_STATE:
                 
@@ -619,6 +635,12 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         g.drawString(new Date(System.currentTimeMillis()).toString(), 130, 125);
         g.drawString("double Buffered:"+mainCharacters.get(0).isDoubleBuffered(), 230, 175);
         g.drawString("", i, i);
+    }
+    
+    public void drawHighscores(Graphics2D g){
+        g.drawRect(500, 234, 200    , 100);
+        
+        
     }
     
     
@@ -725,7 +747,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     public int getGroundY(){
         return this.getHeight()/2;
     }
-    
+    /**
+     * Ritorna lo state del gameScreen, può essere GAME_FIRST_STATE, GAME_PLAY_STATE,GAME_OVER_STATE.
+     * @return 
+     */
     public int getState(){
         return this.gameState;
     }
@@ -797,6 +822,9 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
             }
             
             
+        }else if(e.getSource()==this.showHighscoreButton){
+            flagClassifica=!flagClassifica;
+            System.out.println(flagClassifica);
         }
         
             

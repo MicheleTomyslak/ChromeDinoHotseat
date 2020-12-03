@@ -12,8 +12,9 @@ import util.Animation;
 import util.Resource;
 
 /**
- *
- * @author tmich
+ * Rappresenta uno pteranodonte nel gioco del ChromeDino, questo utilizzando animazioni composte da serie di immagini definite in animation.
+ * @author Michele Tomyslak
+ * @version 3.12.2020
  */
 public class Ptera extends Enemy{
     
@@ -53,6 +54,9 @@ public class Ptera extends Enemy{
     }
     
     @Override
+    /**
+     * Ritorna la ClipBound del pteranodonte, cioè la sua Hitbox , definita da un rettangolo.
+     */
     public Rectangle getBound(){
         return rect;
     }
@@ -66,15 +70,23 @@ public class Ptera extends Enemy{
     }
     
     
-    
+    /**
+     * Setter del punto di origine x dello pteranodonte.
+     * @param x La x del punto di origine dello pteranodonte.
+     */
     public void setX(int x){
         posX = x;
     }
-    
+    /**
+     * Imposta il punto di origine Y dello pteranodonte.
+     * @param y La y del punto di orgine dello pteranodonte.
+     */
     public void setY(int y){
         posY = y;
     }
-    
+    /**
+     * Aggiunge un immagine alla lista delle immagini che compongono i frame dell'animazione dello pteranodonte.
+    */
     public void addImage(BufferedImage image){
         animation.addFrame(image);
     }
@@ -103,11 +115,17 @@ public class Ptera extends Enemy{
     public void setIsScoreGot(boolean isScoreGot) {
         this.isScoreGot=isScoreGot;
     }
-    
+    /**
+     * Imposta la velocità dello pteranodonte a schermo, nel movimento verso il MainCharacter.
+     * @param speed La velocità dello pteranodonte.
+     */
     public void setSpeed(float speed){
         this.speedX=speed;
     }
-    
+    /**
+     * Getter dela velocità dello pteranodonte a schermo , nel movimento verao il MainCharacter.
+     * @return La velocità dello pteranodonte.
+     */
     public float getSpeed(){
         return speedX;
     }
@@ -121,7 +139,10 @@ public class Ptera extends Enemy{
     }
 
     
-
+    /**
+    * Setter delle hitbox visibili nello pteranodonte.
+    * @param areHitBoxVisible Il flag che definisce le le hitbox dello pteranodonte sono visibili o meno.
+    */
     @Override
     public void setHitBoxState(boolean areHitBoxVisible) {
         this.areHitboxVisible=areHitBoxVisible;

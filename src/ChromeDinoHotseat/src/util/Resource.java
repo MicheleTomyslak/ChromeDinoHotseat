@@ -376,4 +376,32 @@ public class Resource  {
         return sm;
         //String s =jsond.use(Score.class, null).deserialize(sb.toString());
     }
+    
+    static void bubbleSort(ScoreManager sm) {  
+        
+        List< Score> arrScore =  sm.getScores();
+        int[] scores= new int[arrScore.size()];
+        String[] arrNames = new String[arrScore.size()];
+        int tempVar;
+        String tempString;
+        for (int i = 0; i < arrScore.size(); i++) {
+            scores[i] = arrScore.get(i).getScoredPoints();
+            arrNames[i] = arrScore.get(i).getName();
+            
+            for(int j = 0; j < scores.length-i-1; j++)
+            {
+                if(scores[j] > scores[j + 1])
+                {
+
+                       tempVar = scores [j + 1];
+                       scores [j + 1]= scores [j];
+                       scores [j] = tempVar;
+                       tempString = arrNames[j+1];
+                       arrNames[j+1]  = arrNames[j];
+                       arrNames[j] = tempString;
+                }
+            }
+            
+        }
+    }
 }

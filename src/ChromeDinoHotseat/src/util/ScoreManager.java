@@ -24,12 +24,12 @@ public class ScoreManager {
     public ScoreManager(String path){
         this.path = path;
         scores = Resource.getScores(path);
-        List<Score> orderedScores = getOrderedScore();
+        
     }
     
     public ScoreManager(){
         scores = new ArrayList<>();
-        scores = Resource.getScores(path);
+        //scores = Resource.getScores(path);
         
     }
     
@@ -67,20 +67,8 @@ public class ScoreManager {
      * #NON FUNZIONANTE
      * @return La lista ordinata
      */
-    public List<Score> getOrderedScore(){
-        List<Score> orderedScores = new ArrayList<>();
-        List<Integer> ordScores = new ArrayList<>();
-        for(Score s:scores){
-            ordScores.add(s.getScoredPoints());
-        }
-        
-        
-        Collections.sort(ordScores);
-        Collections.reverse(ordScores);
-        Iterator itr = ordScores.iterator();
-        int counter = 0;
-        
-        return orderedScores;
+    public void getOrderedScore(){
+        Resource.bubbleSort(this);
     
     }    
     
@@ -121,7 +109,7 @@ public class ScoreManager {
     public void update()
     {
         
-        this.scores = Resource.getScores("data/scores.csv");
+        //this.scores = Resource.getScores("data/scores.csv");
         
     }
     
@@ -156,4 +144,6 @@ public class ScoreManager {
             this.scores.add(s);
         }
     }
+    
+    
 }
