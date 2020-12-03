@@ -371,35 +371,32 @@ public class Resource  {
             sb.append(line);
         }
         ScoreManager sm =  (ScoreManager) new JSONDeserializer().use(ScoreManager.class, null).deserialize(sb.toString());
-        //Score sbunzi = sm.getScore(0);
-        //System.out.println("sbunzi:"+sbunzi);
         return sm;
-        //String s =jsond.use(Score.class, null).deserialize(sb.toString());
+
     }
     
-    static ScoreManager bubbleSort(ScoreManager sm) {  
-        
+    
+    /**
+     * Metodo statico che effettua un sort sugli elementi Score contenuti nella lista all'interno dell'oggetto del parametro ScoreManager. E li ordina dal maggiore al minore, senza perdere nomi o date per strada.
+     * @param sm Lo scoremanager su cui eseguire il sort.
+     * @return Lo scoremanager con i valori  ordinati.
+     */
+    static ScoreManager bubbleSort(ScoreManager sm) {
         List< Score> arrScore =  sm.getScores();
         int[] scores= new int[arrScore.size()];
         String[] arrNames = new String[arrScore.size()];
         long[] dates = new long[arrScore.size()];
-        
         int tempVar;
         String tempString;
         long tempDate;
-        
         for (int i = 0; i < arrScore.size(); i++) {
             scores[i] = arrScore.get(i).getScoredPoints();
             arrNames[i] = arrScore.get(i).getName();
             dates[i] = arrScore.get(i).getDate();
         }
-        
-        
-        for (int i = 0; i < arrScore.size(); i++) {
-            
+        for (int i = 0; i < arrScore.size(); i++) {            
             for(int j = 0; j < scores.length-i-1; j++)
             {
-                //System.out.println(scores[j]+">"+scores[j+1]+"?");
                 if(scores[j] < scores[j + 1])
                 {
                        tempVar = scores [j + 1];
