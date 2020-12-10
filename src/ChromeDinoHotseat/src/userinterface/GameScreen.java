@@ -178,7 +178,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     private final JButton minusButton;
     
     private final JButton showHighscoreButton;
-    
+    /**
+     * Il pannello che mostra la classifica a schermo.
+     */
+    private HighscoresPanel highScoresPanel;
     
     /**
      * Setter dello stato del gioco (FIRST_GAME_STAGE,GAME_PLAY_STATE,GAME_OVER_STATE) rappresentati da un indice numerico
@@ -211,6 +214,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         showHighscoreButton = (JButton) this.getComponents()[2];
         showHighscoreButton.addActionListener(this);
         
+        highScoresPanel = new HighscoresPanel();
+        highScoresPanel.setVisible(false);
         
         //this.setSize(500,500);
         
@@ -397,6 +402,8 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
             case GAME_FIRST_STATE:
                 addButton.setVisible(true);
                 minusButton.setVisible(true);
+                highScoresPanel.setVisible(true);
+                
                 int index=0;
                 Config config = new Config();
                 for(MainCharacter dino:mainCharacters){
@@ -546,6 +553,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 
                 if(flagClassifica){
                     this.drawHighscores(g2d);
+                    
                     Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, ""+flagClassifica);
                     
                 }
@@ -620,6 +628,10 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         
     }
     
+    /**
+     * Mostra a schermo delle informazioni addizionali di debugging nel gioco.
+     * @param g Il contesto grafico dove disegnare le informazioni di debug.
+     */
     public void drawAdditionalInfo(Graphics2D g){
         g.drawString("nome:"+mainCharacters.get(0).getName(), 30, 50);
             
@@ -636,6 +648,16 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         g.drawString("double Buffered:"+mainCharacters.get(0).isDoubleBuffered(), 230, 175);
         g.drawString("", i, i);
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public void drawHighscores(Graphics2D g){
         ScoreManager scores =Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);

@@ -73,13 +73,18 @@
   Può contenere alcuni o tutti gli elementi seguenti:
 
   -   **Background/Situazione iniziale**
+      
 
-  -   **Descrizione del problema e motivazione**: Che problema ho cercato
-      di risolvere? Questa sezione dovrebbe includere l'importanza del
-      vostro lavoro, la difficoltà dell'area e l'effetto che potrebbe
-      avere se portato a termine con successo.
+  -   **Descrizione del problema e motivazione**
 
-  -   **Approccio/Metodi**: Come ho ottenuto dei progressi? Come ho
+      Hai mai pensato di voler giocare al famoso dinosauro di google con i tuoi amici? Peccato che non sia possibile.
+
+      
+
+  -   **Approccio/Metodi**
+      Con la mia applicazione in Java ho cercato di risolvere il dilemma del multigiocatore, ricreando il gioco direttamente da zero, tramite componenti Swing e la gestione della tastiera.
+
+    : Come ho ottenuto dei progressi? Come ho
       risolto il problema (tecniche…)? Quale è stata l’entità del mio
       lavoro? Che fattori importanti controllo, ignoro o misuro?
 
@@ -103,9 +108,7 @@
 
 ### Scopo
 
-  Lo scopo del progetto (scopi didattici/scopi operativi). Dovrebbe
-  descrivere il mandato, ma non vanno ricopiate le informazioni del
-  quaderno dei compiti (che va invece allegato).
+Lo scopo è puramente a scopo didattico, anche se valutato dal supervisore.
 
 
 ## Analisi
@@ -140,17 +143,7 @@
 
   L’obiettivo del progetto è lo sviluppo di una versione hotseat del gioco Chrome Dino.
 Il gioco di base è questo https://chromedino.com/ ma pensato per più giocatori in contemporanea.
-In questo progetto lascio molta libertà di scelta ma alcuni requisiti sono da soddisfare:
--	Grafica 8bit (non necessariamente in scala di grigi)
--	Tutti i giocatori devono poter giocare contemporaneamente sullo stesso pc
--	Il dinosauro di ogni giocatore deve essere visibile a schermo
--	Ogni giocatore deve avere la possibilità di inserire il proprio nome nel gioco e personalizzare il proprio dinosauro.
--	I controlli di input possono essere molteplici: tastiera, mouse, touch, altro
--	Sono richiesti due livelli di sfondo in parallasse
--	La generazione del terreno deve essere infinita
--	Il gioco deve essere standalone, non eseguito all’interno di un browser
--	Il gioco deve mantenere una highscore con gli ultimi 20 migliori risultati, e la possibilità di resettare tutti i valori.
-Non ci sono limiti sul linguaggio di programmazione usato
+
 
 
 
@@ -159,43 +152,22 @@ Non ci sono limiti sul linguaggio di programmazione usato
 
   |**ID**	|**Nome**			|**Priorità**|**Vers**|**Note**  |
   |----|------------|--------|----|------|
-  |Req-1|Il gioco dovrà essere standalone|1|1.0|...|
+  |Req-1|Il gioco dovrà essere standalone|1|1.0||
   |Req-2|Deve esserci la possibilità di giocare fino a  4 giocatori|1|1.0|...|
   |Req-3|Il gioco deve essere in grado di mantenere salvati gli highscore degli ultimi 20 migliori risultati|1|1.0|...|
-|Req-3|Deve esserci la possibilità di resettare la classifica dei risultati|1|1.0|...|
-|Req-4|Devono esserci due livelli di parallasse|1|1.0|...|
-|Req-5|La generazione del terreno deve essere infinita|1|1.0|...|
-|Req-6|Il dinosauro di ogni giocatore deve essere visibile a schermo|1|1.0|...|  
-|Req-7|Deve essere possibile usare come controller sia il mouse che la tastiera, ed eventualmente un controller esterno|1|1.0|...|
-|Req-8|Tutti i giocatori devono poter giocare contemporaneamente sullo stesso pc|1|1.0|...|
-|Req-9|Deve esserci la possibilità di inserire il proprio nome nel gioco|1|1.0|...|
-|Req-10|Deve essere possibile personalizzare il proprio dinosauro (Colore,forma)|1|1.0|...|
+|Req-4|Deve esserci la possibilità di resettare la classifica dei risultati|1|1.0|...|
+|Req-5|Devono esserci due livelli di parallasse|1|1.0|...|
+|Req-6|La generazione del terreno deve essere infinita|1|1.0|...|
+|Req-7|Il dinosauro di ogni giocatore deve essere visibile a schermo|1|1.0|...|  
+|Req-8|Deve essere possibile usare come controller sia il mouse che la tastiera, ed eventualmente un controller esterno|1|1.0|...|
+|Req-9|Tutti i giocatori devono poter giocare contemporaneamente sullo stesso pc|1|1.0|...|
+|Req-10|Deve esserci la possibilità di inserire il proprio nome nel gioco|1|1.0|...|
+|Req-11|Deve essere possibile personalizzare il proprio dinosauro (Colore,forma)|1|1.0|...|
   
 
 
 
-**Spiegazione elementi tabella dei requisiti:**
 
-**ID**: identificativo univoco del requisito
-
-**Nome**: breve descrizione del requisito
-
-**Priorità**: indica l’importanza di un requisito nell’insieme del
-progetto, definita assieme al committente. Ad esempio poter disporre di
-report con colonne di colori diversi ha priorità minore rispetto al
-fatto di avere un database con gli elementi al suo interno. Solitamente
-si definiscono al massimo di 2-3 livelli di priorità.
-
-**Versione**: indica la versione del requisito. Ogni modifica del
-requisito avrà una versione aggiornata.
-
-Sulla documentazione apparirà solamente l’ultima versione, mentre le
-vecchie dovranno essere inserite nei diari.
-
-**Note**: eventuali osservazioni importanti o riferimenti ad altri
-requisiti.
-
-**Sotto requisiti**: elementi che compongono il requisito.
 
 
 ### Use case
@@ -205,6 +177,11 @@ funzionalità del prodotto.
 
 ### Pianificazione
 
+<object data="ganttpreventivo.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="http://yoursite.com/the.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 Prima di stabilire una pianificazione bisogna avere almeno una vaga idea
 del modello di sviluppo che si intende adottare. In questa sezione
 bisognerà inserire il modello concettuale di sviluppo che si seguirà
@@ -220,16 +197,11 @@ in questo capitolo.
 
 ### Analisi dei mezzi
 
-Elencare e *descrivere* i mezzi disponibili per la realizzazione del
-progetto. Ricordarsi di sempre descrivere nel dettaglio le versioni e il
-modello di riferimento.
+Ho ha disposizione una macchina con Windows 10 installato e Java e NetBeans 8.
+Per scrivere il codice ho utilizzato NetBeans, e come librerie ho utilizzato FlexJson.
+Si tratta di una libreria che permette di convertire gli oggetti Java in oggetti JSON, così da poterli memorizzare e riutilizzare più comodamente.
 
-SDK, librerie, tools utilizzati per la realizzazione del progetto e
-eventuali dipendenze.
-
-Su quale piattaforma dovrà essere eseguito il prodotto? Che hardware
-particolare è coinvolto nel progetto? Che particolarità e limitazioni
-presenta? Che hw sarà disponibile durante lo sviluppo?
+L'hardware deve almeno Java 8 installato, deve possedere una tastiera, mouse e un sistema operativo in grado di supportare tutto questo.
 
 ## Progettazione
 
@@ -239,6 +211,9 @@ all’esecutore di evitare fraintendimenti e imprecisioni
 nell’implementazione del prodotto.
 
 ### Design dell’architettura del sistema
+
+
+
 
 Descrive:
 
@@ -270,6 +245,19 @@ sulle informazioni ricavate durante la fase di analisi e realizzata
 tramite mockups.
 
 ### Design procedurale
+
+
+![design schermata di partenza](designs/designschermatadipartenza.png)
+
+![design classifica](designs/designclassifica.png)
+
+
+
+Questo è il diagramma che ho scritto prima di sviluppare il codice effettivamente per il gioco.
+![design classifica](diagrammadelleclassi.png)
+
+
+
 
 Descrive i concetti dettagliati dell’architettura/sviluppo utilizzando
 ad esempio:
@@ -320,12 +308,84 @@ ripetibile alle stesse condizioni.
 
 |Test Case      | TC-001                               |
 |---------------|--------------------------------------|
-|**Nome**       |Import a card, but not shown with the GUI |
-|**Riferimento**|REQ-012                               |
-|**Descrizione**|Import a card with KIC, KID and KIK keys with no obfuscation, but not shown with the GUI |
-|**Prerequisiti**|Store on local PC: Profile\_1.2.001.xml (appendix n\_n) and Cards\_1.2.001.txt (appendix n\_n) |
-|**Procedura**     | - Go to “Cards manager” menu, in main page click “Import Profiles” link, Select the “1.2.001.xml” file, Import the Profile - Go to “Cards manager” menu, in main page click “Import Cards” link, Select the “1.2.001.txt” file, Delete the cards, Select the “1.2.001.txt” file, Import the cards |
-|**Risultati attesi** |Keys visible in the DB (OtaCardKey) but not visible in the GUI (Card details) |
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+<br>
+
+|Test Case      | TC-001                               |
+|---------------|--------------------------------------|
+|**Nome**       |Ci deve essere la possibilità di giocare fino a 4 giocatori |
+|**Riferimento**|REQ-04                               |
+|**Descrizione**|Deve essere possibile scegliere il numero di giocatori che giocano la partita, da 1 a 4 giocatori.|
+|**Prerequisiti**|-
+|**Procedura**     | Quando il gioco è nella sua fase iniziale, nella parte superiore dello schermo va premuto il tasto + o - per aggiungere o togliere giocatori dalla partita. |
+|**Risultati attesi** |Il numero di giocatori aumentare quando si preme il tasto +, e con - la diminuzione del numero di giocatori fino ad un minimo di 1. |
+
 
 
 ### Risultati test
@@ -338,10 +398,9 @@ l’errore con eventuali ipotesi di correzione.
 
 ### Mancanze/limitazioni conosciute
 
-Descrizione con motivazione di eventuali elementi mancanti o non
-completamente implementati, al di fuori dei test case. Non devono essere
-riportati gli errori e i problemi riscontrati e poi risolti durante il
-progetto.
+Ho provato a implementare dello Unit testing nel progetto, ma vista la quantità di tempo a disposizione per farlo ho preferito rinunciare .
+
+Il gioco non è del tutto responsive,
 
 ## Consuntivo
 

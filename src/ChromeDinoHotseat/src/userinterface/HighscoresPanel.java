@@ -5,19 +5,29 @@
  */
 package userinterface;
 
+import java.util.ArrayList;
+import util.Score;
+
 /**
  *
  * @author michele.tomyslak
  */
 public class HighscoresPanel extends javax.swing.JPanel {
-
+    public static final int HIGHSCORES_LENGTH = 20;
+    private ArrayList highscores;
+    
     /**
      * Creates new form HighscoresPanel
      */
     public HighscoresPanel() {
+        
         initComponents();
-        this.jScrollPane1.add("Classifica",this );
     }
+    
+    public void addScore(Score s){
+        highscores.add(""+s.getScoredPoints()+s.getName()+s.getDate());
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
