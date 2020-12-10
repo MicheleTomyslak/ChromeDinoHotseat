@@ -128,9 +128,8 @@ public class MainCharacter extends JComponent implements MouseListener{
      */
     private GameScreen gameScreen;
     
-    private JLabel dinoLabel;
     
-    private JTextField textFieldNome;
+
     /**
      * flag che determina se l'oggetto MainCharacter è vivo o morto.
      * true = morto
@@ -145,7 +144,7 @@ public class MainCharacter extends JComponent implements MouseListener{
      * Rettangolo che rappresenta un bottone per scegliere la skin precedente .
      */
     private Rectangle leftButton;
-
+    
     /**
      * Rettangolo che rappresenta un bottone per scegliere la skin successiva.
      */
@@ -177,13 +176,11 @@ public class MainCharacter extends JComponent implements MouseListener{
         this.setDoubleBuffered(true);
         
         isDead=false;
-        textFieldNome = new JTextField();
         
         
         
-        //this.add(textFieldNome);
+
         this.keyManager = keyManager;
-        this.dinoLabel= new JLabel(this.name);
         this.gameScreen = gameScreen;
         characterRun = new Animation(200);
         characterRun.addFrame(Resource.getResourceImage("data/default_dino/main-character1.png"));
@@ -195,7 +192,6 @@ public class MainCharacter extends JComponent implements MouseListener{
         deadImage = Resource.getResourceImage("data/default_dino/main-character4.png");
         rect = new Rectangle();
         at = new AffineTransform();
-        this.setLabelVisible(true);
         
         
 //Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+getComponents()[getComponents().length-1]);
@@ -338,9 +334,7 @@ public class MainCharacter extends JComponent implements MouseListener{
                 break;
         }
         
-        //this.dinoLabel.setEnabled(true);
         
-        //dinoLabel.setSize(100, 60);
         
         if(this.state == DUCK_RUN){
             g.drawString(this.getName(), this.getXM(), this.getYM()+10);
@@ -368,7 +362,9 @@ public class MainCharacter extends JComponent implements MouseListener{
         y+=speedY;
         
     }
-    
+    /**
+     * Metodo che si occupa di uccidere il dinosauro, e viene invocato in caso di situazioni anomale, o se il dinosauro collide con un ostacolo.
+     */
     public void kill(){
         this.x-=gameScreen.getScreenSpeed()/2;
         if(!isDead){
@@ -430,25 +426,31 @@ public class MainCharacter extends JComponent implements MouseListener{
     public void setAlive(boolean alive){
         isAlive = alive;
     }
-    
+    /**
+     * Getter che ritorna un valore booleano che rappresenta se il MainCharacter è morto o meno.
+     * @return Se il MainCharacter è vivo o morto.
+     */
     public boolean getAlive(){
         return isAlive;
     }
+    
+    /**
+     * Getter dell'altezza del dino.
+     * @return l'altezza dell'immagine dell'animation di questo MainCharacter.
+     */
     public int getHeight(){
         return this.deadImage.getHeight();
     }
-    
+    /**
+     * Getter dell'immagine di cui è composto il frame del MainCharacter.
+     * @return La BufferedImage rappresentante l'immagine di una delle due immagini di animazione.
+     */
     public BufferedImage getImage(){
         return characterRun.getFrame();
     }
     
-    public void setLabelVisible(boolean choice){
-        this.dinoLabel.setVisible(choice);
-    }
     
-    public void setJTextFieldVisible(boolean choice){
-        this.textFieldNome.setVisible(choice);
-    }
+
 
     public KeyManager getKeyManager() {
         return keyManager;
@@ -490,29 +492,18 @@ public class MainCharacter extends JComponent implements MouseListener{
     public void nextSkin(){
         
         String[] s = Resource.getDinosSkinDirectory("data/");
-        
-        for(String str:s){
+        /*for(String str:s){
             Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, str);
-        }
-        if(skin_selector_counter==s.length){
+        }*/
+        if(skin_selector_counter>=s.length){
             skin_selector_counter=0;
         }
-        
         String currentDirSkin = s[skin_selector_counter];
         Animation[] nextAnimationSkin = getDataFolder("data/"+currentDirSkin);
-        if(nextAnimationSkin.length>=2){
-            
-            
-            
-            this.characterRun = nextAnimationSkin[0];
-            this.duckRun = nextAnimationSkin[1];
-            
-            
-        }else{
-            Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+characterRun.getFrame().getWidth());
-        }
+        Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, s.length+":"+skin_selector_counter);
+        this.characterRun = nextAnimationSkin[0];
+        this.duckRun = nextAnimationSkin[1];
         this.skin_selector_counter++;
-        
         
     }
     
@@ -526,11 +517,11 @@ public class MainCharacter extends JComponent implements MouseListener{
         String[] s = Resource.getDinosSkinDirectory("data/");
         
         
-        if(skin_selector_counter==0){
+        if(skin_selector_counter==-1){
             skin_selector_counter=s.length-1;
         }
         
-        
+        Logger.getLogger(MainCharacter.class.getName()).log(Level.INFO, ""+skin_selector_counter);
         String currentDirSkin = s[skin_selector_counter];
         Animation[] previous = getDataFolder("data/"+currentDirSkin);
         if(previous.length>=2){

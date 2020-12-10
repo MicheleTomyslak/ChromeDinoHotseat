@@ -278,6 +278,13 @@ per la realizzazione del prodotto.
 
 ## Implementazione
 
+![Metodo Update GameScreen](immagineupdate.png)
+![Metodo Draw GameScreen ](immaginedraw.png)
+![Resource.bubbleSort()](resource.bubblesort.png)
+
+
+
+
 In questo capitolo dovrà essere mostrato come è stato realizzato il
 lavoro. Questa parte può differenziarsi dalla progettazione in quanto il
 risultato ottenuto non per forza può essere come era stato progettato.
@@ -455,15 +462,8 @@ facilmente generalizzabili o sono specifici di un caso particolare? ecc
 
 ### Sitografia
 
-1.  URL del sito (se troppo lungo solo dominio, evt completo nel
-    diario),
 
-2.  Eventuale titolo della pagina (in italico),
-
-3.  Data di consultazione (GG-MM-AAAA).
-
-**Esempio:**
--   https://sourceforge.net/projects/flexjson/,10.12.2020
+-   https://sourceforge.net/projects/flexjson/ , 10.12.2020
 
 
 ## Allegati

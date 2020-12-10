@@ -199,9 +199,7 @@ public class Resource  {
         }
     }
     
-    public static void getOrdered(){
-        
-    }
+    
     /**
      * Serializza l'oggetto object in una stringa in formato JSON.
      * @param object l'oggetto da serializzare.

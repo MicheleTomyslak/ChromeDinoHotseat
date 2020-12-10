@@ -377,14 +377,17 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
      * Metodo che effettua  una cancellazione dei punteggi attuali, salva i risultati della partita precedente e reimposta la velocità di gioco al minimo.
      */
     public void clearScore(){
+        scoreManager = new ScoreManager();
         
         for(MainCharacter dino:mainCharacters){
-            scoreManager = new ScoreManager();
+            
             scoreManager = Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);
             //Resource.writeScore("data/Scores.csv",dino );
             scoreManager.addScore(new Score(dino.getName(),dino.getScore(),System.currentTimeMillis()));
+            scoreManager.saveData();
         
         }
+        
         score = 0;
         this.screenSpeed=4.0f;
     }
@@ -453,8 +456,11 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
                 
                 if(counter==mainCharacters.size()){
                     gameState = GAME_OVER_STATE;
+                    for(MainCharacter dino: mainCharacters){
+                        Logger.getLogger(GameScreen.class.getName()).log(Level.INFO, "message"+dino.getName()+","+dino.getScore()+","+dino.getAlive());
+                    }
                     clearScore();
-                    this.scoreManager.saveData();
+                    
                     
                 }
                 
