@@ -6,6 +6,7 @@
 package util;
 
 import gameobject.MainCharacter;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import org.junit.After;
@@ -50,7 +51,7 @@ public class ResourceTest {
         BufferedImage expResult = null;
         BufferedImage result = Resource.getResourceImage(path);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        if(expResult!=result)
         fail("The test case is a prototype.");
     }
 
@@ -262,6 +263,34 @@ public class ResourceTest {
         String s = "";
         ScoreManager expResult = null;
         ScoreManager result = Resource.getScoreManagerFromJSON(s);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getFont method, of class Resource.
+     */
+    @Test
+    public void testGetFont() throws Exception {
+        System.out.println("getFont");
+        String fileName = "";
+        Font expResult = null;
+        Font result = Resource.getFont(fileName);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of bubbleSort method, of class Resource.
+     */
+    @Test
+    public void testBubbleSort() {
+        System.out.println("bubbleSort");
+        ScoreManager sm = null;
+        ScoreManager expResult = null;
+        ScoreManager result = Resource.bubbleSort(sm);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

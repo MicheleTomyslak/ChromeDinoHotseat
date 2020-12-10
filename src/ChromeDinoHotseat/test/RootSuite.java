@@ -1,4 +1,8 @@
-package gameobject;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,11 +13,11 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author tmich
+ * @author michele.tomyslak
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({EnemyManagerTest.class, CloudsTest.class, PteraTest.class, EnemyTest.class, MainCharacterTest.class, CactusTest.class, LandTest.class})
-public class GameobjectSuite {
+@Suite.SuiteClasses({userinterface.UserinterfaceSuite.class, util.UtilSuite.class, gameobject.GameobjectSuite.class})
+public class RootSuite {
 
     @BeforeClass
     public static void setUpClass() throws Exception {

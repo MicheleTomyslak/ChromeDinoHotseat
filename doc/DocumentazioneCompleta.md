@@ -172,16 +172,13 @@ Il gioco di base è questo https://chromedino.com/ ma pensato per più giocatori
 
 ### Use case
 
-I casi d’uso rappresentano l’interazione tra i vari attori e le
-funzionalità del prodotto.
+![use case](usecase.png)
 
 ### Pianificazione
+![Gantt preventivo](ganttpreventivo.jpg)
 
-<object data="ganttpreventivo.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="http://yoursite.com/the.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
+![Gantt consuntivo](ganttconsuntivo.jpg)
+
 Prima di stabilire una pianificazione bisogna avere almeno una vaga idea
 del modello di sviluppo che si intende adottare. In questa sezione
 bisognerà inserire il modello concettuale di sviluppo che si seguirà
@@ -249,12 +246,16 @@ tramite mockups.
 
 ![design schermata di partenza](designs/designschermatadipartenza.png)
 
+![design effettivo di partenza](designeffettivodipartenza.png)
+
 ![design classifica](designs/designclassifica.png)
 
-
+![design effettivo della classifica](designeffettivoclassifica.png)
 
 Questo è il diagramma che ho scritto prima di sviluppare il codice effettivamente per il gioco.
-![design classifica](diagrammadelleclassi.png)
+![design classi](diagrammadelleclassi.png)
+
+Questo è come il il diagramma delle classi è effettivamente stato dopo alla fine del progetto.
 
 
 
@@ -462,9 +463,8 @@ facilmente generalizzabili o sono specifici di un caso particolare? ecc
 3.  Data di consultazione (GG-MM-AAAA).
 
 **Esempio:**
+-   https://sourceforge.net/projects/flexjson/,10.12.2020
 
--   http://standards.ieee.org/guides/style/section7.html, *IEEE
-    Standards Style Manual*, 07-06-2008.
 
 ## Allegati
 

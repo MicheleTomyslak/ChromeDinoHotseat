@@ -28,7 +28,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -639,7 +641,7 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
         g.drawString("is alive:"+mainCharacters.get(0).getAlive(), 30, 75);
         g.drawString(""+mainCharacters.get(0).getBound(), 30, 100);
         g.drawString("Game speed:"+this.screenSpeed,30,150);
-        g.drawString("Game State:"+this.getStateAsString(this.gameState),30,175);
+        
         g.drawString(mainCharacters.get(0).getName()+" State:"+mainCharacters.get(0).getState(),30,200);
         g.drawString("Duck Key:"+mainCharacters.get(0).getKeyManager().getDuckKey() , 130, 50);
         g.drawString("Jump Key:"+mainCharacters.get(0).getKeyManager().getJumpKey() , 130, 75);
@@ -652,13 +654,23 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     
     
+    /**
+     * Metodo che si occupa di resettare la classifica , svuotando il contenuto del file di salvataggio.
+     */
+    public void resetHighscore(){
+        try {
+            Files.write(Paths.get(Resource.DEFAULT_SCORES_PATH),new byte[]{' '} , StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     
-    
-    
-    
-    
-    
-    
+    /**
+     * Metodo che disegna la classifica a schermo, tramite un semplice g.drawString
+     * @version 10.12.2020
+     * @param g Il contesto grafico in cui disegnare la classifica.
+     */
     public void drawHighscores(Graphics2D g){
         ScoreManager scores =Resource.getScoreManagerFromJSON(Resource.DEFAULT_SCORES_PATH);
         scores = scores.orderScores(scores);
@@ -679,24 +691,11 @@ public class GameScreen extends JPanel implements Runnable,KeyListener,MouseList
     
     
     
-    public String getStateAsString(int state){
-        if(GameScreen.GAME_FIRST_STATE==state){
-            return "Game First State";
-        }else if(GameScreen.GAME_PLAY_STATE==state){
-            return "Game Play State";
-        }else if(GameScreen.GAME_OVER_STATE == state){
-            return "Game Over State";
-        }else{
-            return "Stato non valido";
-        }
-        
-    }
 
     
     @Override
     
     public void keyPressed(KeyEvent e) {
-        String state = this.getStateAsString(gameState);
         //System.out.println(state);
         for (MainCharacter dino:mainCharacters) {            
             if(e.getKeyCode() == dino.getKeyManager().getDuckKey() && gameState == GAME_PLAY_STATE){

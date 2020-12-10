@@ -34,8 +34,16 @@ public abstract class Enemy extends JComponent {
      * @return se un MainCharacter è sopra questo oggetto o meno.
      */
     public abstract boolean isOver();
-    
+    /**
+     * Setter del attributo isScoreGot.
+     * @param isScoreGot Il valore da attribuire a isScoreGot.
+     */
     public abstract void setIsScoreGot(boolean isScoreGot);
+    
+    /**
+     * Getter del attributo isScoreGot
+     * @return l'attributo isScoreGot.
+     */
     public abstract boolean isScoreGot();
     /**
      * Setter della velocità dell'oggetto Enemy

@@ -108,10 +108,17 @@ public class Cactus extends Enemy{
         }
     }
     
+    /**
+     * Setter del punto di origine X del Cactus.
+     * @param x la x della coordinata di origine del disegno del cactus.
+     */
     public void setX(int x){
         posX = x;
     }
-    
+    /**
+     * Setter del punto di origine Y del Cactus.
+     * @param y la y della coordinata di origine del disegno del cactus.
+     */
     public void setY(int y){
         posY = y;
     }
