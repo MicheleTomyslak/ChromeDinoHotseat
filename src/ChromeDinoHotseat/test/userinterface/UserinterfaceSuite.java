@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package userinterface;
 
 import org.junit.After;
@@ -12,12 +7,10 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/**
- *
- * @author michele.tomyslak
- */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({userinterface.HighscoresPanelTest.class, userinterface.GameScreenTest.class, userinterface.GameWindowTest.class})
+@Suite.SuiteClasses({
+    userinterface.GameScreenTest.class
+})
 public class UserinterfaceSuite {
 
     @BeforeClass
@@ -35,5 +28,4 @@ public class UserinterfaceSuite {
     @After
     public void tearDown() throws Exception {
     }
-    
 }

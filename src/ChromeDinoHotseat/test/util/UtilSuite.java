@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
     util.OptionTest.class,
     util.ResourceBubbleSortTest.class,
     util.ConfigTest.class,
-    util.ScoreTest.class})
+    util.ScoreTest.class,
+    util.ResourceConfigTest.class
+})
 public class UtilSuite {
-    
 }
