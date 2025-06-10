@@ -405,7 +405,7 @@ public class MainCharacter extends JComponent implements MouseListener{
     }
     
     public int getY(){
-        return super.getX();
+        return (int) y;
     }
 
     public void setY(float y) {
