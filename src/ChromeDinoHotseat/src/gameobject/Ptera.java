@@ -141,8 +141,8 @@ public class Ptera extends Enemy{
     }
     
     /**
-     * Ritorna lo stato della visibilità delle hitbox del dinosauro.
-     * @return lo stato della visibilità dekke hitbox del dinosauro.
+     * Ritorna lo stato della visibilità delle hitbox.
+     * @return lo stato della visibilità delle hitbox.
      */
     public boolean getHitboxState(){
         return areHitboxVisible;
