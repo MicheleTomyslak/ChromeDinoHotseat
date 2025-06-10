@@ -124,7 +124,7 @@ public class Cactus extends Enemy{
     }
     /**
      * Setter dell'immagine del cactus.
-     * @param image L'immagine da sostuituire con quella precedente del cactus.
+     * @param image L'immagine da sostituire con quella precedente del cactus.
      */
     public void setImage(BufferedImage image){
         this.image = image;
