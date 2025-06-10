@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -44,11 +45,8 @@ public class KeyManagerTest {
     public void testGetDuckKey() {
         System.out.println("getDuckKey");
         KeyManager instance = new KeyManager();
-        int expResult = 0;
         int result = instance.getDuckKey();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(KeyEvent.VK_DOWN, result);
     }
 
     /**
@@ -58,11 +56,8 @@ public class KeyManagerTest {
     public void testGetJumpKey() {
         System.out.println("getJumpKey");
         KeyManager instance = new KeyManager();
-        int expResult = 0;
         int result = instance.getJumpKey();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(KeyEvent.VK_SPACE, result);
     }
     
 }
