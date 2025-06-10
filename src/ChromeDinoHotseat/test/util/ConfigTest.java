@@ -38,17 +38,16 @@ public class ConfigTest {
     }
 
     /**
-     * Test of getOptions method, of class Config.
+     * Verifica che il costruttore imposti correttamente le opzioni di default.
      */
     @Test
-    public void testGetOptions() {
-        System.out.println("getOptions");
+    public void testDefaultOptions() {
         Config instance = new Config();
-        Option[] expResult = null;
         Option[] result = instance.getOptions();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(4, result.length);
+        assertEquals(Config.DEFAULT_JUMP_KEY_PLAYER_ONE, result[0].getJumpKey());
+        assertEquals(Config.DEFAULT_DUCK_KEY_PLAYER_ONE, result[0].getDuckKey());
+        assertEquals(1, result[0].getPlayerNumber());
     }
 
     /**
@@ -56,12 +55,10 @@ public class ConfigTest {
      */
     @Test
     public void testSetOptions() {
-        System.out.println("setOptions");
-        Option[] options = null;
         Config instance = new Config();
+        Option[] options = new Option[] { new Option(5, 10, 11) };
         instance.setOptions(options);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertSame(options, instance.getOptions());
     }
     
 }

@@ -38,84 +38,29 @@ public class OptionTest {
     }
 
     /**
-     * Test of getPlayerNumber method, of class Option.
+     * Verifica i valori iniziali restituiti da un'istanza senza parametri.
      */
     @Test
-    public void testGetPlayerNumber() {
-        System.out.println("getPlayerNumber");
+    public void testDefaultValues() {
         Option instance = new Option();
-        int expResult = 0;
-        int result = instance.getPlayerNumber();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(0, instance.getPlayerNumber());
+        assertEquals(0, instance.getJumpKey());
+        assertEquals(0, instance.getDuckKey());
     }
 
     /**
      * Test of setPlayerNumber method, of class Option.
      */
     @Test
-    public void testSetPlayerNumber() {
-        System.out.println("setPlayerNumber");
-        int playerNumber = 0;
+    public void testSetters() {
         Option instance = new Option();
-        instance.setPlayerNumber(playerNumber);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setPlayerNumber(2);
+        instance.setJumpKey(65);
+        instance.setDuckKey(66);
+
+        assertEquals(2, instance.getPlayerNumber());
+        assertEquals(65, instance.getJumpKey());
+        assertEquals(66, instance.getDuckKey());
     }
 
-    /**
-     * Test of getJumpKey method, of class Option.
-     */
-    @Test
-    public void testGetJumpKey() {
-        System.out.println("getJumpKey");
-        Option instance = new Option();
-        int expResult = 0;
-        int result = instance.getJumpKey();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setJumpKey method, of class Option.
-     */
-    @Test
-    public void testSetJumpKey() {
-        System.out.println("setJumpKey");
-        int jumpKey = 0;
-        Option instance = new Option();
-        instance.setJumpKey(jumpKey);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDuckKey method, of class Option.
-     */
-    @Test
-    public void testGetDuckKey() {
-        System.out.println("getDuckKey");
-        Option instance = new Option();
-        int expResult = 0;
-        int result = instance.getDuckKey();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setDuckKey method, of class Option.
-     */
-    @Test
-    public void testSetDuckKey() {
-        System.out.println("setDuckKey");
-        int duckKey = 0;
-        Option instance = new Option();
-        instance.setDuckKey(duckKey);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }
