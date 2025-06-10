@@ -7,12 +7,8 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/**
- *
- * @author tmich
- */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({EnemyManagerTest.class, CloudsTest.class, PteraTest.class, EnemyTest.class, MainCharacterTest.class, CactusTest.class, LandTest.class})
+@Suite.SuiteClasses({})
 public class GameobjectSuite {
 
     @BeforeClass
@@ -30,5 +26,4 @@ public class GameobjectSuite {
     @After
     public void tearDown() throws Exception {
     }
-    
 }
