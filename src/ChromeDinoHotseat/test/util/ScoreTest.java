@@ -37,87 +37,45 @@ public class ScoreTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getName method, of class Score.
-     */
     @Test
-    public void testGetName() {
-        System.out.println("getName");
-        Score instance = new Score();
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testConstructorAndGetters() {
+        long now = System.currentTimeMillis();
+        Score s = new Score("Alice", 10, now);
+        assertEquals("Alice", s.getName());
+        assertEquals(10, s.getScoredPoints());
+        assertEquals(now, s.getDate());
     }
 
     /**
      * Test of getScoredPoints method, of class Score.
      */
     @Test
-    public void testGetScoredPoints() {
-        System.out.println("getScoredPoints");
-        Score instance = new Score();
-        int expResult = 0;
-        int result = instance.getScoredPoints();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSetDate() {
+        Score s = new Score();
+        s.setDate(123L);
+        assertEquals(123L, s.getDate());
     }
 
     /**
      * Test of getDate method, of class Score.
      */
-    @Test
-    public void testGetDate() {
-        System.out.println("getDate");
-        Score instance = new Score();
-        long expResult = 0L;
-        long result = instance.getDate();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of setDate method, of class Score.
-     */
-    @Test
-    public void testSetDate() {
-        System.out.println("setDate");
-        long date = 0L;
-        Score instance = new Score();
-        instance.setDate(date);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of toString method, of class Score.
-     */
-    @Test
-    public void testToString() {
-        System.out.println("toString");
-        Score instance = new Score();
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+
 
     /**
      * Test of exportAsJSON method, of class Score.
      */
     @Test
-    public void testExportAsJSON() {
-        System.out.println("exportAsJSON");
-        Score instance = new Score();
-        String expResult = "";
-        String result = instance.exportAsJSON();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testToStringAndJson() {
+        long ts = 0L;
+        Score s = new Score("Bob", 50, ts);
+        String expectedString = "Bob,50," + new java.util.Date(ts).toString();
+        assertEquals(expectedString, s.toString());
+
+        String json = s.exportAsJSON();
+        assertTrue(json.contains("\"Bob\""));
+        assertTrue(json.contains("50"));
     }
     
 }

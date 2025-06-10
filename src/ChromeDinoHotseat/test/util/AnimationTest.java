@@ -38,57 +38,23 @@ public class AnimationTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of update method, of class Animation.
-     */
     @Test
-    public void testUpdate() {
-        System.out.println("update");
-        Animation instance = null;
-        instance.update();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void testAnimationCycle() throws Exception {
+        Animation animation = new Animation(0);
+        BufferedImage img1 = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img2 = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        animation.addFrame(img1);
+        animation.addFrame(img2);
 
-    /**
-     * Test of addFrame method, of class Animation.
-     */
-    @Test
-    public void testAddFrame() {
-        System.out.println("addFrame");
-        BufferedImage frame = null;
-        Animation instance = null;
-        instance.addFrame(frame);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getFrame method, of class Animation.
-     */
-    @Test
-    public void testGetFrame() {
-        System.out.println("getFrame");
-        Animation instance = null;
-        BufferedImage expResult = null;
-        BufferedImage result = instance.getFrame();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getNumberOfFrame method, of class Animation.
-     */
-    @Test
-    public void testGetNumberOfFrame() {
-        System.out.println("getNumberOfFrame");
-        Animation instance = null;
-        int expResult = 0;
-        int result = instance.getNumberOfFrame();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(img1, animation.getFrame());
+        animation.update();
+        Thread.sleep(1);
+        animation.update();
+        assertEquals(img2, animation.getFrame());
+        Thread.sleep(1);
+        animation.update();
+        assertEquals(img1, animation.getFrame());
+        assertEquals(2, animation.getNumberOfFrame());
     }
     
 }
